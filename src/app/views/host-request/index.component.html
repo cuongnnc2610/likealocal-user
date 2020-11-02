@@ -1,0 +1,203 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <form [formGroup]="searchInputForm" (ngSubmit)="spinner.show(); getHostRequests()">
+            <div class="row">
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="user_name">User name</label>
+                <input class="form-control" id="user_name" type="text" name="user_name" formControlName="user_name" (keyup.enter)="spinner.show(); getHostRequests();"/>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="email">Email</label>
+                <input class="form-control" id="email" type="text" name="email" formControlName="email" (keyup.enter)="spinner.show(); getHostRequests();"/>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="code">Country</label>
+                <select class="form-control" name="country_id" formControlName="country_id" (change)="spinner.show(); getCities(country_id); getHostRequests()">
+                  <option *ngFor="let country of countries" [value]="country.country_id">{{country.name}}</option>
+                </select>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="code">City</label>
+                <select class="form-control" name="city_id" formControlName="city_id" (change)="spinner.show(); getHostRequests()" disabled>
+                  <option *ngFor="let city of cities" [value]="city.city_id">{{city.name}}</option>
+                </select>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="updated_at">Date</label>
+                <div class="input-group">
+                  <input placeholder="dd/mm/yyyy" #datepickerYMD="bsDatepicker" bsDatepicker autocomplete="off"
+                         [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" id="input-normal" formControlName="updated_at"
+                         class="form-control ngx-daterangepicker-action"
+                         (ngModelChange)="spinner.show(); getHostRequests();"/>
+                  <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="request_status">Request status</label>
+                <select class="form-control" name="request_status" formControlName="request_status" (change)="spinner.show(); getHostRequests();">
+                  <option *ngFor="let requestStatusSearchOption of requestStatusSearchOptions" [value]="requestStatusSearchOption.value">{{requestStatusSearchOption.name}}</option>
+                </select>
+              </div>
+            </div>
+          </form>
+          <br />
+          <div class="table-responsive">
+            <table class="table table-hover table-striped">
+              <thead>
+                <tr>
+                  <th style="width: 50px; min-width: 50px;">No</th>
+                  <th style="width: 100px; min-width: 100px;">Name<i class="fa fa-sort ml-2" (click)="changeOrderType(3)"></i></th>
+                  <th style="width: 120px; min-width: 120px;">Email<i class="fa fa-sort ml-2" (click)="changeOrderType(5)"></i></th>
+                  <th style="width: 120px; min-width: 120px;">City</th>
+                  <th style="width: 120px; min-width: 120px;">Country</th>
+                  <th style="width: 100px; min-width: 100px;">Date<i class="fa fa-sort ml-2" (click)="changeOrderType(7)"></i></th>
+                  <th style="width: 100px; min-width: 100px;">Status<i class="fa fa-sort ml-2" (click)="changeOrderType(1)"></i></th>
+                  <th style="width: 120px; min-width: 120px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of users; let i = index">
+                  <td style="width: 50px; min-width: 50px;">{{ from + i }}</td>
+                  <td style="width: 100px; min-width: 100px;">{{ user.user_name }}</td>
+                  <td style="width: 120px; min-width: 120px;">{{ user.email }}</td>
+                  <td style="width: 120px; min-width: 120px;">{{ user.city.name }}</td>
+                  <td style="width: 120px; min-width: 120px;">{{ user.city.country.name }}</td>
+                  <td style="width: 100px; min-width: 100px;">{{ user.updatedAt | date:'dd/MM/yyyy' }}</td>
+                  <td style="width: 100px; min-width: 100px;">
+                    <span *ngIf="user.request_status === 2" class="badge badge-secondary">Pending</span>
+                    <span *ngIf="user.request_status === 1" class="badge badge-danger">Rejected</span>
+                  </td>
+                  <td style="width: 120px; min-width: 120px;">
+                    <button type="button" class="btn btn-sm btn-circle btn-warning" data-toggle="modal"
+                      (click)="modalEditHost.show(); getUser(user);">
+                      <i class="fa fa-pencil"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr *ngIf="!users?.length" class="text-center">
+                  <td colspan="8">{{'COMMON.TABLE.NO_DATA' | translate}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div *ngIf="users.length">
+              <ngb-pagination [collectionSize]="total" [(page)]="page" [rotate]="true" [pageSize]="pageSize"
+                [maxSize]="5" (pageChange)="currentPage(page)">
+                <ng-template ngbPaginationPrevious>{{'COMMON.BUTTON.BTN_PRE' | translate}}</ng-template>
+                <ng-template ngbPaginationNext>{{'COMMON.BUTTON.BTN_NEXT' | translate}}</ng-template>
+                <ng-template ngbPaginationEllipsis>...</ng-template>
+              </ngb-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  
+</div>
+
+<div bsModal #modalEditHost="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div style="max-width: 1095px !important;" class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form>
+        <div class="mx-4 mt-5 mb-4">
+          <div class="row">
+            <div class="col-12">
+              <h3 style="margin: -25px 0 20px 0px;">Host Request</h3>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group col-12 has-error text-center">
+                <div class="avatar-container">
+                  <img src="{{user.avatar}}" class="avatar">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="row">
+                <div class="form-group col-6">
+                  <label for="email">Email</label>
+                  <input type="text" class="form-control" [value]="user.email" disabled>
+                </div>
+                <div class="form-group col-6">
+                  <label for="user_name">User name</label>
+                  <input type="text" class="form-control" [value]="user.user_name" disabled>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-6">
+                  <label for="country">Country</label>
+                  <input type="text" class="form-control" [value]="user.city.country.name" disabled>
+                </div>
+                <div class="form-group col-6">
+                  <label for="city">City</label>
+                  <input type="text" class="form-control" [value]="user.city.name" disabled>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-12">
+                  <label for="self_introduction">Introduction</label>
+                  <textarea rows="13  " type="text" class="form-control" [value]="user.self_introduction" disabled></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="row">
+                <div class="form-group col-6">
+                  <label for="phone_number">Phone number</label>
+                  <input type="text" class="form-control" [value]="user.phone_number" disabled>
+                </div>
+                <div class="form-group col-6">
+                  <label for="city">Languages</label>
+                  <input type="text" class="form-control" [value]="user.languages" disabled>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-6">
+                  <label for="is_verified">Verification status</label>
+                  <input type="text" class="form-control" [value]="user.is_verified ? 'Verified' : 'Unverified'"disabled>
+                </div>
+                <div class="form-group col-6">
+                  <label for="date">Creation date</label>
+                  <input type="text" class="form-control" [value]="user.createdAt | date:'dd/MM/yyyy hh:mm:ss'" disabled>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-12">
+                  <label for="introduction_video">Introduction video</label>
+                  <div id="video-frame" class="text-center">
+                    <p *ngIf="!user.introduction_video" class="text-muted">No video found</p>
+                    <!-- <video id="introduction-video" width="100%" height="100%" controls>
+                      <source id='source-video' src="{{user.introduction_video}}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="pt-4 d-flex justify-content-center">
+            <button type="submit" class="btn mr-2 btn-pill btn-success" (click)="approveOrRejectHostRequest(0);">
+              Approve
+            </button>
+            <button *ngIf="user.request_status !== 1" type="submit" class="btn mr-2 btn-pill btn-danger" (click)="approveOrRejectHostRequest(1);">
+              Reject
+            </button>
+            <button type="button" class="btn btn-pill btn-light" (click)="modalEditHost.hide()">
+              {{'COMMON.BUTTON.BTN_CANCEL'|  translate}}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<app-dialog></app-dialog>
+<ngx-spinner [fullScreen]="true" type="ball-clip-rotate-multiple" size="medium"></ngx-spinner>

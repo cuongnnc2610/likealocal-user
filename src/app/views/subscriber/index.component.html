@@ -1,0 +1,135 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-8"></div>
+            <div class="col-md-4">
+              <div class="text-right">
+                <button type="button" class="btn btn-pill btn-primary" data-toggle="modal"
+                  (click)="clearAddSubscriberForm(); modalAddSubscriber.show();">
+                  {{'COMMON.BUTTON.BTN_ADD' | translate}}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <form [formGroup]="searchInputForm" (ngSubmit)="spinner.show(); getSubscribers()">
+            <div class="row">
+              <div class="form-group col-xl-6 col-md-6 col-sm-12">
+                <label for="code">Email</label>
+                <input class="form-control" id="name" type="text" name="email" formControlName="email" />
+              </div>
+            </div>
+          </form>
+
+          <br />
+
+          <div class="table-responsive">
+            <table class="table table-hover table-striped">
+              <thead>
+                <tr>
+                  <th style="width: 50px; min-width: 50px;">No</th>
+                  <th style="width: 120px; min-width: 120px;">Email<i class="fa fa-sort ml-2" (click)="changeOrderType(3)"></i></th>
+                  <th style="width: 100px; min-width: 100px;">Date<i class="fa fa-sort ml-2" (click)="changeOrderType(1)"></i></th>
+                  <th style="width: 120px; min-width: 120px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let subscriber of subscribers; let i = index">
+                  <td style="width: 50px; min-width: 50px;">{{ from + i }}</td>
+                  <td style="width: 120px; min-width: 120px;">{{ subscriber.email }}</td>
+                  <td style="width: 100px; min-width: 100px;">{{ subscriber.createdAt | date:'dd/MM/yyyy' }}</td>
+                  <td style="width: 120px; min-width: 120px;">  
+                    <button type="button" class="btn btn-sm btn-circle btn-danger"
+                      (click)="modalConfirmRemoveSubscriber.show(); getSubscriber(subscriber);">
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr *ngIf="!subscribers?.length" class="text-center">
+                  <td colspan="4">{{'COMMON.TABLE.NO_DATA' | translate}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div *ngIf="subscribers.length">
+              <ngb-pagination [collectionSize]="total" [(page)]="page" [rotate]="true" [pageSize]="pageSize"
+                [maxSize]="5" (pageChange)="currentPage(page)">
+                <ng-template ngbPaginationPrevious>{{'COMMON.BUTTON.BTN_PRE' | translate}}</ng-template>
+                <ng-template ngbPaginationNext>{{'COMMON.BUTTON.BTN_NEXT' | translate}}</ng-template>
+                <ng-template ngbPaginationEllipsis>...</ng-template>
+              </ngb-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+</div>
+
+<div bsModal #modalConfirmRemoveSubscriber="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+  <div style="max-width: 500px !important;" class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="mx-4 mt-5 mb-4 text-center">
+        <span class="modal-title">Are you sure you want to delete this subscriber?</span>
+        <div class="pt-4 d-flex justify-content-center">
+          <button type="button" class="width-btn btn mr-2  btn-pill btn-danger" (click)="deleteSubscriber()">
+            {{'COMMON.BUTTON.BTN_DELETE' | translate}}
+          </button>
+          <button type="button" class="width-btn btn  btn-pill btn-light" (click)="modalConfirmRemoveSubscriber.hide()">
+            {{'COMMON.BUTTON.BTN_CANCEL' | translate}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #modalAddSubscriber="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div style="max-width: 800px !important;" class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form [formGroup]="addSubscriberForm" (ngSubmit)="createSubscriber()">
+        <div class="mx-4 mt-5 mb-4">
+
+          <div class="col-12">
+            <div class="row">
+              <h3 style="margin: -25px 0 20px 15px;">Add Subscriber</h3>
+
+              <div class="form-group col-12 has-error">
+                <label for="street">Email <span class="asterisk">*</span></label>
+                <input type="text" class="form-control" formControlName="email"
+                  onkeypress="return event.charCode != 32">
+                <div [style.visibility]="isAddSubscriberSubmitted ||
+                (addSubscriberForm.get('email').invalid && addSubscriberForm.get('email').touched) ||
+                addSubscriberForm.get('email').dirty ? 'visible' : 'hidden'" class="error-message">
+                  <small *ngIf="addSubscriberForm.get('email').errors?.required" class="help-block text-danger">
+                    Please enter the email
+                  </small>
+                  <small *ngIf="addSubscriberForm.get('email').errors?.email" class="help-block text-danger">
+                    Invalid email
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-4 d-flex justify-content-center">
+            <button type="submit" class="btn mr-2 btn-pill btn-primary">
+              {{'COMMON.BUTTON.BTN_ADD'|  translate}}
+            </button>
+            <button type="button" class="btn btn-pill btn-light" (click)="modalAddSubscriber.hide(); clearAddSubscriberForm();">
+              {{'COMMON.BUTTON.BTN_CANCEL'|  translate}}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<app-dialog></app-dialog>
+<ngx-spinner [fullScreen]="true" type="ball-clip-rotate-multiple" size="medium"></ngx-spinner>

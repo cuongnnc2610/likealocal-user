@@ -1,0 +1,310 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <form [formGroup]="searchInputForm" (ngSubmit)="spinner.show(); getOrders()">
+            <div class="row">
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="order_id">Order ID</label>
+                <input class="form-control" id="user_name" type="text" name="order_id" formControlName="order_id" (keyup.enter)="spinner.show(); getOrders();"/>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="user_name">User name</label>
+                <input class="form-control" id="user_name" type="text" name="user_name" formControlName="user_name" (keyup.enter)="spinner.show(); getOrders();"/>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="email">Email</label>
+                <input class="form-control" id="email" type="text" name="email" formControlName="email" (keyup.enter)="spinner.show(); getOrders();"/>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="phone_number">Phone number</label>
+                <input class="form-control" id="email" type="text" name="phone_number" formControlName="phone_number" (keyup.enter)="spinner.show(); getOrders();"/>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="fullname">Full name</label>
+                <input class="form-control" id="email" type="text" name="fullname" formControlName="fullname" (keyup.enter)="spinner.show(); getOrders();"/>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="date_time">Departure time</label>
+                <div class="input-group">
+                  <input placeholder="dd/mm/yyyy" #datepickerYMD="bsDatepicker" bsDatepicker autocomplete="off"
+                         [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" formControlName="date_time"
+                         class="form-control ngx-daterangepicker-action"
+                         (ngModelChange)="spinner.show(); getOrders();"/>
+                  <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="created_at">Date</label>
+                <div class="input-group">
+                  <input placeholder="dd/mm/yyyy" #datepickerYMD="bsDatepicker" bsDatepicker autocomplete="off"
+                         [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" formControlName="created_at"
+                         class="form-control ngx-daterangepicker-action"
+                         (ngModelChange)="spinner.show(); getOrders();"/>
+                  <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="status">Status</label>
+                <select class="form-control" name="status" formControlName="status" (change)="spinner.show(); getOrders();">
+                  <option *ngFor="let statusSearchOption of statusSearchOptions" [value]="statusSearchOption.value">{{statusSearchOption.name}}</option>
+                </select>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="is_cancelled">Cancel Status</label>
+                <select class="form-control" name="is_cancelled" formControlName="is_cancelled" (change)="spinner.show(); getOrders();">
+                  <option *ngFor="let isCancelSearchOption of isCancelSearchOptions" [value]="isCancelSearchOption.value">{{isCancelSearchOption.name}}</option>
+                </select>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="is_paid_to_system">Paid To System Status</label>
+                <select class="form-control" name="is_paid_to_system" formControlName="is_paid_to_system" (change)="spinner.show(); getOrders();">
+                  <option *ngFor="let isPaidToSystemSearchOption of isPaidToSystemSearchOptions" [value]="isPaidToSystemSearchOption.value">{{isPaidToSystemSearchOption.name}}</option>
+                </select>
+              </div>
+            </div>
+          </form>
+          <br />
+          <div class="table-responsive">
+            <table class="table table-hover table-striped">
+              <thead>
+                <tr>
+                  <th style="width: 50px; min-width: 50px;">No</th>
+                  <th style="width: 100px; min-width: 100px;">Order ID<i class="fa fa-sort ml-2" (click)="changeOrderType(3)"></i></th>
+                  <th style="width: 150px; min-width: 150px;">Email<i class="fa fa-sort ml-2" (click)="changeOrderType(5)"></i></th>
+                  <th style="width: 120px; min-width: 120px;">Full name</th>
+                  <th style="width: 100px; min-width: 100px;">Price</th>
+                  <th style="width: 120px; min-width: 120px;">Host</th>
+                  <th style="width: 120px; min-width: 120px;">Departure time</th>
+                  <th style="width: 100px; min-width: 100px;">Date<i class="fa fa-sort ml-2" (click)="changeOrderType(7)"></i></th>
+                  <th style="width: 100px; min-width: 100px; max-width: 110px;">Status<i class="fa fa-sort ml-2" (click)="changeOrderType(1)"></i></th>
+                  <th style="width: 120px; min-width: 120px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let order of orders; let i = index">
+                  <td style="width: 50px; min-width: 50px;">{{ from + i }}</td>
+                  <td style="width: 100px; min-width: 100px;">{{ order.order_id }}</td>
+                  <td style="width: 150px; min-width: 150px;" class="word-break">{{ order.email }}</td>
+                  <td style="width: 120px; min-width: 120px;">{{ order.fullname }}</td>
+                  <td style="width: 100px; min-width: 100px;">{{ (order.price - order.discount).toFixed(2) }}$</td>
+                  <td style="width: 120px; min-width: 120px;">{{ order.toursHost.host.user_name }}</td>
+                  <td style="width: 100px; min-width: 100px;">{{ order.date_time | date:'dd/MM/yyyy':'UTC' }}</td>
+                  <td style="width: 100px; min-width: 100px;">{{ order.createdAt | date:'dd/MM/yyyy' }}</td>
+                  <td style="width: 100px; min-width: 100px; max-width: 110px;">
+                    <span *ngIf="order.is_cancelled" class="badge badge-danger">Cancelled</span>
+                    <span *ngIf="order.is_paid_to_host" class="badge badge-success">Completed</span>
+                    <ng-container *ngIf="!order.is_cancelled && !order.is_paid_to_host">
+                      <span *ngIf="order.status === 0" class="badge badge-secondary">Unconfirmed</span>
+                      <span *ngIf="order.status === 1" class="badge badge-warning">Confirmed</span>
+                      <span *ngIf="order.status === 2" class="badge badge-primary">Finished</span>
+                      <span *ngIf="!order.is_paid_to_system" class="badge badge-secondary">Unpaid</span>
+                      <span *ngIf="order.is_paid_to_system" class="badge badge-primary">Paid</span>
+                    </ng-container>
+                  </td>
+                  <td style="width: 120px; min-width: 120px;">
+                    <button type="button" class="btn btn-sm btn-circle btn-info" data-toggle="modal"
+                      (click)="modalEditOrder.show(); getOrder(order);">
+                      <i class="fa fa-info"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr *ngIf="!orders?.length" class="text-center">
+                  <td colspan="10">{{'COMMON.TABLE.NO_DATA' | translate}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div *ngIf="orders.length">
+              <ngb-pagination [collectionSize]="total" [(page)]="page" [rotate]="true" [pageSize]="pageSize"
+                [maxSize]="5" (pageChange)="currentPage(page)">
+                <ng-template ngbPaginationPrevious>{{'COMMON.BUTTON.BTN_PRE' | translate}}</ng-template>
+                <ng-template ngbPaginationNext>{{'COMMON.BUTTON.BTN_NEXT' | translate}}</ng-template>
+                <ng-template ngbPaginationEllipsis>...</ng-template>
+              </ngb-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  
+</div>
+
+<div bsModal #modalEditOrder="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div style="max-width: 1095px !important;" class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form>
+        <div class="mx-4 mt-5 mb-4">
+          <div class="row">
+            <div class="col-6 text-left">
+              <h3 style="margin: -25px 0 20px 0px;">Order</h3>
+            </div>
+            <div class="col-6 text-right">
+              <p class="text-secondary" style="margin: -19px 0 20px 0px; "><b>{{ order.createdAt | date:'dd/MM/yyyy HH:mm:ss' }}</b></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="row">
+                <div class="col-12">
+                  <p><b>Tour Information</b></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6 text-center" style="padding-right: 0px;">
+                  <div class="cover-image-container">
+                    <img src="{{order.toursHost.tour.cover_image}}" class="cover-image">
+                  </div>
+                </div>
+                <div class="col-6" style="padding-left: 10px; color: #444">
+                  <p style="margin-bottom: 0.5rem;"><b>{{order.toursHost.tour.name}}</b></p>
+                  <p style="margin-bottom: 0.5rem;"><i class="fa fa-map-marker mr-2"></i>{{order.toursHost.tour.city.name + ', ' + order.toursHost.tour.city.country.name}}</p>
+                  <span *ngIf="order.status === 0" class="badge badge-secondary">Unconfirmed</span>
+                  <span *ngIf="order.status === 1" class="badge badge-warning">Confirmed</span>
+                  <span *ngIf="order.status === 2" class="badge badge-success">Finished</span>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-12">
+                  <i class="fa fa-clock-o mr-2"></i><span>Departure time: {{order.date_time | date:'dd/MM/yyyy HH:mm':'UTC'}}</span>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-12">
+                  <i class="fa fa-hourglass-half mr-2"></i><span>{{order.toursHost.tour.duration}} hours</span>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-12">
+                  <i class="fa fa-users mr-2"></i><span>Number of people: {{order.number_of_people}}</span>
+                </div>
+              </div>              
+              <div class="row mt-3">
+                <div class="host-card">
+                  <div class="avatar-container">
+                    <img src="{{order.toursHost.host.avatar}}" class="avatar">
+                  </div>
+                  <div class="ml-2">
+                    <p style="margin-bottom: 0px;"><b>{{order.toursHost.host.user_name}}</b></p>
+                    <p style="margin-top: 5px; margin-bottom: 0px;">{{order.toursHost.host.email}}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div *ngIf="order.user_id" class="user-card">
+                  <div class="avatar-container">
+                    <img src="{{order.user.avatar}}" class="avatar">
+                  </div>
+                  <div class="ml-2">
+                    <p style="margin-bottom: 0px;"><b>{{order.user ? order.user.user_name : ''}}</b></p>
+                    <p style="margin-top: 5px; margin-bottom: 0px;">{{order.user ? order.user.email : ''}}</p>
+                  </div>
+                </div>
+                <div *ngIf="!order.user_id" class="user-card" style="justify-content: center;">
+                  <div>
+                    <p style="margin-bottom: 0px;"><b>Unregistered users</b></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="row">
+                <div class="col-12">
+                  <p><b>Customer Information</b></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-3 text-left">
+                  <p>Full name:</p>
+                </div>
+                <div class="col-9 text-right">
+                  <p>{{order.fullname}}</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-3 text-left">
+                  <p>Email:</p>
+                </div>
+                <div class="col-9 text-right">
+                  <p>{{order.email}}</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-3 text-left">
+                  <p>Phone number:</p>
+                </div>
+                <div class="col-9 text-right">
+                  <p>{{order.phone_number}}</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <p><b>Payment Information</b></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6 text-left">
+                  <p>{{order.toursHost.tour.name}}</p>
+                </div>
+                <div class="col-6 text-right">
+                  <p>{{(order.price + 0).toFixed(2)}}$</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-6 text-left">
+                  <p>Subtotal:</p>
+                </div>
+                <div class="col-6 text-right">
+                  <p>{{(order.price + 0).toFixed(2)}}$</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-6 text-left">
+                  <p>Discount:</p>
+                </div>
+                <div class="col-6 text-right">
+                  <span *ngIf="order.discount !== 0">({{order.coupon.code}}) </span>
+                  <span>{{(order.discount + 0).toFixed(2)}}$</span>                  
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-6 text-left">
+                  <p><b>Total:</b></p>
+                </div>
+                <div class="col-6 text-right">
+                  <span *ngIf="!order.is_paid_to_system" class="badge badge-secondary">Unpaid</span>
+                  <span *ngIf="order.is_paid_to_system" class="badge badge-primary">Paid</span>
+                  <span class="ml-2"><b>{{(order.price - order.discount).toFixed(2)}}$</b></span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 text-center">
+                  <img *ngIf="order.is_paid_to_host" class="order-status" src="https://likealocal-stagingbucket.s3-ap-southeast-1.amazonaws.com/stock/depositphotos_73928819-stock-illustration-completed-tick-stamp.jpg">
+                  <img *ngIf="order.is_cancelled" class="order-status" src="https://likealocal-stagingbucket.s3-ap-southeast-1.amazonaws.com/stock/depositphotos_54694353-stock-illustration-cancelled-vector-stamp.jpg">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="pt-4 d-flex justify-content-center">
+            <button *ngIf="!order.is_paid_to_host && !order.is_cancelled" type="submit" class="btn mr-2 btn-pill btn-danger" (click)="cancelOrder();">
+              Reject
+            </button>
+            <button type="button" class="btn btn-pill btn-light" (click)="modalEditOrder.hide()">
+              {{'COMMON.BUTTON.BTN_CANCEL'|  translate}}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<app-dialog></app-dialog>
+<ngx-spinner [fullScreen]="true" type="ball-clip-rotate-multiple" size="medium"></ngx-spinner>

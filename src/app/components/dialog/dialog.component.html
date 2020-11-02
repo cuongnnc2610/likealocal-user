@@ -1,0 +1,39 @@
+<div bsModal #myModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" (onHide)="hideModal()">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content f-modal-alert pt-0">
+            <div *ngIf="this.type.indexOf('warning') !== -1">
+                <div class="f-modal-icon f-modal-warning scaleWarning">
+                    <span class="f-modal-body pulseWarningIns"></span>
+                    <span class="f-modal-dot pulseWarningIns"></span>
+                </div>
+            </div>
+            <div *ngIf="this.type.indexOf('success') !== -1">
+                <div class="f-modal-icon f-modal-success animate">
+                    <span class="f-modal-line f-modal-tip animateSuccessTip"></span>
+                    <span class="f-modal-line f-modal-long animateSuccessLong"></span>
+                    <div class="f-modal-placeholder"></div>
+                    <div class="f-modal-fix"></div>
+                </div>
+            </div>
+            <div *ngIf="this.type.indexOf('danger') !== -1">
+                <div class="f-modal-icon f-modal-error animate">
+                    <span class="f-modal-x-mark">
+            <span class="f-modal-line f-modal-left animateXLeft"></span>
+                    <span class="f-modal-line f-modal-right animateXRight"></span>
+                    </span>
+                    <div class="f-modal-placeholder"></div>
+                    <div class="f-modal-fix"></div>
+                </div>
+            </div>
+            <div class="modal-body text-center pt-3">
+                <span class="text-{{type}}" [ngClass]="['modal-title']">{{content}}</span>
+            </div>
+            <div class="modal-footer pb-4">
+                <button *ngIf="this.content.indexOf('ログアウト') !== -1" type="button" class="btn btn-warning width-btn btn-pill" (click)="this.authenticationService.logout();">
+          ログアウト
+        </button>
+                <button type="button" class="btn btn-secondary width-btn btn-pill" (click)="dialog.hide();close()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

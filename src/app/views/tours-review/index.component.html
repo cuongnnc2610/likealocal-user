@@ -1,0 +1,183 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <form [formGroup]="searchInputForm" (ngSubmit)="spinner.show(); getToursReviews()">
+            <div class="row">
+              <div class="form-group col-xl-6 col-md-6 col-sm-12">
+                <label for="host_name">Tour</label>
+                <input class="form-control" id="tour_name" type="text" name="tour_name" formControlName="tour_name" (keyup.enter)="spinner.show(); getToursReviews();" />
+              </div>
+              <div class="form-group col-xl-6 col-md-6 col-sm-12">
+                <label for="user_name">Date</label>
+                <div class="input-group">
+                  <input placeholder="dd/mm/yyyy" #datepickerYMD="bsDatepicker" bsDatepicker autocomplete="off"
+                         [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" id="input-normal" formControlName="date"
+                         class="form-control ngx-daterangepicker-action"
+                         (ngModelChange)="spinner.show(); getToursReviews();"/>
+                  <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                  </div>
+                </div>
+              </div>             
+            </div>
+            <div class="row">
+              <div class="form-group col-xl-6 col-md-6 col-sm-12">
+                <label for="host">Host</label>
+                <input class="form-control" id="host" type="text" name="host" formControlName="host" (keyup.enter)="spinner.show(); getToursReviews();" />
+              </div>
+              <div class="form-group col-xl-6 col-md-6 col-sm-12">
+                <label for="user">User</label>
+                <input class="form-control" id="user" type="text" name="user" formControlName="user" (keyup.enter)="spinner.show(); getToursReviews();" />
+              </div>             
+            </div>
+            <div class="row">
+              <div class="form-group col-xl-12 col-md-12 col-sm-12">
+                <label for="content">Content</label>
+                <input class="form-control" id="content" type="text" name="content" formControlName="content" (keyup.enter)="spinner.show(); getToursReviews();" />
+              </div> 
+            </div>
+          </form>
+          <br />
+          <div class="table-responsive">
+            <table class="table table-hover table-striped">
+              <thead>
+                <tr>
+                  <th style="width: 50px; min-width: 50px;">No</th>
+                  <th style="width: 300px; min-width: 120px; max-width: 300px;">Content</th>
+                  <th style="width: 100px; min-width: 100px;">Rating<i class="fa fa-sort ml-2" (click)="changeOrderType(5)"></i></th>
+                  <th style="width: 120px; min-width: 120px;">Tour</th>
+                  <th style="width: 120px; min-width: 120px;">Host</th>
+                  <th style="width: 120px; min-width: 120px;">User</th>
+                  <th style="width: 100px; min-width: 100px;">Date<i class="fa fa-sort ml-2" (click)="changeOrderType(1)"></i></th>
+                  <th style="width: 120px; min-width: 120px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let toursReview of toursReviews; let i = index">
+                  <td style="width: 50px; min-width: 50px;">{{ from + i }}</td>
+                  <td style="width: 300px; min-width: 120px; max-width: 300px;">
+                    {{ toursReview.content.length > 153 ? toursReview.content.substring(0, 150) + '...' : toursReview.content }}
+                  </td>
+                  <td style="width: 100px; min-width: 100px;">{{ toursReview.rating }}</td>
+                  <td style="width: 120px; min-width: 120px;">{{ toursReview.order.toursHost.tour.name }}</td>
+                  <td style="width: 120px; min-width: 120px;">{{ toursReview.order.toursHost.host.user_name }}</td>
+                  <td style="width: 120px; min-width: 120px;">{{ toursReview.order.user.user_name }}</td>
+                  <td style="width: 100px; min-width: 100px;">{{ toursReview.createdAt | date:'dd/MM/yyyy' }}</td>
+                  <td style="width: 120px; min-width: 120px;">
+                    <button type="button" class="btn btn-sm btn-circle btn-info"
+                      (click)="modalDetailToursReview.show(); getToursReview(toursReview);">
+                      <i class="fa fa-info"></i>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-circle btn-danger"
+                      (click)="modalConfirmRemoveToursReview.show(); getToursReview(toursReview);">
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr *ngIf="!toursReviews?.length" class="text-center">
+                  <td colspan="8">{{'COMMON.TABLE.NO_DATA' | translate}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div *ngIf="toursReviews.length">
+              <ngb-pagination [collectionSize]="total" [(page)]="page" [rotate]="true" [pageSize]="pageSize"
+                [maxSize]="5" (pageChange)="currentPage(page)">
+                <ng-template ngbPaginationPrevious>{{'COMMON.BUTTON.BTN_PRE' | translate}}</ng-template>
+                <ng-template ngbPaginationNext>{{'COMMON.BUTTON.BTN_NEXT' | translate}}</ng-template>
+                <ng-template ngbPaginationEllipsis>...</ng-template>
+              </ngb-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+</div>
+
+<div bsModal #modalConfirmRemoveToursReview="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+  <div style="max-width: 500px !important;" class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="mx-4 mt-5 mb-4 text-center">
+        <span class="modal-title">Are you sure you want to delete this hosts review?</span>
+        <div class="pt-4 d-flex justify-content-center">
+          <button type="button" class="width-btn btn mr-2  btn-pill btn-danger" (click)="deleteToursReview()">
+            {{'COMMON.BUTTON.BTN_DELETE' | translate}}
+          </button>
+          <button type="button" class="width-btn btn  btn-pill btn-light" (click)="modalConfirmRemoveToursReview.hide()">
+            {{'COMMON.BUTTON.BTN_CANCEL' | translate}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #modalDetailToursReview="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div style="max-width: 800px !important;" class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="mx-4 mt-5 mb-4">
+        <div class="col-12">
+          <div class="row">
+            <h3 style="margin: -25px 0 20px 15px;">Tours Review</h3>
+          </div>
+          <div class="row">
+            <div class="form-group col-12">
+              <label for="street">Tour</label>
+              <div class="form-control" style="height: auto; background-color: #EEEEEE;">
+                {{toursReview.order.toursHost.tour.name}}
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-6">
+              <label for="street">Host name</label>
+              <input type="text" class="form-control" value="{{toursReview.order.toursHost.host.user_name}}" disabled>
+            </div>
+            <div class="form-group col-6">
+              <label for="street">Host email</label>
+              <input type="text" class="form-control" value="{{toursReview.order.toursHost.host.email}}" disabled>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-6">
+              <label for="street">User name</label>
+              <input type="text" class="form-control" value="{{toursReview.order.user.user_name}}" disabled>
+            </div>
+            <div class="form-group col-6">
+              <label for="street">User email</label>
+              <input type="text" class="form-control" value="{{toursReview.order.user.email}}" disabled>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-12">
+              <label for="street">Date</label>
+              <input type="text" class="form-control" value="{{ toursReview.createdAt | date:'dd/MM/yyyy hh:mm:ss' }}" disabled>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-12">
+              <label for="street">Review</label>
+              <div class="form-control" style="height: auto; background-color: #EEEEEE;">
+                {{toursReview.content}}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-4 d-flex justify-content-center">
+          <button type="button" class="btn btn-pill btn-light" (click)="modalDetailToursReview.hide();">
+            {{'COMMON.BUTTON.BTN_CANCEL'|  translate}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-dialog></app-dialog>
+<ngx-spinner [fullScreen]="true" type="ball-clip-rotate-multiple" size="medium"></ngx-spinner>

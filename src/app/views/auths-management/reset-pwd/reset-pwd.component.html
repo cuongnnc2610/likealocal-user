@@ -1,0 +1,79 @@
+<div class="container-fluid">
+  <div class="container-language">
+    <!-- btn-language -->
+    <!--    <button class="btn btn-language" (click)="switchLang()">-->
+    <!--      <i class="fa fa-language"> </i>-->
+    <!--      <br />{{ "COMMON.BTN_ML" | translate }}-->
+    <!--    </button>-->
+    <!-- btn language -->
+  </div>
+  <div class="row no-gutter bg-image d-flex justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="login py-4">
+        <div class="container">
+          <div class="header-text text-center pt-4 pb-3">
+            <h1>{{ "RESET_PASSWORD.HEADER_TEXT" | translate }}</h1>
+          </div>
+          <div class="row pt-2">
+            <div class="col-md-9 col-lg-8 mx-auto bg-opacity">
+              <div class="icon-header">
+                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+              </div>
+
+              <form [formGroup]="changePassword" (ngSubmit)="onSubmit()">
+                <div class="text-center required-text">
+                  <div *ngIf="showError && (codeResponse === 'C014' || codeResponse === 'C007')">
+                    {{"RESET_PASSWORD.FORM_RESET_PASSWORD.VALIDATE_FORM.COMMON.RESPONSE_FAILURE" | translate}}
+                  </div>
+                </div>
+                <br>
+
+                <div class="form-label-group">
+                  <input type="password" id="inputNewPass" class="form-control" placeholder="New password"
+                    formControlName="password" required [class.is-invalid]="
+                      changePassword.get('password').invalid &&
+                      changePassword.get('password').touched
+                    " />
+                  <div class="required-text">
+                    <div
+                      *ngIf="isResetSumitted || (validPassword.invalid && validPassword.touched) ||validPassword.dirty">
+                      <div *ngIf="validPassword.errors?.required">
+                        {{"RESET_PASSWORD.FORM_RESET_PASSWORD.VALIDATE_FORM.NEW_PASSWORD.REQUIRE" | translate}}
+                      </div>
+                      <div *ngIf="validPassword.errors?.minlength || validPassword.errors?.maxlength">
+                        {{"RESET_PASSWORD.FORM_RESET_PASSWORD.VALIDATE_FORM.NEW_PASSWORD.MIN_MAX" | translate}}
+                      </div>
+                    </div>
+                  </div>
+                  <label for="inputNewPass">{{"RESET_PASSWORD.FORM_RESET_PASSWORD.NEW_PASSWORD" | translate}}</label>
+                </div>
+
+                <div class="form-label-group">
+                  <input type="password" id="retypePass" class="form-control" placeholder="New password (for confirmation)"
+                    formControlName="retypePass" (input)="onChangeValue()"/>
+                  <div class="required-text">
+                    <div
+                      *ngIf="isResetSumitted || (validConfirmPassword.invalid && validConfirmPassword.touched) || validConfirmPassword.dirty">
+                      <div *ngIf="validConfirmPassword.errors?.required">
+                        {{"RESET_PASSWORD.FORM_RESET_PASSWORD.VALIDATE_FORM.RETYPE_PASSWORD.REQUIRE" | translate}}
+                      </div>
+                      <div *ngIf="!matchPassword && !validConfirmPassword.errors?.required">
+                        {{"RESET_PASSWORD.FORM_RESET_PASSWORD.VALIDATE_FORM.RETYPE_PASSWORD.MATCH" | translate}}
+                      </div>
+                    </div>
+                  </div>
+                  <label for="retypePass">{{"RESET_PASSWORD.FORM_RESET_PASSWORD.RETYPE_PASSWORD"| translate}}</label>
+                </div>
+                <!-- /INPUT CONFIRM PASSWORD -->
+
+                <button class="btn btn-block btn-reset-password font-weight-bold mb-2" type="submit">
+                  {{"RESET_PASSWORD.FORM_RESET_PASSWORD.BTN_RESET_PASSWORD" | translate}}
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

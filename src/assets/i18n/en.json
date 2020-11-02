@@ -1,0 +1,461 @@
+{
+  "COMMON": {
+    "BUTTON": {
+      "BTN_ML": "English",
+      "BTN_LOGOUT": "Log out",
+      "BTN_ADD": "Add",
+      "BTN_DETAIL": "Detail",
+      "BTN_EDIT": "Edit",
+      "BTN_UPDATE": "Update",
+      "BTN_DELETE": "Delete",
+      "BTN_CANCEL": "Cancel",
+      "BTN_SEARCH": "Search",
+      "BTN_CLEAR": "Clear",
+      "BTN_PRE": "Previous",
+      "BTN_NEXT": "Next",
+      "BTN_BACK": "Back",
+      "BTN_REMOVE": "Remove",
+      "BTN_EXPORT_CSV": "Export CSV",
+      "BTN_READ_CSV": "Read CSV"
+    },
+    "TABLE": {
+      "NO_DATA": "No data available in table",
+      "RESULT_NOT_FOUND": "Result not found"
+    }
+  },
+  "DEFAULT_LAYOUT": {
+    "CONFIRM": {
+      "LOG_OUT": "Are you sure you want to log out?"
+    }
+  },
+  "LOGIN": {
+    "TITLE": "Parts purchase site",
+    "FORM_LOGIN": {
+      "EMAIL": "Email address",
+      "PASSWORD": "Password",
+      "BTN_LOGIN": "Login",
+      "BTN_FORWARD_PASSWORD": "If you forgot your password, click here",
+      "VALIDATE_FORM": {
+        "EMAIL": {
+          "REQUIRE": "Please enter your email address",
+          "MAX": "The email address cannot be more than 64 characters",
+          "PATTERN": "Please enter a valid email address"
+        },
+        "PASSWORD": {
+          "REQUIRE": "Please enter your password",
+          "MAX": "The password must be from 6 to 32 characters long"
+        },
+        "COMMON": {
+          "REQUIRE": "Your email or password was incorrect"
+        }
+      }
+    }
+  },
+  "EMAIL_INPUT": {
+    "HEADER_TEXT": "Forgot password",
+    "TITlE": {
+      "TITLE_SEND_MAIL": "※To reset password, please enter registered email address then click button [Send]. An email containing a URL to reset your password will be sent to you. ",
+      "TITLE_CONFIRM_EMAIL": "※An email has been sent to your email address."
+    },
+    "EMAIL": "Email address",
+    "BTN_SEND": "Send",
+    "BTN_LOGIN": "Login",
+    "VALIDATE_FORM": {
+      "EMAIL": {
+        "REQUIRE": "Please enter your email address",
+        "MAX": "The email address cannot be more than 64 characters",
+        "PATTERN": "Please enter a valid email address",
+        "RESPONSE_FAILURE": "Email address has not been registered"
+      }
+    }
+  },
+  "RESET_PASSWORD": {
+    "HEADER_TEXT": "Reset your password",
+    "FORM_RESET_PASSWORD": {
+      "NEW_PASSWORD": "New password",
+      "RETYPE_PASSWORD": "New password (for confirmation)",
+      "BTN_RESET_PASSWORD": "Reset password",
+      "VALIDATE_FORM": {
+        "NEW_PASSWORD": {
+          "REQUIRE": "Please enter new password",
+          "MIN_MAX": "The password must be from 6 to 32 characters long"
+        },
+        "RETYPE_PASSWORD": {
+          "REQUIRE": "Please enter confirmation password ",
+          "MATCH": "The password and the confirmation password does not match"
+        },
+        "COMMON": {
+          "RESPONSE_FAILURE": "Link expired"
+        }
+      }
+    }
+  },
+  "PART": {
+    "PART_ID": "Part ID #",
+    "PART_NAME": "Part name",
+    "IMAGE": "Image",
+    "NO_DATA": "No data available in table",
+    "RESULT_NOT_FOUND": "Result not found",
+    "PART_TABLE": {
+      "NO": "No."
+    },
+    "FORM_PART": {
+      "LABEL": {
+        "TITLE_ADD": "Add part",
+        "TITLE_EDIT": "Edit part"
+      },
+      "MESSAGE": {
+        "FAIL": {
+          "PART_ID": {
+            "REQUIRE": "Please enter the part ID",
+            "PATTERN": "The part ID must be alphanumeric characters",
+            "MAX": "The part ID cannot be more than 15 characters",
+            "DUPLICATE": "The part ID entered already exists"
+          },
+          "PART_NAME": {
+            "REQUIRE": "Please enter the part name",
+            "MAX": "The part name cannot be more than 64 characters"
+          },
+          "PART_IMAGE": {
+            "REQUIRE": "Please choose PNG or JPG image file"
+          }
+        }
+      },
+      "SUCCESS": {
+        "ADD_CODE": "The part has been added",
+        "EDIT_CODE": "The part has been edited",
+        "DELETE_PART": "The part has been deleted"
+      },
+      "CONFIRM": {
+        "DELETE_PART": "Are you sure you want to delete this part ?"
+      }
+    }
+  },
+  "PARTS": {
+    "TITLE": {
+      "ADD_PARTS": "Add parts",
+      "EDIT_PARTS": "Edit parts",
+      "DETAIL_PARTS": "Detail parts"
+    },
+    "LABEL": {
+      "PART_ID": "Part ID #",
+      "PARTS_MODEL_ID": "Parts model ID #",
+      "PARTS_NAME": "Parts name",
+      "PARTS_IMAGE_ID": "Parts image ID #",
+      "NECESSARY_QUANTITY": " Necessary quantity",
+      "MSRP": "MSRP (Tax excluded)",
+      "REMARK": "Remark"
+    },
+    "OPTIONS": {
+      "CHOOSE_PART_ID": "Choose a part ID"
+    },
+    "TABLE": {
+      "NO": "No.",
+      "PART_ID": "Part ID #",
+      "PART_NAME": "Part name",
+      "PARTS_IMAGE_ID": "Parts image ID #",
+      "PARTS_MODEL_ID": "Parts model ID #",
+      "PARTS_NAME": " Parts name",
+      "NECESSARY_QUANTITY": " Necessary quantity",
+      "MSRP": "MSRP (Tax excluded)",
+      "REMARK": "Remark"
+    },
+    "FORM": {
+      "MESSAGE": {
+        "PART_ID": {
+          "REQUIRE": "Please select the part ID"
+        },
+        "PARTS_IMAGE_ID": {
+          "REQUIRE": "Please enter the parts image ID",
+          "MIN": "The parts image ID must be at least 1",
+          "MAX": "Parts image ID cannot more than 15 characters",
+          "DUPLICATE_ID": "The parts image ID you have entered is already exists"
+        },
+        "PARTS_MODEL_ID": {
+          "REQUIRE": "Please enter the parts model ID",
+          "PATTERN": "The parts model ID must be alphanumeric characters",
+          "MAX": "The parts model ID cannot be more than 20 characters",
+          "DUPLICATE_ID": "The parts model ID you have entered is already exists"
+        },
+        "PARTS_NAME": {
+          "REQUIRE": "Please enter the parts name",
+          "MAX": "The parts name cannot be more than 64 characters"
+        },
+        "NECESSARY_QUANTITY": {
+          "REQUIRE": "Please enter the necessary quantity",
+          "MIN": "The necessary quantity must be at least 1",
+          "MAX": "The necessary quantity cannot be more than 15 characters"
+        },
+        "MSRP": {
+          "REQUIRE": "Please enter the MSRP (Tax excluded)",
+          "MIN": "The MSRP (Tax excluded) must be more than 0",
+          "MAX": "The MSRP (Tax excluded) cannot be more than 20 characters"
+        },
+        "REMARK": {
+          "MAX": "Remark cannot be more than 64 characters"
+        },
+        "CONFIRM": {
+          "DELETE_PARTS": "Are you sure you want to delete this parts?"
+        }
+      }
+    }
+  },
+  "USER": {
+    "TITLE": {
+      "USER_MANAGEMENT": "User Management",
+      "ADD_DELIVERY": "Add Delivery"
+    },
+    "LABEL": {
+      "NAME": "Contact name",
+      "EMAIL": "Email address",
+      "PHONE_NUMBER": "Phone number",
+      "BILLING_ADDRESS": "Billing address",
+      "COMPANY_NAME": "Company name",
+      "COUNTRY": "Country",
+      "ZIP_CODE": "Zip code",
+      "STREET_ADDRESS": "Street address",
+      "CONTACT": "Contact",
+      "CONTACT_NAME": "Contact name",
+      "DELIVERY": "Delivery",
+      "ADDRESS": "Address"
+    },
+    "USER_MANAGE": {
+      "USER_TABLE": {
+        "NO": "No.",
+        "CONTACT_NAME": "Contact name",
+        "EMAIL_ADDRESS": "Email address",
+        "COMPANY_NAME": "Company name",
+        "COUNTRY": "Country",
+        "POSTAL_CODE": "Zip code",
+        "STREET_ADDRESS": "Street address",
+        "PHONE_NUMBER": "Phone number",
+        "COMPANY": "Company name"
+      }
+    },
+    "TABLE": {
+      "NO": "No.",
+      "NAME": "Name",
+      "COUNTRY": "Country",
+      "EMAIL_ADDRESS": "Email address",
+      "PHONE_NUMBER": "Phone number",
+      "ZIP_CODE": "Zip code",
+      "ADDRESS": "Address"
+    },
+    "FORM": {
+      "MESSAGE": {
+        "COMPANY_NAME": {
+          "REQUIRE": "Please enter the company name",
+          "MAX": "The company name cannot be more than 64 characters"
+        },
+        "PHONE_NUMBER": {
+          "REQUIRE": "Please enter the phone number",
+          "MIN_MAX": "The phone number must be from 9 to 15 characters long",
+          "PATTERN": "Please enter a valid phone number"
+        },
+        "ZIP_CODE": {
+          "REQUIRE": "Please enter the zip code",
+          "MIN_MAX": "The zip code must be from 3 to 10 characters long",
+          "PATTERN": "Please enter a valid zip code"
+        },
+        "STREET_ADDRESS": {
+          "MAX": "The street address cannot be more than 255 characters"
+        },
+        "CONTACT_NAME": {
+          "REQUIRE": "Please enter the contact name",
+          "MAX": "The contact name cannot be more than 32 characters"
+        },
+        "EMAIL": {
+          "REQUIRE": "Please enter an email address",
+          "MAX": "The email address cannot be more than 64 characters",
+          "PATTERN": "Please enter a valid email address",
+          "DUPLICATE_EMAIL": "The email address you have entered is already registered"
+        },
+        "DELIVERY_NAME": {
+          "REQUIRE": "Please enter the delivery name",
+          "MAX": "The delivery name cannot be more than 64 characters"
+        },
+        "ADDRESS": {
+          "REQUIRE": "Please enter the address",
+          "MAX": "The address cannot be more than 255 characters"
+        },
+        "CONFIRM": {
+          "DELETE_USER": "Are you sure you want to delete this user?",
+          "DELETE_DELIVERY": "Are you sure you want to delete this delivery?"
+        }
+      }
+    }
+  },
+  "USER_PAYMENT_ADDRESS": {
+    "USER_PAYMENT_ADDRESS_MANAGE": {
+      "BTN_ADD_USER_PAYMENT_ADDRESS": "Add User Payment Address",
+      "BTN_EDIT_USER_PAYMENT_ADDRESS": "Edit User Payment Address",
+      "USER_PAYMENT_ADDRESS_TABLE": {
+        "NO": "No.",
+        "NAME": "Name",
+        "ADDRESS": "Address",
+        "PHONE_NUMBER": "Phone number",
+        "POSTAL_CODE": "Zip code",
+        "COUNTRY": "Country"
+      },
+      "VALIDATE_FORM": {
+        "NAME": {
+          "T1": "Please enter your name"
+        },
+        "PHONE_NUMBER": {
+          "T1": "Please enter your phone number",
+          "T2": "The phone number must be from 9 to 15 characters long",
+          "T3": "Please enter a valid phone number"
+        },
+        "POSTAL_CODE": {
+          "T1": "Please enter the postal code",
+          "T2": "The postal code must be from 3 to 10 characters long"
+        },
+        "ADDRESS": {
+          "T1": "Please enter your address"
+        }
+      }
+    }
+  },
+  "ORDER": {
+    "TITLE": "Orders Management",
+    "SEARCH": {
+      "ORDER_NUMBER": "Order number",
+      "ORDER_DATE": "Order date",
+      "EMAIL": "Email address",
+      "PHONE_NUMBER": "Phone number"
+    },
+    "ORDER_MANAGE": {
+      "ORDER_TABLE": {
+        "NO": "No.",
+        "ORDER_NUMBER": "Order number",
+        "NAME": "Contact name",
+        "ADDRESS": "Address",
+        "EMAIL": "Email address",
+        "PHONE_NUMBER": "Phone number",
+        "ORDER_DATE": "Order date"
+      },
+      "ORDER_DETAIL_TABLE": {
+        "NO": "No.",
+        "GROUP_PART_CODE": "Group part code",
+        "GROUP_PART_NAME": "Part Name",
+        "PART_CODE": "Part Code",
+        "PART_NAME": "Part Name",
+        "QUANTITY": "Quantity",
+        "USD_PRICE": "USD price (without tax)",
+        "SUBTOTAL": "Sub total"
+      }
+    },
+    "ORDER_DETAIL": {
+      "LABEL": {
+        "ORDER_NUMBER": "Order number",
+        "CONTACT_NAME": "Contact name",
+        "EMAIL_ADDRESS": "Email address",
+        "ORDER_DATE": "Order date",
+        "ADDRESS": "Address",
+        "PHONE_NUMBER": "Phone number",
+        "DELIVERY": "Delivery",
+        "EXPRESS_DELIVERY": "Express delivery",
+        "REMARK": "Remark"
+      },
+      "TABLE": {
+        "NO": "No.",
+        "PART_NAME": "Part name",
+        "PARTS": "Parts model ID #",
+        "PARTS_NAME": "Parts name",
+        "ORDER_QUANTITY": "Order quantity",
+        "MSRP": "MSRP (Tax excluded)",
+        "TOTAL": "Total"
+      },
+      "TABLE_DELIVERY": {
+        "NAME": "Name",
+        "COUNTRY": "Country",
+        "PHONE_NUMBER": "Phone number",
+        "ZIP_CODE": "Zip code",
+        "ADDRESS": "Address"
+      }
+    }
+  },
+  "NOTIFICATIONS": {
+    "TABLE": {
+      "NO": "No.",
+      "TITLE": "Title",
+      "MESSAGE": "Message",
+      "DATE_TIME": "Date time"
+    },
+    "FORM": {
+      "TITLE": {
+        "ADD_NOTICE": "Add Notice",
+        "EDIT_NOTICE": "Edit Notice",
+        "DETAIL_NOTICE": "Detail Notice"
+      },
+      "LABEL": {
+        "TITLE": "Title",
+        "MESSAGE": "Message"
+      },
+      "MESSAGE": {
+        "TITLE": {
+          "REQUIRE": "Please enter the title",
+          "MAX": "The title cannot be more than 255 characters"
+        },
+        "MESSAGE": {
+          "REQUIRE": "Please enter the message",
+          "MAX": "The message cannot be more than 2000 characters"
+        }
+      }
+    },
+    "CONFIRM": {
+      "DELETE_NOTIFICATION": "Are you sure you want to delete this notice?"
+    }
+  },
+  "TERM_OF_SERVICE": {
+    "MESSAGE": {
+      "CONFIRM": {
+        "UPDATE_TERM_OF_SERVICE": "Are you sure you want to update content of terms of service?"
+      }
+    }
+  },
+  "QA": {
+    "TITLE": {
+      "ADD_QA": "Add Q&A"
+    },
+    "LABEL": {
+      "QUESTION": "Question",
+      "ANSWER": "Answer",
+      "ORDER": "Order"
+    },
+    "TABLE": {
+      "NO": "No.",
+      "QUESTION": "Question",
+      "ANSWER": "Answer",
+      "ORDER": "Order"
+    },
+    "FORM": {
+      "MESSAGE": {
+        "QUESTION": {
+          "REQUIRE": "Please enter the question",
+          "MAX": "The question cannot be more than 255 characters"
+        },
+        "ANSWER": {
+          "REQUIRE": "Please enter the answer",
+          "MAX": "The answer cannot be more than 2000 characters"
+        },
+        "ORDER": {
+          "REQUIRE": "Please enter the order"
+        },
+        "CONFIRM": {
+          "DELETE_QA": "Are you sure you want to delete this Q&A?"
+        }
+      }
+    }
+  },
+  "ERROR": {
+    "404": {
+      "TITLE": "Oops! You're lost.",
+      "CONTENT": "The page you are looking for was not found."
+    },
+    "500": {
+      "TITLE": "Houston, we have a problem!",
+      "CONTENT": "The page you are looking for is temporarily unavailable."
+    }
+  }
+}

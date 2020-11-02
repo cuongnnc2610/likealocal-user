@@ -1,0 +1,111 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <form [formGroup]="searchInputForm" (ngSubmit)="spinner.show(); getToursEdits();">
+            <div class="row">
+              <div class="form-group col-xl-6 col-md-6 col-sm-12">
+                <label for="code">Name</label>
+                <input class="form-control" id="name" type="text" name="name" formControlName="name" (keyup.enter)="spinner.show(); getToursEdits();" />
+              </div> 
+              <div class="form-group col-xl-6 col-md-6 col-sm-12">
+                <label for="code">Host</label>
+                <input class="form-control" id="host_name" type="text" name="host_name" formControlName="host_name" (keyup.enter)="spinner.show(); getToursEdits();"/>
+              </div> 
+              
+            </div>
+            <div class="row">
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="code">Category</label>
+                <select class="form-control" name="category_id" formControlName="category_id" (change)="spinner.show();  getToursEdits()">
+                  <option *ngFor="let category of categories" [value]="category.category_id">{{category.name}}</option>
+                </select>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="code">Transport</label>
+                <select class="form-control" name="transport_id" formControlName="transport_id" (change)="spinner.show(); getToursEdits()">
+                  <option *ngFor="let transport of transports" [value]="transport.transport_id">{{transport.name}}</option>
+                </select>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="code">Country</label>
+                <select class="form-control" name="country_id" formControlName="country_id" (change)="spinner.show(); getCities(country_id); getToursEdits()">
+                  <option *ngFor="let country of countries" [value]="country.country_id">{{country.name}}</option>
+                </select>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="code">City</label>
+                <select class="form-control" name="city_id" formControlName="city_id" (change)="spinner.show(); getToursEdits()" disabled>
+                  <option *ngFor="let city of cities" [value]="city.city_id">{{city.name}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="code">Status</label>
+                <select class="form-control" name="status" formControlName="status" (change)="spinner.show();  getToursEdits()">
+                  <option *ngFor="let status of statusOptions" [value]="status.value">{{status.name}}</option>
+                </select>
+              </div>
+            </div>
+          </form>
+          <br />
+
+          <div class="table-responsive">
+            <table class="table table-hover table-striped">
+              <thead>
+                <tr>
+                  <th style="width: 50px; min-width: 50px;">No</th>
+                  <th style="width: 150px; max-width: 150px; min-width: 100px;">Name<i class="fa fa-sort ml-2" (click)="changeOrderType(3)"></i></th>
+                  <th style="width: 100px; min-width: 100px;">Category</th>
+                  <th style="width: 100px; min-width: 100px;">Transport</th>
+                  <th style="width: 120px; min-width: 120px;">Destination</th>
+                  <th style="width: 80px; min-width: 80px;">Host</th>
+                  <th style="width: 100px; min-width: 100px;">Date<i class="fa fa-sort ml-2" (click)="changeOrderType(1)"></i></th>
+                  <th style="width: 100px; min-width: 100px;">Status<i class="fa fa-sort ml-2" (click)="changeOrderType(17)"></i></th>
+                  <th style="width: 120px; min-width: 120px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let toursEdit of toursEdits; let i = index">
+                  <td style="width: 50px; min-width: 50px;">{{ from + i }}</td>
+                  <td style="width: 150px; max-width: 150px; min-width: 100px;">{{ toursEdit.tour.name }}</td>
+                  <td style="width: 100px; min-width: 100px;">{{ toursEdit.tour.category.name }}</td>
+                  <td style="width: 100px; min-width: 100px;">{{ toursEdit.tour.transport.name }}</td>
+                  <td style="width: 120px; min-width: 120px;">{{ toursEdit.tour.city.name }}, {{ toursEdit.tour.city.country.name }}</td>
+                  <td style="width: 80px; min-width: 80px;">{{ toursEdit.tour.host.user_name }}</td>
+                  <td style="width: 100px; min-width: 100px;">{{ toursEdit.createdAt | date:'dd/MM/yyyy' }}</td>
+                  <td style="width: 100px; min-width: 100px;">
+                    <span *ngIf="toursEdit.status == 0" class="badge badge-secondary">Pending</span>
+                    <span *ngIf="toursEdit.status == 1" class="badge badge-danger">Rejected</span>
+                    <span *ngIf="toursEdit.status == 2" class="badge badge-success">Approved</span>
+                  </td>
+                  <td style="width: 120px; min-width: 120px;">
+                    <button type="button" class="btn btn-sm btn-circle btn-primary"
+                    [routerLink]="['/tours-edit/detail']" [queryParams]="{tours_edit_id: toursEdit.tours_edit_id}">                      
+                      <i class="fa fa-book" style="color: white"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr *ngIf="!toursEdits?.length" class="text-center">
+                  <td colspan="12">{{'COMMON.TABLE.NO_DATA' | translate}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div *ngIf="toursEdits.length">
+              <ngb-pagination [collectionSize]="total" [(page)]="page" [rotate]="true" [pageSize]="pageSize"
+                [maxSize]="5" (pageChange)="currentPage(page)">
+                <ng-template ngbPaginationPrevious>{{'COMMON.BUTTON.BTN_PRE' | translate}}</ng-template>
+                <ng-template ngbPaginationNext>{{'COMMON.BUTTON.BTN_NEXT' | translate}}</ng-template>
+                <ng-template ngbPaginationEllipsis>...</ng-template>
+              </ngb-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-dialog></app-dialog>
+<ngx-spinner [fullScreen]="true" type="ball-clip-rotate-multiple" size="medium"></ngx-spinner>

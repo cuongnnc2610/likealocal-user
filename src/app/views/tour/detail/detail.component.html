@@ -1,0 +1,184 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-xl-6 col-md-6 col-sm-12 text-center">
+              <div class="cover-image-container">
+                <img src="{{tour.cover_image}}" class="cover-image">
+              </div>
+            </div>
+            <div class="col-xl-6 col-md-6 col-sm-12">
+              <div class="row mb-3">
+                <div class="col-12">
+                  <b>{{tour.name}}</b>
+                  <span *ngIf="tour.status == 0" class="badge badge-secondary">Unpublished</span>
+                  <span *ngIf="tour.status == 1" class="badge badge-danger">Rejected</span>
+                  <span *ngIf="tour.status == 2" class="badge badge-success">Published</span>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-12">
+                  <i *ngIf="tour.rating === 0" class="fa fa-star-o"></i>
+                  <i *ngIf="tour.rating >= 1" class="fa fa-star"></i>
+                  <i *ngIf="tour.rating < 2" class="fa fa-star-o"></i>
+                  <i *ngIf="tour.rating >= 2"class="fa fa-star"></i>
+                  <i *ngIf="tour.rating < 3" class="fa fa-star-o"></i>
+                  <i *ngIf="tour.rating >= 3"class="fa fa-star"></i>
+                  <i *ngIf="tour.rating < 4"class="fa fa-star-o"></i>
+                  <i *ngIf="tour.rating >= 4"class="fa fa-star"></i>
+                  <i *ngIf="tour.rating < 5"class="fa fa-star-o"></i>
+                  <i *ngIf="tour.rating === 5"class="fa fa-star"></i>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-6">
+                  <i class="fa fa-map-marker"></i>
+                  <span>{{tour.city.name}}, {{tour.city.country.name}}</span>
+                </div>
+                <div class="col-6">
+                  <i class="fa fa-map-signs"></i>
+                  <span>{{tour.category.name}}</span>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-6">
+                  <i class="fa fa-hourglass-half"></i>
+                  <span>{{tour.duration}} hours</span>
+                </div>
+                <div class="col-6">
+                  <i class="fa fa-train"></i>
+                  <span>{{tour.transport.name}}</span>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-6">
+                  <i class="fa fa-users"></i>
+                  <span>{{tour.max_people}} people</span>
+                </div>
+                <div class="col-6">
+                  <i class="fa fa-dollar"></i>
+                  <span>{{tour.sale_price}}$ <del *ngIf="tour.sale_price !== tour.list_price" class="text-secondary">{{tour.list_price}}$</del></span>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-6">
+                  <i class="fa fa-shopping-cart"></i>
+                  <span>{{tour.number_of_completed_orders}} orders</span>
+                </div>
+                <div class="col-6">
+                  <i class="fa fa-eye"></i>
+                  <span>{{tour.is_shown ? 'Shown' : 'Hidden'}}</span>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-12">
+                  <i class="fa fa-language"></i>
+                  <span>{{tour.languages.sort().join(", ")}}</span>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-12">
+                  <i class="fa fa-location-arrow"></i>
+                  <span>{{tour.meeting_address}}</span>
+                </div>
+              </div>
+              <!-- <div class="row mb-3">
+                <div class="col-12">
+                  <b>Status: </b>
+                  <span *ngIf="tour.status == 0" class="badge badge-secondary">Unpublished</span>
+                  <span *ngIf="tour.status == 1" class="badge badge-danger">Rejected</span>
+                  <span *ngIf="tour.status == 2" class="badge badge-success">Published</span>
+                </div>
+              </div> -->
+            </div>               
+          </div>
+          <br>
+          <div class="row">
+            <div class="form-group col-12">
+              <p>{{tour.description}}</p>
+            </div>                
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <p><b>What's included?</b></p>
+              <ul class="mt-2">
+                <ng-container *ngFor="let toursBenefit of tour.toursBenefits">
+                  <li *ngIf="toursBenefit.is_included" class="mb-2"><i class="fa fa-check mr-2"></i>{{toursBenefit.benefit.name}}</li>
+                </ng-container>
+              </ul>
+              <p><b>What's not included?</b></p>
+              <ul class="mt-2">
+                <ng-container *ngFor="let toursBenefit of tour.toursBenefits">
+                  <li *ngIf="!toursBenefit.is_included" class="mb-2"><i class="fa fa-close mr-2"></i>{{toursBenefit.benefit.name}}</li>
+                </ng-container>
+              </ul>
+            </div>
+            <div class="col-6">
+              <div class="host-card">
+                <div class="avatar-container">
+                  <img src="{{tour.host.avatar}}" class="avatar">
+                </div>
+                <div class="host-information">
+                  <p><b>{{tour.host.user_name}}</b></p>
+                  <p style="margin-top: 5px; margin-bottom: 5px;">{{tour.host.email}}</p>
+                  <p>Languages: {{tour.host.languages}}</p>
+                </div>
+              </div>
+            </div>               
+          </div>
+          <div class="row">
+            <div class="form-group col-12">
+              <p class="mb-3"><b>Plan</b></p>
+              <div *ngFor="let toursPlace of tour.toursPlaces" class="place">
+                <b class="mt-2">{{toursPlace.place_name}}</b>
+                <p>{{toursPlace.description}}</p>
+              </div>
+            </div>                
+          </div>
+          <div class="row">
+            <div class="form-group col-12">
+              <p class="mb-3"><b>Images</b></p>
+            </div>
+          </div>
+          <div class="row">
+            <div *ngFor="let toursImage of toursImages" class="col-xl-2 col-md-3 col-sm-4 tour-image-container" (click)="modalImage.show(); getImage(toursImage.path);">
+                <img src="{{toursImage.path}}" height="130px" width="100%" class="tour-image">
+                <div *ngIf="toursImage.status === 0" class="image-pending"></div>
+                <div *ngIf="toursImage.status === 1" class="image-rejected"></div>
+                <div class="image-button text-right">
+                  <button *ngIf="toursImage.status !== 1" class="btn-danger" style="border-radius: 5px; margin: 0; border: none;" (click)="toursImage.status = 1; updateStatusOfToursImage(toursImage, 1); $event.stopPropagation()"><i class="fa fa-minus-circle"></i></button>
+                  <button *ngIf="toursImage.status !== 2" class="btn-success" style="border-radius: 5px; margin: 0; border: none;" (click)="toursImage.status = 2; updateStatusOfToursImage(toursImage, 2); $event.stopPropagation()"><i class="fa fa-check-circle"></i></button>
+                </div>
+            </div>             
+          </div>
+          <div class="pt-4 d-flex justify-content-center">
+            <button *ngIf="tour.status != 1" class="btn mr-2 btn-pill btn-danger" (click)="tour.new_status = 1; updateStatusOfTour(tour)">
+              Reject
+            </button>
+            <button *ngIf="tour.status == 2 || tour.status == 1" class="btn mr-2 btn-pill btn-primary" (click)="tour.new_status = 0; updateStatusOfTour(tour)">
+              Unpublish
+            </button>
+            <button *ngIf="tour.status == 0 || tour.status == 1" class="btn mr-2 btn-pill btn-success" (click)="tour.new_status = 2; updateStatusOfTour(tour)">
+              Publish
+            </button>
+            <button type="button" class="btn btn-pill btn-light" [routerLink]="['/tour']">
+              Back
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  
+</div>
+<div bsModal #modalImage="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" style="background: none; border: none">
+      <img src="{{imagePath}}" width="100%">
+    </div>
+  </div>
+</div>
+<app-dialog></app-dialog>
+<ngx-spinner [fullScreen]="true" type="ball-clip-rotate-multiple" size="medium"></ngx-spinner>

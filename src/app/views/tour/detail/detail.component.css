@@ -1,0 +1,159 @@
+.label-title {
+  font-size: 15px;
+  border-top: 1px solid #c8ced3;
+  border-left: 1px solid #c8ced3;
+  border-right: 1px solid #c8ced3;
+  padding: 5px;
+  margin: 0;
+  border-radius: 5px 5px 0 0;
+  width: auto;
+  text-align: center;
+  background-color: #2f353a;
+  color: white;
+}
+
+.cover-image-container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.cover-image {
+  width: 100%;
+  /* height: 150px; */
+  overflow: hidden;
+  border-radius: 1%;
+}
+
+.fa {
+  font-size: 16px;
+}
+
+span {
+  margin-left: 5px;
+}
+
+.fa-star-o, .fa-star {
+  font-size: 18px;
+  color: #F7B619;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.place {
+  border-left: 3px solid #63C2DE;
+  padding-left: 15px;
+  padding-bottom: 15px;
+}
+
+.place:before {
+  font-family: "FontAwesome";
+  content: "";
+  width: 16px;
+  height: 16px;
+  background: #63C2DE;
+  border: 3px solid white;
+  border-radius: 100%;
+  display: inline-block;
+  position: absolute;
+  left: 8.6px;
+}
+
+p {
+  margin-bottom: 0;
+}
+
+b {
+  font-size: 16px;
+}
+
+.avatar-container {
+  width: 100px;
+  border-radius: 100%;
+  display: inline-block;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+  overflow: hidden;
+}
+
+.host-card {
+  border: 1px solid rgba(99, 194, 222, 0.8);
+  border-radius: 10px;
+  padding: 15px;
+  position: relative;
+  background-color: rgba(99, 194, 222, 0.8);
+}
+
+.host-information {
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  height: 6em;
+  margin-top: -3em;
+  margin-left: 10px;
+  color: white;
+}
+
+.tour-image-container {
+  padding: 0 5px;
+  margin-bottom: 10px;
+  position: relative;
+  /* width: 100%;
+  height: 130px; */
+}
+
+.image-pending {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% - 10px);
+  height: 100%;
+  color: #FFF;
+  display: block;
+  background-color: rgba(0, 0, 0, .6);
+  border-radius: 5px;
+  margin: 0 5px;
+}
+
+.image-rejected {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% - 10px);
+  height: 100%;
+  color: #FFF;
+  display: block;
+  background-color: rgba(241, 100, 100, 0.6);
+  border-radius: 5px;
+  margin: 0 5px;
+}
+
+.image-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% - 10px);
+  height: 100%;
+  color: #FFF;
+  display: none;
+  /* background-color: rgba(0, 0, 0, .6); */
+  border-radius: 5px;
+  /* padding: 0 5px; */
+  margin: 0 5px;
+}
+
+.tour-image-container:hover .image-button {
+  display: block;
+  background-color: rgba(0, 0, 0, .6);
+}
+
+.tour-image {
+  border-radius: 5px;
+  object-fit: cover;
+}

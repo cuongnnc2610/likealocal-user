@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+<head>
+  <base href="./">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="shortcut icon" href="assets/favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500&display=swap" rel="stylesheet">
+
+  <!-- Google Fonts -->
+  <link href="assets/fonts.googleapis.com/cssf44d.css?family=Lato&amp;display=swap" rel="stylesheet">
+  <link href="assets/fonts.googleapis.com/css47ae.css?family=Rubik:300,400,500,700,900&amp;display=swap" rel="stylesheet">
+
+  <!-- CSS Implementing Plugins -->
+  <link rel="stylesheet" href="assets/vendor/font-awesome/css/fontawesome-all.min.css">
+  <link rel="stylesheet" href="assets/css/font-mytravel.css">
+  <link rel="stylesheet" href="assets/vendor/animate.css/animate.min.css">
+  <link rel="stylesheet" href="assets/vendor/hs-megamenu/src/hs.megamenu.css">
+  <link rel="stylesheet" href="assets/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css">
+  <link rel="stylesheet" href="assets/vendor/flatpickr/dist/flatpickr.min.css">
+  <link rel="stylesheet" href="assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css">
+  <link rel="stylesheet" href="assets/vendor/slick-carousel/slick/slick.css">
+
+  <!-- CSS MyTravel Template -->
+  <link rel="stylesheet" href="assets/css/theme.css">
+
+  <!-- <script src="https://cdn.ckeditor.com/4.9.2/full-all/ckeditor.js"></script>
+  <script> CKEDITOR.config.forcePasteAsPlainText = true; </script> -->
+
+	<title>Like A Local</title>
+</head>
+<body class="app">
+  <!-- JS Global Compulsory -->
+  <script src="assets/vendor/jquery/dist/jquery.min.js"></script>
+  <script src="assets/vendor/jquery-migrate/dist/jquery-migrate.min.js"></script>
+  <script src="assets/vendor/popper.js/dist/umd/popper.min.js"></script>
+  <script src="assets/vendor/bootstrap/bootstrap.min.js"></script>
+
+  <!-- JS Implementing Plugins -->
+  <script src="assets/vendor/hs-megamenu/src/hs.megamenu.js"></script>
+  <script src="assets/vendor/jquery-validation/dist/jquery.validate.min.js"></script>
+  <script src="assets/vendor/flatpickr/dist/flatpickr.min.js"></script>
+  <script src="assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+  <script src="assets/vendor/slick-carousel/slick/slick.js"></script>
+  <script src="assets/vendor/gmaps/gmaps.min.js"></script>
+  <script src="assets/vendor/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
+  <script src="assets/vendor/player.js/dist/player.min.js"></script>
+  <script src="assets/vendor/svg-injector/dist/svg-injector.min.js"></script>
+  <script src="assets/vendor/fancybox/jquery.fancybox.min.js"></script>
+
+  <!-- JS MyTravel -->
+  <script src="assets/js/hs.core.js"></script>
+  <script src="assets/js/components/hs.header.js"></script>
+  <script src="assets/js/components/hs.unfold.js"></script>
+  <script src="assets/js/components/hs.validation.js"></script>
+  <script src="assets/js/components/hs.show-animation.js"></script>
+  <script src="assets/js/components/hs.range-datepicker.js"></script>
+  <script src="assets/js/components/hs.selectpicker.js"></script>
+  <script src="assets/js/components/hs.go-to.js"></script>
+  <script src="assets/js/components/hs.slick-carousel.js"></script>
+  <script src="assets/js/components/hs.quantity-counter.js"></script>
+  <script src="assets/js/components/hs.g-map.js"></script>
+  <script src="assets/js/components/hs.video-player.js"></script>
+  <script src="assets/js/components/hs.svg-injector.js"></script>
+  <script src="assets/js/components/hs.fancybox.js"></script>
+
+  <!-- JS Plugins Init. -->
+  <script>
+      $(window).on('load', function () {
+          // initialization of HSMegaMenu component
+          $('.js-mega-menu').HSMegaMenu({
+              event: 'hover',
+              pageContainer: $('.container'),
+              breakpoint: 1199.98,
+              hideTimeOut: 0
+          });
+
+          // Page preloader
+          setTimeout(function() {
+            $('#jsPreloader').fadeOut(500)
+          }, 800);
+      });
+
+      $(document).on('ready', function () {
+          // initialization of header
+          $.HSCore.components.HSHeader.init($('#header'));
+
+          // initialization of unfold component
+          $.HSCore.components.HSUnfold.init($('[data-unfold-target]'));
+
+          // initialization of show animations
+          $.HSCore.components.HSShowAnimation.init('.js-animation-link');
+
+          // initialization of datepicker
+          $.HSCore.components.HSRangeDatepicker.init('.js-range-datepicker');
+
+          // initialization of select
+          $.HSCore.components.HSSelectPicker.init('.js-select');
+
+          // initialization of quantity counter
+          $.HSCore.components.HSQantityCounter.init('.js-quantity');
+
+          // initialization of slick carousel
+          $.HSCore.components.HSSlickCarousel.init('.js-slick-carousel');
+
+          // initialization of go to
+          $.HSCore.components.HSGoTo.init('.js-go-to');
+      });
+  </script>
+  <!-- <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyCuY6I4hZQvxo5RqCH7kogGKzcrjetRKQI&callback=initMap" async defer></script> -->
+</body>
+</html>

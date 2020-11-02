@@ -1,0 +1,172 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-8"></div>
+            <div class="col-md-4">
+              <div class="text-right">
+                <button type="button" class="btn btn-pill btn-primary" data-toggle="modal"
+                  (click)="clearAddCategoryForm(); modalAddCategory.show();">
+                  {{'COMMON.BUTTON.BTN_ADD' | translate}}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <form [formGroup]="searchInputForm" (ngSubmit)="spinner.show(); getCategories()">
+            <div class="row">
+              <div class="form-group col-xl-12 col-md-12 col-sm-12">
+                <label for="code">Name</label>
+                <input class="form-control" id="name" type="text" name="name" formControlName="name" />
+              </div>
+            </div>
+          </form>
+
+          <br />
+
+          <div class="table-responsive">
+            <table class="table table-hover table-striped">
+              <thead>
+                <tr>
+                  <th style="width: 50px; min-width: 50px;">No</th>
+                  <th style="width: 120px; min-width: 120px;">Name<i class="fa fa-sort ml-2" (click)="changeOrderType(3)"></i></th>
+                  <th style="width: 120px; min-width: 120px;">Number of tours<i class="fa fa-sort ml-2" (click)="changeOrderType(5)"></i></th>
+                  <th style="width: 100px; min-width: 100px;">Date<i class="fa fa-sort ml-2" (click)="changeOrderType(1)"></i></th>
+                  <th style="width: 120px; min-width: 120px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let category of categories; let i = index">
+                  <td style="width: 50px; min-width: 50px;">{{ from + i + 1 }}</td>
+                  <td style="width: 120px; min-width: 120px;">{{ category.name }}</td>
+                  <td style="width: 120px; min-width: 120px;">{{ category.tours.length }}</td>
+                  <td style="width: 100px; min-width: 100px;">{{ category.createdAt | date:'dd/MM/yyyy' }}</td>
+                  <td style="width: 120px; min-width: 120px;">
+                    <button type="button" class="btn btn-sm btn-circle btn-warning" data-toggle="modal"
+                      (click)="modalEditCategory.show(); getCategory(category);">
+                      <i class="fa fa-pencil" style="color: white"></i>
+                    </button>                    
+                    <button type="button" class="btn btn-sm btn-circle btn-danger"
+                      (click)="modalConfirmRemoveCategory.show(); getCategory(category);">
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr *ngIf="!categories?.length" class="text-center">
+                  <td colspan="5">{{'COMMON.TABLE.NO_DATA' | translate}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+</div>
+
+<div bsModal #modalConfirmRemoveCategory="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+  <div style="max-width: 500px !important;" class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="mx-4 mt-5 mb-4 text-center">
+        <span class="modal-title">Are you sure you want to delete this category?</span>
+        <p style="color: #888; font-size: 1rem; text-align: center;">(All tours in this category will be changed to Other)</p>
+        <div class="pt-4 d-flex justify-content-center">
+          <button type="button" class="width-btn btn mr-2  btn-pill btn-danger" (click)="deleteCategory()">
+            {{'COMMON.BUTTON.BTN_DELETE' | translate}}
+          </button>
+          <button type="button" class="width-btn btn  btn-pill btn-light" (click)="modalConfirmRemoveCategory.hide()">
+            {{'COMMON.BUTTON.BTN_CANCEL' | translate}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #modalAddCategory="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div style="max-width: 800px !important;" class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form [formGroup]="addCategoryForm" (ngSubmit)="createCategory()">
+        <div class="mx-4 mt-5 mb-4">
+          <div class="col-12">
+            <div class="row">
+              <h3 style="margin: -25px 0 20px 15px;">Add Category</h3>
+              <div class="form-group col-12 has-error">
+                <label for="street">Name <span class="asterisk">*</span></label>
+                <input type="text" class="form-control" formControlName="name">
+                <div [style.visibility]="isAddCategorySubmitted ||
+                (addCategoryForm.get('name').invalid && addCategoryForm.get('name').touched) ||
+                addCategoryForm.get('name').dirty ? 'visible' : 'hidden'" class="error-message">
+                  <small *ngIf="addCategoryForm.get('name').errors?.required" class="help-block text-danger">
+                    Please enter the name
+                  </small>
+                  <small *ngIf="addCategoryForm.get('name').errors?.maxlength" class="help-block text-danger">
+                    The name cannot be more than 255 characters
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-4 d-flex justify-content-center">
+            <button type="submit" class="btn mr-2 btn-pill btn-primary">
+              {{'COMMON.BUTTON.BTN_ADD'|  translate}}
+            </button>
+            <button type="button" class="btn btn-pill btn-light" (click)="modalAddCategory.hide(); clearAddCategoryForm();">
+              {{'COMMON.BUTTON.BTN_CANCEL'|  translate}}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div bsModal #modalEditCategory="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div style="max-width: 800px !important;" class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form [formGroup]="editCategoryForm" (ngSubmit)="editCategory()">
+        <div class="mx-4 mt-5 mb-4">
+
+          <div class="col-12">
+            <div class="row">
+              <h3 style="margin: -25px 0 20px 15px;">Edit Category</h3>
+              <div class="form-group col-12 has-error">
+                <label for="street">Name <span class="asterisk">*</span></label>
+                <input type="text" class="form-control" formControlName="name">
+                <div [style.visibility]="isEditCategorySubmitted ||
+                  (editCategoryForm.get('name').invalid && editCategoryForm.get('name').touched) ||
+                  editCategoryForm.get('name').dirty ? 'visible' : 'hidden'" class="error-message">
+                  <small *ngIf="editCategoryForm.get('name').errors?.required" class="help-block text-danger">
+                    Please enter the name
+                  </small>
+                  <small *ngIf="editCategoryForm.get('name').errors?.maxlength" class="help-block text-danger">
+                    The name cannot be more than 255 characters
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-4 d-flex justify-content-center">
+            <button type="submit" class="btn mr-2 btn-pill btn-success">
+              {{'COMMON.BUTTON.BTN_UPDATE'|  translate}}
+            </button>
+            <button type="button" class="btn btn-pill btn-light" (click)="modalEditCategory.hide(); clearEditCategoryForm();">
+              {{'COMMON.BUTTON.BTN_CANCEL'|  translate}}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<app-dialog></app-dialog>
+<ngx-spinner [fullScreen]="true" type="ball-clip-rotate-multiple" size="medium"></ngx-spinner>

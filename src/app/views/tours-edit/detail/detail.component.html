@@ -1,0 +1,115 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="grid-container col-12">
+              <div style="background-color: lightblue;">
+                <div class="cover-image-container">
+                  <img src="{{tour.cover_image}}" class="cover-image">
+                </div>
+                <div class="row mt-3 mb-3">
+                  <div class="col-12">
+                    <b>{{tour.name}}</b>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-6">
+                    <i class="fa fa-map-marker"></i>
+                    <span>{{tour.city.name}}, {{tour.city.country.name}}</span>
+                  </div>
+                  <div class="col-6">
+                    <i class="fa fa-map-signs"></i>
+                    <span>{{tour.category.name}}</span>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-6">
+                    <i class="fa fa-hourglass-half"></i>
+                    <span>{{tour.duration}} hours</span>
+                  </div>
+                  <div class="col-6">
+                    <i class="fa fa-train"></i>
+                    <span>{{tour.transport.name}}</span>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-12">
+                    <i class="fa fa-location-arrow"></i>
+                    <span>{{tour.meeting_address}}</span>
+                  </div>
+                </div>
+                <p><b>Description</b></p>
+                <p>{{tour.description}}</p>
+                <br>
+                <p class="mb-3"><b>Plan</b></p>
+                <div *ngFor="let toursPlace of tour.toursPlaces">
+                  <li style="margin-right: 5px"><b class="mt-2">{{toursPlace.place_name}}</b></li>
+                  <p>{{toursPlace.description}}</p>
+                </div>
+              </div>  
+              <div style="background-color: lightcoral;">
+                <div class="cover-image-container">
+                  <img src="{{toursEdit.cover_image}}" class="cover-image">
+                </div>
+                <div class="row mt-3 mb-3">
+                  <div class="col-12">
+                    <b>{{toursEdit.name}}</b>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-6">
+                    <i class="fa fa-map-marker"></i>
+                    <span>{{toursEdit.city.name}}, {{toursEdit.city.country.name}}</span>
+                  </div>
+                  <div class="col-6">
+                    <i class="fa fa-map-signs"></i>
+                    <span>{{toursEdit.category.name}}</span>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-6">
+                    <i class="fa fa-hourglass-half"></i>
+                    <span>{{toursEdit.duration}} hours</span>
+                  </div>
+                  <div class="col-6">
+                    <i class="fa fa-train"></i>
+                    <span>{{toursEdit.transport.name}}</span>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-12">
+                    <i class="fa fa-location-arrow"></i>
+                    <span>{{toursEdit.meeting_address}}</span>
+                  </div>
+                </div>
+                <p><b>Description</b></p>
+                <p>{{toursEdit.description}}</p>
+                <br>
+                <p class="mb-3"><b>Plan</b></p>
+                <div *ngFor="let toursPlace of toursEdit.toursPlaces">
+                  <li style="margin-right: 5px"><b class="mt-2">{{toursPlace.place_name}}</b></li>
+                  <p>{{toursPlace.description}}</p>
+                </div>
+              </div>
+            </div>             
+          </div>
+          <div class="pt-4 d-flex justify-content-center">
+            <button *ngIf="toursEdit.status === 0" class="btn mr-2 btn-pill btn-danger" (click)="rejectToursEdit(toursEdit)">
+              Reject
+            </button>
+            <button *ngIf="toursEdit.status === 0" class="btn mr-2 btn-pill btn-success" (click)="approveToursEdit(toursEdit)">
+              Approve
+            </button>
+            <button type="button" class="btn btn-pill btn-light" [routerLink]="['/tours-edit']">
+              Back
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  
+</div>
+<app-dialog></app-dialog>
+<ngx-spinner [fullScreen]="true" type="ball-clip-rotate-multiple" size="medium"></ngx-spinner>

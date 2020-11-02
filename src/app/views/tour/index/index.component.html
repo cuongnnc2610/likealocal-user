@@ -1,0 +1,301 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <form [formGroup]="searchInputForm" (ngSubmit)="spinner.show(); getToursByFilter();">
+            <div class="row">
+              <div class="form-group col-xl-6 col-md-6 col-sm-12">
+                <label for="code">Name</label>
+                <input class="form-control" id="name" type="text" name="name" formControlName="name" (keyup.enter)="spinner.show(); getToursByFilter();" />
+              </div> 
+              <div class="form-group col-xl-6 col-md-6 col-sm-12">
+                <label for="code">Host</label>
+                <input class="form-control" id="host_name" type="text" name="host_name" formControlName="host_name" (keyup.enter)="spinner.show(); getToursByFilter();"/>
+              </div> 
+              
+            </div>
+            <div class="row">
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="code">Category</label>
+                <select class="form-control" name="category_id" formControlName="category_id" (change)="spinner.show();  getToursByFilter()">
+                  <option *ngFor="let category of categories" [value]="category.category_id">{{category.name}}</option>
+                </select>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="code">Transport</label>
+                <select class="form-control" name="transport_id" formControlName="transport_id" (change)="spinner.show(); getToursByFilter()">
+                  <option *ngFor="let transport of transports" [value]="transport.transport_id">{{transport.name}}</option>
+                </select>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="code">Country</label>
+                <select class="form-control" name="country_id" formControlName="country_id" (change)="spinner.show(); getCities(country_id); getToursByFilter()">
+                  <option *ngFor="let country of countries" [value]="country.country_id">{{country.name}}</option>
+                </select>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="code">City</label>
+                <select class="form-control" name="city_id" formControlName="city_id" (change)="spinner.show(); getToursByFilter()" disabled>
+                  <option *ngFor="let city of cities" [value]="city.city_id">{{city.name}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="code">Status</label>
+                <select class="form-control" name="status" formControlName="status" (change)="spinner.show();  getToursByFilter()">
+                  <option *ngFor="let status of statusOptions" [value]="status.value">{{status.name}}</option>
+                </select>
+              </div>
+            </div>
+          </form>
+          <br />
+
+          <div class="table-responsive">
+            <table class="table table-hover table-striped">
+              <thead>
+                <tr>
+                  <th style="width: 50px; min-width: 50px;">No</th>
+                  <th style="width: 150px; max-width: 150px; min-width: 100px;">Name<i class="fa fa-sort ml-2" (click)="changeOrderType(3)"></i></th>
+                  <th style="width: 100px; min-width: 100px;">Category</th>
+                  <th style="width: 100px; min-width: 100px;">Transport</th>
+                  <th style="width: 120px; min-width: 120px;">Destination</th>
+                  <th style="width: 80px; min-width: 80px;">Price<i class="fa fa-sort ml-2" (click)="changeOrderType(7)"></i></th>
+                  <th style="width: 80px; min-width: 80px;">Host</th>
+                  <th style="width: 90px; min-width: 90px;">Rating<i class="fa fa-sort ml-2" (click)="changeOrderType(13)"></i></th>
+                  <th style="width: 100px; min-width: 100px;">Orders<i class="fa fa-sort ml-2" (click)="changeOrderType(15)"></i></th>
+                  <th style="width: 100px; min-width: 100px;">Date<i class="fa fa-sort ml-2" (click)="changeOrderType(1)"></i></th>
+                  <th style="width: 100px; min-width: 100px;">Status<i class="fa fa-sort ml-2" (click)="changeOrderType(17)"></i></th>
+                  <th style="width: 120px; min-width: 120px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let tour of tours; let i = index">
+                  <td style="width: 50px; min-width: 50px;">{{ from + i }}</td>
+                  <td style="width: 150px; max-width: 150px; min-width: 100px;">{{ tour.name }}</td>
+                  <td style="width: 100px; min-width: 100px;">{{ tour.category.name }}</td>
+                  <td style="width: 100px; min-width: 100px;">{{ tour.transport.name }}</td>
+                  <td style="width: 120px; min-width: 120px;">{{ tour.city.name }}, {{ tour.city.country.name }}</td>
+                  <td style="width: 80px; min-width: 80px;">{{ tour.sale_price }}$</td>
+                  <td style="width: 80px; min-width: 80px;">{{ tour.host.user_name }}</td>
+                  <td style="width: 90px; min-width: 90px;">{{ tour.rating.toFixed(1) }}</td>
+                  <td style="width: 100px; min-width: 100px;">{{ tour.number_of_completed_orders }}</td>
+                  <td style="width: 100px; min-width: 100px;">{{ tour.createdAt | date:'dd/MM/yyyy' }}</td>
+                  <td style="width: 100px; min-width: 100px;">
+                    <span *ngIf="tour.status == 0" class="badge badge-secondary">Unpublished</span>
+                    <span *ngIf="tour.status == 1" class="badge badge-danger">Rejected</span>
+                    <span *ngIf="tour.status == 2" class="badge badge-success">Published</span>
+                  </td>
+                  <td style="width: 120px; min-width: 120px;">
+                    <!-- <button type="button" class="btn btn-sm btn-circle btn-warning" data-toggle="modal"
+                      (click)="modalEditTour.show();">
+                      <i class="fa fa-pencil" style="color: white"></i>
+                    </button> -->
+                    <button type="button" class="btn btn-sm btn-circle btn-primary"
+                    [routerLink]="['/tour/detail']" [queryParams]="{tour_id: tour.tour_id}">                      
+                      <i class="fa fa-book" style="color: white"></i>
+                    </button>                 
+                    <!-- <button type="button" class="btn btn-sm btn-circle btn-danger"
+                      (click)="modalConfirmRemoveTour.show(); getTour(tour.tour_id);">
+                      <i class="fa fa-trash"></i>
+                    </button> -->
+                  </td>
+                </tr>
+                <tr *ngIf="!tours?.length" class="text-center">
+                  <td colspan="12">{{'COMMON.TABLE.NO_DATA' | translate}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div *ngIf="tours.length">
+              <ngb-pagination [collectionSize]="total" [(page)]="page" [rotate]="true" [pageSize]="pageSize"
+                [maxSize]="5" (pageChange)="currentPage(page)">
+                <ng-template ngbPaginationPrevious>{{'COMMON.BUTTON.BTN_PRE' | translate}}</ng-template>
+                <ng-template ngbPaginationNext>{{'COMMON.BUTTON.BTN_NEXT' | translate}}</ng-template>
+                <ng-template ngbPaginationEllipsis>...</ng-template>
+              </ngb-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+</div>
+
+<!-- <div bsModal #modalConfirmRemoveTour="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+  <div style="max-width: 500px !important;" class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="mx-4 mt-5 mb-4 text-center">
+        <span class="modal-title">Are you sure you want to delete this coupon?</span>
+        <div class="pt-4 d-flex justify-content-center">
+          <button type="button" class="width-btn btn mr-2  btn-pill btn-danger" (click)="deleteCoupon()">
+            {{'COMMON.BUTTON.BTN_DELETE' | translate}}
+          </button>
+          <button type="button" class="width-btn btn  btn-pill btn-light" (click)="modalConfirmRemoveTour.hide()">
+            {{'COMMON.BUTTON.BTN_CANCEL' | translate}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div bsModal #modalEditTour="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div style="max-width: 1200px !important;" class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form>
+        <div class="mx-4 mt-5 mb-4">
+          <!-- <div class="col-12"> -->
+            <div class="row">
+              <h3 style="margin: -25px 0 20px 15px;">Update Status Tour</h3>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <!-- <h3 style="margin: -25px 0 20px 15px;">Update Status Tour</h3> -->
+                  <div class="form-group col-12 has-error">
+                    <label for="street">Name</label>
+                    <input type="text" class="form-control" value="{{tour.name}}" disabled>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-12 has-error">
+                    <label for="street">Description</label>
+                    <textarea type="text" rows="4" class="form-control" value="{{tour.description}}" disabled></textarea>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-6 has-error">
+                    <label for="street">City</label>
+                    <input type="text" class="form-control" value="{{tour.city.name}}" disabled>
+                  </div>
+                  <div class="form-group col-6 has-error">
+                    <label for="street">Country</label>
+                    <input type="text" class="form-control" value="{{tour.city.country.name}}" disabled>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-6 has-error">
+                    <label for="street">Category</label>
+                    <input type="text" class="form-control" value="{{tour.category.name}}" disabled>
+                  </div>
+                  <div class="form-group col-6 has-error">
+                    <label for="street">Transport</label>
+                    <input type="text" class="form-control" value="{{tour.transport.name}}" disabled>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-6 has-error">
+                    <label for="street">Duration</label>
+                    <input type="text" class="form-control" value="{{tour.duration}}h" disabled>
+                  </div>
+                  <div class="form-group col-6 has-error">
+                    <label for="street">Max people</label>
+                    <input type="text" class="form-control" value="{{tour.max_people}}" disabled>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-6 has-error">
+                    <label for="street">List price</label>
+                    <input type="text" class="form-control" value="{{tour.list_price}}$" disabled>
+                  </div>
+                  <div class="form-group col-6 has-error">
+                    <label for="street">Sale price</label>
+                    <input type="text" class="form-control" value="{{tour.sale_price}}$" disabled>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-6 has-error">
+                    <label for="street">Rating</label>
+                    <input type="text" class="form-control" value="{{tour.rating}}" disabled>
+                  </div>
+                  <div class="form-group col-6 has-error">
+                    <label for="street">Completed Orders</label>
+                    <input type="text" class="form-control" value="{{tour.number_of_completed_orders}}" disabled>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-6 has-error">
+                    <label for="street">Host Email</label>
+                    <input type="text" class="form-control" value="{{tour.host.email}}" disabled>
+                  </div>
+                  <div class="form-group col-6 has-error">
+                    <label for="street">Shown</label>
+                    <input type="text" class="form-control" value="{{tour.is_shown ? 'Yes' : 'No'}}" disabled>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-12 has-error">
+                    <label for="street">Meeting Address</label>
+                    <textarea type="text" rows="2" class="form-control" value="{{tour.meeting_address}}" disabled></textarea>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-12 has-error">
+                    <label for="street">Cover Image</label><br>
+                  </div>
+                  <div class="form-group col-12 has-error text-center">
+                    <img src="https://cdn.britannica.com/67/19367-050-885866B4/Valley-Taurus-Mountains-Turkey.jpg" height=200px>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-12 has-error">
+                    <label for="street">Status</label>
+                    <input type="text" class="form-control" value="{{tour.status == 2 ? 'Published' : tour.status == 1 ? 'Rejected' : 'Unpublished'}}" disabled>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <div class="form-group col-12">
+                    <label for="street">Plan</label>
+                    <div *ngFor="let toursPlace of tour.toursPlaces">
+                      <h4>{{toursPlace.place_name}}</h4>
+                      <p>{{toursPlace.description}}</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="form-group col-12 has-error">
+                    <label for="street">Cover Image</label><br>
+                  </div>
+                  <div class="form-group col-12 has-error text-center">
+                    <img src="https://cdn.britannica.com/67/19367-050-885866B4/Valley-Taurus-Mountains-Turkey.jpg" height=200px>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-12 has-error">
+                    <label for="street">Status</label>
+                    <input type="text" class="form-control" value="{{tour.status == 2 ? 'Published' : tour.status == 1 ? 'Rejected' : 'Unpublished'}}" disabled>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <!-- </div> -->
+
+          <div class="pt-4 d-flex justify-content-center">
+            <button *ngIf="tour.status != 1" class="btn mr-2 btn-pill btn-danger" (click)="tour.new_status = 1; updateStatusOfTour(tour)">
+              Reject
+            </button>
+            <button *ngIf="tour.status == 2 || tour.status == 1" class="btn mr-2 btn-pill btn-primary" (click)="tour.new_status = 0; updateStatusOfTour(tour)">
+              Unpublish
+            </button>
+            <button *ngIf="tour.status == 0 || tour.status == 1" class="btn mr-2 btn-pill btn-success" (click)="tour.new_status = 2; updateStatusOfTour(tour)">
+              Publish
+            </button>
+            <button type="button" class="btn btn-pill btn-light" (click)="modalEditTour.hide();">
+              {{'COMMON.BUTTON.BTN_CANCEL'|  translate}}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<app-dialog></app-dialog>
+<ngx-spinner [fullScreen]="true" type="ball-clip-rotate-multiple" size="medium"></ngx-spinner>

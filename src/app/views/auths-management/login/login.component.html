@@ -1,0 +1,88 @@
+<div className="container-fluid">
+  <div class="row no-gutter bg-image">
+    <div class="col-5 offset-1 d-flex flex-column justify-content-center align-items-center">
+      <img src="https://www.likealocalguide.com/static/fraktal/assets/logo2.svg" alt="" style="transform: scale(2);" />
+      <br />
+      <!-- <h4 class="ml-5" style="color: white;">
+        {{"LOGIN.TITLE" | translate}}
+      </h4> -->
+    </div>
+
+    <div class="col-md-8 col-lg-6">
+      <!-- btn-language -->
+      <!--      <button class="btn btn-language float-right" (click)="switchLang()">-->
+      <!--        <i class="fa fa-language"> </i>-->
+      <!--        <br />{{ "COMMON.BUTTON.BTN_ML" | translate }}-->
+      <!--      </button>-->
+      <!-- btn language -->
+      <div class="login d-flex align-items-center py-5">
+        <div class="container">
+          <div class="row border-left">
+            <div class="col-md-9 col-lg-8 mx-auto bg-opacity">
+              <div class="icon-header">
+                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+              </div>
+
+              <form class="container" [formGroup]="userEmail" (ngSubmit)="onSubmit()">
+                <div class="text-center required-text">
+                  <div *ngIf="showError && (codeResponse === 'C013'|| codeResponse === 'C012')">
+                    {{"LOGIN.FORM_LOGIN.VALIDATE_FORM.COMMON.REQUIRE" | translate}}
+                  </div>
+                </div>
+
+                <br>
+
+                <div class="form-label-group">
+                  <input type="email" id="inputEmail" class="form-control" placeholder="Email address"
+                    formControlName="username" required
+                    [class.is-invalid]="userEmail.get('username').invalid && userEmail.get('username').touched" />
+                  <div class="required-text">
+
+                    <div *ngIf="isLoginSubmitted || (primEmail.invalid && primEmail.touched) || primEmail.dirty">
+                      <div *ngIf="primEmail.errors?.required">
+                        {{"LOGIN.FORM_LOGIN.VALIDATE_FORM.EMAIL.REQUIRE" | translate}}
+                      </div>
+                      <div *ngIf="primEmail.errors?.pattern && !primEmail.errors?.maxlength">
+                        {{"LOGIN.FORM_LOGIN.VALIDATE_FORM.EMAIL.PATTERN" | translate}}
+                      </div>
+                      <div *ngIf="primEmail.errors?.maxlength">
+                        {{"LOGIN.FORM_LOGIN.VALIDATE_FORM.EMAIL.MAX" | translate}}
+                      </div>
+                    </div>
+                  </div>
+                  <label for="inputEmail">{{"LOGIN.FORM_LOGIN.EMAIL" | translate}}</label>
+                </div>
+
+                <div class="form-label-group">
+                  <input type="password" id="inputPassword" class="form-control" placeholder="Password"
+                    formControlName="password" required
+                    [class.is-invalid]="userEmail.get('password').invalid && userEmail.get('password').touched" />
+
+                  <div class="required-text">
+                    <div *ngIf="isLoginSubmitted || (validPass.invalid && validPass.touched) || validPass.dirty">
+                      <div *ngIf="validPass.errors?.required">
+                        {{"LOGIN.FORM_LOGIN.VALIDATE_FORM.PASSWORD.REQUIRE" | translate}}
+                      </div>
+                      <div *ngIf="validPass.errors?.minlength || validPass.errors?.maxlength">
+                        {{"LOGIN.FORM_LOGIN.VALIDATE_FORM.PASSWORD.MAX" | translate}}
+                      </div>
+                    </div>
+                  </div>
+                  <label for="inputPassword">{{"LOGIN.FORM_LOGIN.PASSWORD" | translate}}</label>
+                </div>
+                <!-- /INPUT PASSWORD -->
+
+                <button class="btn btn-lg btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">
+                  {{"LOGIN.FORM_LOGIN.BTN_LOGIN" | translate}}
+                </button>
+                <div class="text-center">
+                  <a class="small" href="/#/email-input">{{'LOGIN.FORM_LOGIN.BTN_FORWARD_PASSWORD' | translate}}</a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

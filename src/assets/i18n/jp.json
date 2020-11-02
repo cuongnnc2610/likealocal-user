@@ -1,0 +1,201 @@
+{
+  "COMMON": {
+    "BUTTON":{
+      "BTN_ML": "日本語",
+      "BTN_LOGOUT":"ログアウト",
+      "BTN_PRE":"前",
+      "BTN_NEXT": "次",
+      "BTN_DETAIL":"詳細",
+      "BTN_EDIT":"編集",
+      "BTN_DELETE":"削除",
+      "BTN_SEARCH":"検索",
+      "BTN_CLEAR":"クリア"
+    }
+  },
+  "LOGIN": {
+    "BTN_MULTI_LANGUAGE": "日本語",
+    "TITLE": "パーツ購入サイト",
+    "FORM_LOGIN": {
+      "EMAIL": "メールアドレス",
+      "PASSWORD": "パスワード",
+      "BTN_LOGIN": "ログイン",
+      "BTN_FORWARD_PASSWORD": "パスワードを忘れた方はこちら",
+      "VALIDATE_FORM": {
+        "EMAIL": {
+          "T1": "メールアドレスをご入力下さい",
+          "T2": "有効なメールアドレスを入力してください"
+        },
+        "PASSWORD": {
+          "T1": "パスワードをご入力ください"
+        },
+        "COMMON": {
+          "T1": "ユーザーネームまたはパスワードが違います。"
+        }
+      }
+    }
+  },
+  "EMAIL_INPUT": {
+    "HEADER_TEXT": "パスワードをお忘れの場合",
+    "TITlE": {
+      "TITLE_SEND_MAIL": "※パスワード再設定用URLを送信しますので、ご登録いただいているメールアドレスを入力し、「送信」ボタンをクリックしてください。",
+      "TITLE_CONFIRM_EMAIL": "※メールを送信しました"
+    },
+    "EMAIL": "メールアドレス",
+    "BTN_SEND": "送信",
+    "BTN_LOGIN": "ログイン",
+    "VALIDATE_FORM": {
+      "EMAIL": {
+        "T1": "メールアドレスをご入力下さい",
+        "T2": "有効なメールアドレスを入力してください",
+        "T3":"メールアドレスは64文字以内でご入力ください",
+        "T4": "メールアドレスが登録されていません"
+      }
+    }
+  },
+  "PRODUCT": {
+    "PRODUCT_CODE":"Product code",
+    "PRODUCT_NAME":"Product name",
+    "IMAGE":"Image",
+    "PRODUCT_TABLE":{
+      "NO":"NO."
+    },
+    "FORM_PRODUCT": {
+      "TITLE_ADD":"Product add",
+      "TITLE_EDIT":"Product edit",
+      "MESSAGE":{
+        "FAIL":{
+          "PRODUCT_CODE":{
+            "M1":"Please enter the group part code",
+            "M2":"The group part code must be alphanumeric characters",
+            "M3":"The group part cannot be more than 20 characters",
+            "M4":"The group part code you have entered is already exists."
+          },
+          "PRODUCT_NAME":{
+            "M1":"Please enter the part name"
+          },
+          "PRODUCT_IMAGE":{
+            "M1":"Please choose PNG or JPG image file"
+          }
+        },
+        "SUCCESS":{
+          "ADD_CODE":"The group part has been added",
+          "EDIT_CODE":"The group part has been edited",
+          "DELETE_PRODUCT":"The group part has been deleted"
+        },
+        "CONFIRM":{
+          "DELETE_PRODUCT":"Are you sure you want to delete this part ?「Cancel」「Delete」"
+        }
+      }
+    }
+  },
+  "USER": {
+    "TITLE": "ユーザ管理",
+    "SEARCH":{
+      "NAME": "ユーザ名",
+      "EMAIL": "メールアドレス",
+      "PHONE_NUMBER": "電話番号"
+    },
+    "USER_MANAGE":{
+      "BTN_ADD_USER":"追加",
+      "BTN_EDIT_USER":"編集",
+      "USER_TABLE":{
+        "NO":"No.",
+        "NAME":"ユーザ名",
+        "ADDRESS":"住所",
+        "EMAIL":"メールアドレス",
+        "PHONE_NUMBER":"電話番号",
+        "POSTAL_CODE":"郵便番号",
+        "ROLE": {
+          "TITLE": "役割",
+          "ROLE_USER": "ユーザー",
+          "ROLE_ADMIN": "管理者"
+        },
+        "COMPANY": "会社名",
+        "COUNTRY": "国"
+      }
+    },
+    "VALIDATE_FORM":{
+      "EMAIL": {
+        "T1": "メールアドレスをご入力ください",
+        "T2": "有効なメールアドレスをご入力ください",
+        "T3": "入力したメールアドレスが既に登録されています"
+      },
+      "NAME": {
+        "T1":"名称をご入力ください"
+      },
+      "PHONE_NUMBER":{
+        "T1":"電話番号をご入力ください",
+        "T2": "電話番号は9文字以上15文字以内でご入力ください",
+        "T3": "Please enter a valid phone number"
+      },
+      "POSTAL_CODE":{
+        "T1":"Please enter the postal code",
+        "T2": "The postal code must be from 3 to 10 characters long"
+      },
+      "ADDRESS": {
+        "T1":"Please enter your address"
+      }
+    }
+  },
+  "USER_PAYMENT_ADDRESS": {
+    "USER_PAYMENT_ADDRESS_MANAGE":{
+      "BTN_ADD_USER_PAYMENT_ADDRESS":"Add User Payment Address",
+      "BTN_EDIT_USER_PAYMENT_ADDRESS":"Edit User Payment Address",
+      "USER_PAYMENT_ADDRESS_TABLE":{
+        "NO":"No.",
+        "NAME":"ユーザ名",
+        "ADDRESS":"住所",
+        "PHONE_NUMBER":"電話番号",
+        "POSTAL_CODE":"郵便番号",
+        "COUNTRY": "Country"
+      },
+      "VALIDATE_FORM":{
+        "NAME": {
+          "T1":"名称をご入力ください"
+        },
+        "PHONE_NUMBER":{
+          "T1":"電話番号をご入力ください",
+          "T2": "電話番号は9文字以上15文字以内でご入力ください",
+          "T3": "Please enter a valid phone number"
+        },
+        "POSTAL_CODE":{
+          "T1":"Please enter the postal code",
+          "T2": "The postal code must be from 3 to 10 characters long"
+        },
+        "ADDRESS": {
+          "T1":"Please enter your address"
+        }
+      }
+    }
+  },
+  "ORDER": {
+    "TITLE": "注文管理",
+    "SEARCH":{
+      "ORDER_NUMBER": "注文番号",
+      "ORDER_DATE": "Order date",
+      "EMAIL": "Email",
+      "PHONE_NUMBER": "Phone number"
+    },
+    "ORDER_MANAGE":{
+      "ORDER_TABLE":{
+        "NO": "No.",
+        "ORDER_NUMBER": "注文番号",
+        "NAME": "ユーザ名",
+        "ADDRESS": "住所",
+        "EMAIL": "メールアドレス",
+        "PHONE_NUMBER": "電話番号",
+        "ORDER_DATE": "注文日"
+      },
+      "ORDER_DETAIL_TABLE":{
+        "NO": "No.",
+        "GROUP_PART_CODE": "部位コード",
+        "GROUP_PART_NAME": "部位名",
+        "PART_CODE": "パーツコード",
+        "PART_NAME": "パーツ名",
+        "QUANTITY": "数量",
+        "USD_PRICE": "単価 (税抜)",
+        "SUBTOTAL": "合計"
+      }
+    }
+  }
+}
