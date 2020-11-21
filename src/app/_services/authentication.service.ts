@@ -20,7 +20,7 @@ export class AuthenticationService {
   }
 
   login(email: string, password: string) {
-    return this.http.post<any>(`${environment.apiUrl}/loginadmin`, { email, password })
+    return this.http.post<any>(`${environment.apiUrl}/loginuser`, { email, password })
       .pipe(map(user => {
         if (user.code === 20001) {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -32,7 +32,7 @@ export class AuthenticationService {
   }
 
   forgotPassword(email: string) {
-    return this.http.post<any>(`${environment.apiUrl}/users/get-token-admin`, { email })
+    return this.http.post<any>(`${environment.apiUrl}/users/get-token-user`, { email })
       .pipe(map(result => {
         return result;
       }));

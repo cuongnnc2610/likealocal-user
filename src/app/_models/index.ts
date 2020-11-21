@@ -1,6 +1,8 @@
 export * from './notification';
 export * from './terms-of-use';
 
+export * from './dateTime';
+export * from './dayTime';
 export * from './country';
 export * from './user';
 export * from './coupon';
@@ -10,6 +12,7 @@ export * from './category';
 export * from './transport';
 export * from './transactionType';
 export * from './toursHost';
+export * from './toursSchedule';
 export * from './order';
 export * from './toursReview';
 export * from './hostsReview';

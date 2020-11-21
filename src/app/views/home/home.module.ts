@@ -16,6 +16,11 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home-routing.module';
 
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatNativeDateModule } from '@angular/material/core';
+
 @NgModule({
   imports: [
     FormsModule,
@@ -38,7 +43,11 @@ import { HomeRoutingModule } from './home-routing.module';
     ModalModule.forRoot(),
     DialogModule,
     NgxSpinnerModule,
-    FooterModule
+    FooterModule,
+    MatDatepickerModule,
+    // MatFormFieldModule,
+    MatInputModule,
+    MatNativeDateModule,
   ],
   declarations: [ HomeComponent ]
 })

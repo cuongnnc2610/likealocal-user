@@ -52,7 +52,8 @@ export const routes: Routes = [
   },
   {
     path: 'home',
-    component: HomeComponent,
+    // component: HomeComponent,
+    loadChildren: () => import('./views/home/home.module').then(m => m.HomeModule),
     data: {
       title: 'Home'
     }
@@ -70,8 +71,12 @@ export const routes: Routes = [
         loadChildren: () => import('./views/tour-list/index.module').then(m => m.IndexModule)
       },
       {
-        path: 'tour-detail',
+        path: 'tour-detail/:id',
         loadChildren: () => import('./views/tour-detail/index.module').then(m => m.IndexModule)
+      },
+      {
+        path: 'tour-booking',
+        loadChildren: () => import('./views/tour-booking/index.module').then(m => m.IndexModule)
       },
       {
         path: 'host',

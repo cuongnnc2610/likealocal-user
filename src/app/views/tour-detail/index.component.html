@@ -1,18 +1,6 @@
-<main id="content">
-    <!-- Breadcrumb -->
-    <div class="container">
-        <nav class="py-3" aria-label="breadcrumb">
-            <ol class="breadcrumb breadcrumb-no-gutter mb-0 flex-nowrap flex-xl-wrap overflow-auto overflow-xl-visble">
-                <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1"><a href="#">Home</a></li>
-                <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1"><a href="#">Hotels</a></li>
-                <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1"><a href="#">London Hotels</a></li>
-                <li class="breadcrumb-item flex-shrink-0 flex-xl-shrink-1 active" aria-current="page">Park Avenue Baker Street London</li>
-            </ol>
-        </nav>
-    </div>
-    <!-- End Breadcrumb -->
+<main id="content" *ngIf="true">
     <div class="mb-4 mb-lg-8">
-        <img class="img-fluid" src="../../assets/img/1920x600/img4.jpg" alt="Image">
+        <img class="img-fluid" src="{{tour.cover_image}}" alt="Image" width="100%" style="height: 500px; object-fit: cover;">
         <div class="container">
             <div class="position-relative">
                 <div class="position-absolute right-0 mt-md-n11 mt-n9">
@@ -56,28 +44,32 @@
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-xl-9">
+            <div class="col-lg-8 col-xl-8">
                 <div class="d-block d-md-flex flex-center-between align-items-start mb-3">
                     <div class="mb-1">
                         <div class="mb-2 mb-md-0">
-                            <h4 class="font-size-23 font-weight-bold mb-1 mr-3">5-Day Oahu Tour: Honolulu, Pearl Harbor, & Diamond Head</h4>
+                            <h4 class="font-size-23 font-weight-bold mb-1 mr-3">{{tour.name}}</h4>
                         </div>
                         <div class="d-block d-xl-flex flex-horizontal-center">
                             <div class="d-block d-md-flex flex-horizontal-center font-size-14 text-gray-1 mb-2 mb-xl-0">
-                                <i class="icon flaticon-placeholder mr-2 font-size-20"></i> Greater London, United Kingdom
-                                <a href="#" class="ml-1 d-block d-md-inline"> - View on map</a>
+                                <i class="icon flaticon-placeholder mr-2 font-size-20"></i> {{tour.city.name}}, {{tour.city.country.name}}
                             </div>
                             <div class="mr-4 mb-2 mb-md-0 flex-horizontal-center">
                                 <div class="ml-xl-3 font-size-10 letter-spacing-2">
-                                    <span class="d-block green-lighter ml-1">
-                                        <span class="fas fa-star"></span>
-                                        <span class="fas fa-star"></span>
-                                        <span class="fas fa-star"></span>
-                                        <span class="fas fa-star"></span>
-                                        <span class="fas fa-star"></span>
+                                    <span class="d-block ml-1">
+                                        <span *ngIf="tour.rating === 0" class="fas fa-star text-secondary"></span>
+                                        <span *ngIf="tour.rating >= 1" class="fas fa-star green-lighter"></span>
+                                        <span *ngIf="tour.rating < 2" class="fas fa-star text-secondary"></span>
+                                        <span *ngIf="tour.rating >= 2" class="fas fa-star green-lighter"></span>
+                                        <span *ngIf="tour.rating < 3" class="fas fa-star text-secondary"></span>
+                                        <span *ngIf="tour.rating >= 3" class="fas fa-star green-lighter"></span>
+                                        <span *ngIf="tour.rating < 4" class="fas fa-star text-secondary"></span>
+                                        <span *ngIf="tour.rating >= 4" class="fas fa-star green-lighter"></span>
+                                        <span *ngIf="tour.rating < 5" class="fas fa-star text-secondary"></span>
+                                        <span *ngIf="tour.rating === 5" class="fas fa-star green-lighter"></span>
                                     </span>
                                 </div>
-                                <span class="font-size-14 text-gray-1 ml-2">(1,186 Reviews)</span>
+                                <span class="font-size-14 text-gray-1 ml-2">({{total}} Reviews)</span>
                             </div>
                         </div>
                     </div>
@@ -98,27 +90,30 @@
                     <ul class="list-group list-group-borderless list-group-horizontal row">
                         <li class="col-md-4 flex-horizontal-center list-group-item text-lh-sm mb-2">
                             <i class="flaticon-alarm text-primary font-size-22 mr-2 d-block"></i>
-                            <div class="ml-1 text-gray-1">5 Days</div>
+                            <div class="ml-1 text-gray-1">
+                                {{Math.floor(tour.duration)}} hours
+                                <span *ngIf="tour.duration !== Math.floor(tour.duration)">{{Number("0." + (tour.duration + "").split(".")[1]) * 60}} minutes</span>
+                            </div>
                         </li>
                         <li class="col-md-4 flex-horizontal-center list-group-item text-lh-sm mb-2">
                             <i class="flaticon-social text-primary font-size-22 mr-2 d-block"></i>
-                            <div class="ml-1 text-gray-1">Max People : 26</div>
+                            <div class="ml-1 text-gray-1">Max People : {{tour.max_people}}</div>
                         </li>
                         <li class="col-md-4 flex-horizontal-center list-group-item text-lh-sm mb-2">
-                            <i class="flaticon-wifi-signal text-primary font-size-22 mr-2 d-block"></i>
-                            <div class="ml-1 text-gray-1">Wifi Available</div>
-                        </li>
-                        <li class="col-md-4 flex-horizontal-center list-group-item text-lh-sm mb-2">
-                            <i class="flaticon-month text-primary font-size-22 mr-2 d-block"></i>
-                            <div class="ml-1 text-gray-1">Jan 18’ - Dec 21'</div>
+                            <i class="flaticon-tag text-primary font-size-22 mr-2 d-block"></i>
+                            <div class="ml-1 text-gray-1">{{tour.category.name}}</div>
                         </li>
                         <li class="col-md-4 flex-horizontal-center list-group-item text-lh-sm mb-2">
                             <i class="flaticon-user-2 text-primary font-size-22 mr-2 d-block"></i>
                             <div class="ml-1 text-gray-1">Min Age : 10+</div>
                         </li>
                         <li class="col-md-4 flex-horizontal-center list-group-item text-lh-sm mb-2">
-                            <i class="flaticon-pin text-primary font-size-22 mr-2 d-block"></i>
-                            <div class="ml-1 text-gray-1">Pickup: Airpot</div>
+                            <i class="flaticon-car text-primary font-size-22 mr-2 d-block"></i>
+                            <div class="ml-1 text-gray-1">{{tour.transport.name}}</div>
+                        </li>
+                        <li class="col-md-4 flex-horizontal-center list-group-item text-lh-sm mb-2">
+                            <i class="flaticon-invoice text-primary font-size-22 mr-2 d-block"></i>
+                            <div class="ml-1 text-gray-1">{{tour.number_of_completed_orders}} completed orders</div>
                         </li>
                     </ul>
                 </div>
@@ -126,47 +121,32 @@
                     <h5 class="font-size-21 font-weight-bold text-dark mb-3">
                         Description
                     </h5>
-                    <p class="mb-4">A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine. I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents.</p>
-                    <p class="mb-4">Lorem Ipsum decided to leave for the far World of Grammar. The Big Oxmox advised her not to do so, because there were thousands of bad Comma wild Question Marks and devious Semikoli, but the Little Blind Text didn’t listen. She packed her seven versalia, put her initial into the belt and made herself on the way. When she reached the first hills of t</p>
+                    <p class="mb-4">{{tour.description}}</p>
                     <div class="row">
                         <div class="col-md-6 mb-4">
-                            <div class="font-weight-bold text-dark mb-2">Highlights</div>
-                            <div class="text-gray-1">John F.K. International Airport (Google Map)</div>
-                        </div>
-                        <div class="col-md-6 mb-4">
-                            <div class="font-weight-bold text-dark mb-2">Bedroom</div>
-                            <div class="text-gray-1">4 Bedrooms</div>
-                        </div>
-                        <div class="col-md-6 mb-4">
-                            <div class="font-weight-bold text-dark mb-2">Departure Time</div>
-                            <div class="text-gray-1">3 Hours Before Flight Time</div>
-                        </div>
-                        <div class="col-md-6 mb-4">
-                            <div class="font-weight-bold text-dark mb-2">Bathroom</div>
-                            <div class="text-gray-1">6 Bathrooms</div>
-                        </div>
-                        <div class="col-md-6 mb-4">
                             <div class="font-weight-bold text-dark mb-3">Price Includes</div>
-                            <div class="flex-horizontal-center mb-3 text-gray-1"><i class="flaticon-tick mr-3 font-size-16 text-primary"></i>Air fares</div>
-                            <div class="flex-horizontal-center mb-3 text-gray-1"><i class="flaticon-tick mr-3 font-size-16 text-primary"></i>3 Nights Hotel Accomodation</div>
-                            <div class="flex-horizontal-center mb-3 text-gray-1"><i class="flaticon-tick mr-3 font-size-16 text-primary"></i>Tour Guide</div>
-                            <div class="flex-horizontal-center mb-3 text-gray-1"><i class="flaticon-tick mr-3 font-size-16 text-primary"></i>Entrance Fees</div>
-                            <div class="flex-horizontal-center mb-3 text-gray-1"><i class="flaticon-tick mr-3 font-size-16 text-primary"></i>All transportation in destination location</div>
+                            <ng-container *ngFor="let toursBenefit of tour.toursBenefits">
+                                <div *ngIf="toursBenefit.is_included" class="flex-horizontal-center mb-3 text-gray-1"><i class="flaticon-tick mr-3 font-size-16 text-primary"></i>{{toursBenefit.benefit.name}}</div>
+                            </ng-container>
                         </div>
                         <div class="col-md-6 mb-4">
                             <div class="font-weight-bold text-dark mb-3">Price Excludes</div>
-                            <div class="flex-horizontal-center mb-3 text-gray-1"><i class="flaticon-close mr-3 font-size-12 text-primary"></i>Guide Service Fee</div>
-                            <div class="flex-horizontal-center mb-3 text-gray-1"><i class="flaticon-close mr-3 font-size-12 text-primary"></i>Driver Service Fee</div>
-                            <div class="flex-horizontal-center mb-3 text-gray-1"><i class="flaticon-close mr-3 font-size-12 text-primary"></i>Any Private Expenses</div>
-                            <div class="flex-horizontal-center mb-3 text-gray-1"><i class="flaticon-close mr-3 font-size-12 text-primary"></i>Room Service Fees</div>
+                            <ng-container *ngFor="let toursBenefit of tour.toursBenefits">
+                                <div *ngIf="!toursBenefit.is_included" class="flex-horizontal-center mb-3 text-gray-1"><i class="flaticon-close mr-3 font-size-12 text-primary"></i>{{toursBenefit.benefit.name}}</div>
+                            </ng-container>
                         </div>
                     </div>
                 </div>
                 <div class="border-bottom py-4">
                     <h5 class="font-size-21 font-weight-bold text-dark mb-4">
-                        What to Expect
+                        Gallery
                     </h5>
-                    <p class="mb-3">Curabitur blandit tempus porttitor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras mattis consectetur purus sit amet fermentum. Etiam porta sem malesuada magna mollis euismod. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <div class="row">
+                        <div *ngFor="let toursImage of tour.toursImages" class="col-xl-2 col-md-3 col-sm-4 tour-image-container" (click)="modalImage.show(); getImage(toursImage.path);">
+                            <img src="{{toursImage.path}}" height="130px" width="100%" class="tour-image">
+                        </div>
+                    </div>
+                    <!-- <p class="mb-3">Curabitur blandit tempus porttitor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras mattis consectetur purus sit amet fermentum. Etiam porta sem malesuada magna mollis euismod. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                     <p class="mb-3">Maecenas sed diam eget risus varius blandit sit amet non magna. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Nullam id dolor id nibh ultricies vehicula ut id elit. Donec ullamcorper nulla non metus auctor fringilla.</p>
                     <ul class="list-group list-group-borderless list-group-flush no-gutters">
                         <li class="flex-horizontal-center mb-3 text-gray-1">
@@ -178,45 +158,21 @@
                             <i class="fas fa-circle mr-3 font-size-8 text-primary"></i>
                             Ultricies Vehicula Mollis Vestibulum Fringilla
                         </li>
-
-                        <li class="flex-horizontal-center mb-3 text-gray-1">
-                            <i class="fas fa-circle mr-3 font-size-8 text-primary"></i>
-                            Condimentum Sollicitudin Fusce Vestibulum Ultricies
-                        </li>
-
-                        <li class="flex-horizontal-center mb-3 text-gray-1">
-                            <i class="fas fa-circle mr-3 font-size-8 text-primary"></i>
-                            Sollicitudin Consectetur Quam Ligula Vehicula
-                        </li>
-
-                        <li class="flex-horizontal-center mb-3 text-gray-1">
-                            <i class="fas fa-circle mr-3 font-size-8 text-primary"></i>
-                            Cursus Pharetra Purus Porta Parturient
-                        </li>
-
-                        <li class="flex-horizontal-center mb-3 text-gray-1">
-                            <i class="fas fa-circle mr-3 font-size-8 text-primary"></i>
-                            Risus Malesuada Tellus Porta Commodo
-                        </li>
-                    </ul>
+                    </ul> -->
                 </div>
                 <div class="border-bottom py-4">
                     <h5 class="font-size-21 font-weight-bold text-dark mb-4">
                         Itinerary
                     </h5>
                     <div id="basicsAccordion1">
-                        <!-- Card -->
                         <div class="card border-0 mb-3">
                             <div class="card-header border-bottom-0 p-0" id="basicsHeadingOne1">
                                 <h5 class="mb-0">
-                                    <button type="button" class="collapse-link btn btn-link btn-block d-flex align-items-md-center font-weight-bold p-0"
-                                    data-toggle="collapse" data-target="#basicsCollapseOne1" aria-expanded="true" aria-controls="basicsCollapseOne1">
+                                    <button type="button" class="btn btn-link btn-block d-flex align-items-md-center font-weight-bold p-0">
                                         <div class="text-primary font-size-22 mb-3 mb-md-0 mr-3">
-                                            <i class="far fa-circle"></i>
+                                            <i class="flaticon-pin"></i>
                                         </div>
-
-                                        <div class="text-primary flex-shrink-0">Day 1 <span class="px-2">-</span> </div>
-                                        <h6 class="font-weight-bold text-gray-3 text-left mb-0">Barcelona – Zaragoza – Madrid</h6>
+                                        <div class="text-primary flex-shrink-0">{{tour.meeting_address}}</div>
                                     </button>
                                 </h5>
                             </div>
@@ -224,86 +180,34 @@
                                  aria-labelledby="basicsHeadingOne1"
                                  data-parent="#basicsAccordion1">
                                 <div class="card-body pl-6 pb-0 pt-0">
-                                    <p class="mb-0">We’ll meet at 4 p.m. at our hotel in Luzern (Lucerne) for a “Welcome to Switzerland” meeting. Then we’ll take a meandering evening walk through Switzerland’s most charming lakeside town, and get acquainted with one another over dinner together. Sleep in Luzern (2 nights). No bus. Walking: light.</p>
+                                    <p class="mb-0">Meeting Point</p>
                                 </div>
                             </div>
                         </div>
-                        <!-- End Card -->
-
-                        <!-- Card -->
-                        <div class="card border-0 mb-3">
-                            <div class="card-header border-bottom-0 p-0" id="basicsHeadingTwo2">
+                        <div *ngFor="let toursPlaces of tour.toursPlaces" class="card border-0 mb-3">
+                            <div class="card-header border-bottom-0 p-0" id="basicsHeadingOne1">
                                 <h5 class="mb-0">
-                                    <button type="button" class="collapse-link btn btn-link btn-block d-flex align-items-md-center font-weight-bold p-0"
-                                        data-toggle="collapse" data-target="#basicsCollapseTwo2" aria-expanded="false" aria-controls="basicsCollapseTwo2">
+                                    <button type="button" class="btn btn-link btn-block d-flex align-items-md-center font-weight-bold p-0">
+                                    <!-- <button type="button" class="collapse-link btn btn-link btn-block d-flex align-items-md-center font-weight-bold p-0"
+                                    data-toggle="collapse" data-target="#basicsCollapseOne1" aria-expanded="true" aria-controls="basicsCollapseOne1"> -->
                                         <div class="text-primary font-size-22 mb-3 mb-md-0 mr-3">
                                             <i class="far fa-circle"></i>
                                         </div>
 
-                                        <div class="text-primary flex-shrink-0">Day 2 <span class="px-2">-</span> </div>
-                                        <h6 class="font-weight-bold text-gray-3 text-left mb-0">Zürich–Biel/Bienne–Neuchâtel–Geneva</h6>
+                                        <div class="text-primary flex-shrink-0">{{toursPlaces.place_name}}</div>
+                                        <!-- <div class="text-primary flex-shrink-0">Day 1 <span class="px-2">-</span> </div> -->
+                                        <!-- <h6 class="font-weight-bold text-gray-3 text-left mb-0">Barcelona – Zaragoza – Madrid</h6> -->
                                     </button>
                                 </h5>
                             </div>
-                            <div id="basicsCollapseTwo2" class="collapse"
-                                 aria-labelledby="basicsHeadingTwo2"
+                            <div id="basicsCollapseOne1" class="collapse show"
+                                 aria-labelledby="basicsHeadingOne1"
                                  data-parent="#basicsAccordion1">
                                 <div class="card-body pl-6 pb-0 pt-0">
-                                    <p class="mb-0">We’ll meet at 4 p.m. at our hotel in Luzern (Lucerne) for a “Welcome to Switzerland” meeting. Then we’ll take a meandering evening walk through Switzerland’s most charming lakeside town, and get acquainted with one another over dinner together. Sleep in Luzern (2 nights). No bus. Walking: light.</p>
+                                    <p class="mb-0">{{toursPlaces.description}}</p>
                                 </div>
                             </div>
                         </div>
-                        <!-- End Card -->
-
-                        <!-- Card -->
-                        <div class="card border-0 mb-3">
-                            <div class="card-header border-bottom-0 p-0" id="basicsHeadingThree3">
-                                <h5 class="mb-0">
-                                    <button type="button" class="collapse-link btn btn-link btn-block d-flex align-items-md-center font-weight-bold p-0"
-                                        data-toggle="collapse" data-target="#basicsCollapseThree3" aria-expanded="false" aria-controls="basicsCollapseThree3">
-                                        <div class="text-primary font-size-22 mb-3 mb-md-0 mr-3">
-                                            <i class="far fa-circle"></i>
-                                        </div>
-
-                                        <div class="text-primary flex-shrink-0">Day 3 <span class="px-2">-</span> </div>
-                                        <h6 class="font-weight-bold text-gray-3 text-left mb-0">Enchanting Engelberg</h6>
-                                    </button>
-                                </h5>
-                            </div>
-                            <div id="basicsCollapseThree3" class="collapse"
-                                 aria-labelledby="basicsHeadingThree3"
-                                 data-parent="#basicsAccordion1">
-                                <div class="card-body pl-6 pb-0 pt-0">
-                                    <p class="mb-0">We’ll meet at 4 p.m. at our hotel in Luzern (Lucerne) for a “Welcome to Switzerland” meeting. Then we’ll take a meandering evening walk through Switzerland’s most charming lakeside town, and get acquainted with one another over dinner together. Sleep in Luzern (2 nights). No bus. Walking: light.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Card -->
-
-                        <!-- Card -->
-                        <div class="card border-0 mb-3">
-                            <div class="card-header border-bottom-0 p-0" id="basicsHeadingFour4">
-                                <h5 class="mb-0">
-                                    <button type="button" class="collapse-link btn btn-link btn-block d-flex align-items-md-center font-weight-bold p-0"
-                                        data-toggle="collapse" data-target="#basicsCollapseFour4" aria-expanded="false" aria-controls="basicsCollapseFour4">
-                                        <div class="text-primary font-size-22 mb-3 mb-md-0 mr-3">
-                                            <i class="far fa-circle"></i>
-                                        </div>
-
-                                        <div class="text-primary flex-shrink-0">Day 4 <span class="px-2">-</span> </div>
-                                        <h6 class="font-weight-bold text-gray-3 text-left mb-0">Interlaken Area. Excursion to The Jungfrau Massif</h6>
-                                    </button>
-                                </h5>
-                            </div>
-                            <div id="basicsCollapseFour4" class="collapse"
-                                 aria-labelledby="basicsHeadingFour4"
-                                 data-parent="#basicsAccordion1">
-                                <div class="card-body pl-6 pb-0 pt-0">
-                                    <p class="mb-0">We’ll meet at 4 p.m. at our hotel in Luzern (Lucerne) for a “Welcome to Switzerland” meeting. Then we’ll take a meandering evening walk through Switzerland’s most charming lakeside town, and get acquainted with one another over dinner together. Sleep in Luzern (2 nights). No bus. Walking: light.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Card -->
                     </div>
                 </div>
                 <div class="border-bottom py-4">
@@ -317,18 +221,22 @@
                         Average Reviews
                     </h5>
                     <div class="row">
-                        <div class="col-md-4 mb-4 mb-md-0">
+                        <div class="col-md-12 mb-12 mb-md-0">
                             <div class="border rounded flex-content-center py-5 border-width-2">
                                 <div class="text-center">
                                     <h2 class="font-size-50 font-weight-bold text-primary mb-0 text-lh-sm">
-                                        4.2<span class="font-size-20">/5</span>
+                                        {{tour.rating}}<span class="font-size-20">/5</span>
                                     </h2>
-                                    <div class="font-size-25 text-dark mb-3">Very Good</div>
-                                    <div class="text-gray-1">From 40 reviews</div>
+                                    <div *ngIf="Math.round(tour.rating) === 5" class="font-size-25 text-dark mb-3">Very Good</div>
+                                    <div *ngIf="Math.round(tour.rating) === 4" class="font-size-25 text-dark mb-3">Good</div>
+                                    <div *ngIf="Math.round(tour.rating) === 3" class="font-size-25 text-dark mb-3">Neutral</div>
+                                    <div *ngIf="Math.round(tour.rating) === 2" class="font-size-25 text-dark mb-3">Bad</div>
+                                    <div *ngIf="Math.round(tour.rating) === 1" class="font-size-25 text-dark mb-3">Very Bad</div>
+                                    <div class="text-gray-1">From {{total}} reviews</div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-8">
+                        <!-- <div class="col-md-8">
                             <div class="row">
                                 <div class="col-md-6 mb-4">
                                     <h6 class="font-weight-normal text-gray-1 mb-1">
@@ -396,13 +304,48 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="border-bottom py-4">
                     <h5 class="font-size-21 font-weight-bold text-dark mb-8">
-                        Showing 16 verified guest comments
+                        Showing {{toursReviews.length}} verified guest comments
                     </h5>
+                    <div *ngFor="let review of toursReviews" class="media flex-column flex-md-row align-items-center align-items-md-start mb-4">
+                        <div class="mr-md-5">
+                            <a class="d-block" href="#">
+                                <img class="img-fluid mb-3 mb-md-0 rounded-circle" src="{{review.order.user.avatar}}" alt="Image-Description" style="width: 85px; height: 85px;">
+                            </a>
+                        </div>
+                        <div class="media-body text-center text-md-left">
+                            <div class="mb-4">
+                                <h6 class="font-weight-bold text-gray-3">
+                                    <a href="#">{{review.order.user.user_name}}</a>
+                                </h6>
+                                <div class="d-flex align-items-center flex-column flex-md-row mb-2">
+                                    <div class="font-size-10 letter-spacing-2">
+                                        <span class="d-block">
+                                            <span *ngIf="review.rating === 0" class="fas fa-star text-secondary"></span>
+                                            <span *ngIf="review.rating >= 1" class="fas fa-star green-lighter"></span>
+                                            <span *ngIf="review.rating < 2" class="fas fa-star text-secondary"></span>
+                                            <span *ngIf="review.rating >= 2" class="fas fa-star green-lighter"></span>
+                                            <span *ngIf="review.rating < 3" class="fas fa-star text-secondary"></span>
+                                            <span *ngIf="review.rating >= 3" class="fas fa-star green-lighter"></span>
+                                            <span *ngIf="review.rating < 4" class="fas fa-star text-secondary"></span>
+                                            <span *ngIf="review.rating >= 4" class="fas fa-star green-lighter"></span>
+                                            <span *ngIf="review.rating < 5" class="fas fa-star text-secondary"></span>
+                                            <span *ngIf="review.rating === 5" class="fas fa-star green-lighter"></span>
+                                        </span>
+                                    </div>
+                                    <span class="ml-1 text-secondary font-size-14">
+                                        (About local&nbsp;<span class="font-weight-bold text-primary">{{review.order.toursHost.host.user_name}}</span>)
+                                    </span>
+                                </div>
+                                <div class="font-weight-normal font-size-14 text-gray-9 mb-2">{{review.createdAt | date: 'medium'}}</div>
+                                <p class="text-lh-1dot6 mb-0 pr-lg-5">{{review.content}}</p>
+                            </div>
+                        </div>
+                    </div>
                     <div class="media flex-column flex-md-row align-items-center align-items-md-start mb-4">
                         <div class="mr-md-5">
                             <a class="d-block" href="#">
@@ -414,258 +357,160 @@
                                 <h6 class="font-weight-bold text-gray-3">
                                     <a href="#">Helena</a>
                                 </h6>
-                                <div class="font-weight-normal font-size-14 text-gray-9 mb-2">April 25, 2019 at 10:46 am</div>
                                 <div class="d-flex align-items-center flex-column flex-md-row mb-2">
-                                    <button type="button" class="btn btn-xs btn-primary rounded-xs font-size-14 py-1 px-2 mr-2 mb-2 mb-md-0">4.6 /5 </button>
-                                    <span class="font-weight-bold font-italic text-gray-3">The worst hotel ever ”</span>
+                                    <div class="font-size-10 letter-spacing-2">
+                                        <span class="d-block green-lighter">
+                                            <span class="fas fa-star"></span>
+                                            <span class="fas fa-star"></span>
+                                            <span class="fas fa-star"></span>
+                                            <span class="fas fa-star"></span>
+                                            <span class="fas fa-star"></span>
+                                        </span>
+                                    </div>
+                                    <span class="ml-1 text-secondary font-size-14">
+                                        (About local&nbsp;<span class="font-weight-bold text-primary">Localname</span>)
+                                    </span>
                                 </div>
+                                <div class="font-weight-normal font-size-14 text-gray-9 mb-2">April 25, 2019 at 10:46 am</div>
                                 <p class="text-lh-1dot6 mb-0 pr-lg-5">Morbi velit eros, sagittis in facilisis non, rhoncus et erat. Nam posuere ultricies tortor imperdiet vitae. Curabitur lacinia neque non metus</p>
                             </div>
-                            <div class="review">
-                                <div class="row no-gutters justify-content-between align-items-center border border-color-8 border-width-2 rounded-xs p-3 px-md-3 py-md-2 pr-xl-5">
-                                    <div class="col">
-                                        <div class="font-weight-normal font-size-14 text-gray-1 mx-lg-1 my-lg-1 mb-3 mb-md-0">Was This Review...?</div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-7 col-xl-4">
-                                        <div class="d-flex justify-content-between my-lg-1">
-                                            <a class="text-indigo-light" href="#">
-                                                <i class="flaticon-like-1 font-size-15 mr-1"></i>
-                                                <span class="font-size-14 font-weight-normal">Like</span>
-                                            </a>
-                                            <a class="text-gray-7" href="#">
-                                                <i class="flaticon-dislike font-size-15 mr-1"></i>
-                                                <span class="font-size-14 font-weight-normal">Dislike</span>
-                                            </a>
-                                            <a class="text-red-light-2" href="#">
-                                                <i class="flaticon-like font-size-15 mr-1"></i>
-                                                <span class="font-size-14 font-weight-normal">Love</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
-                    <div class="media flex-column flex-md-row align-items-center align-items-md-start mb-0">
-                        <div class="mr-md-5">
-                            <a class="d-block" href="#">
-                                <img class="img-fluid mb-3 mb-md-0 rounded-circle" src="../../assets/img/85x85/img2.jpg" alt="Image-Description">
-                            </a>
-                        </div>
-                        <div class="media-body text-center text-md-left">
-                            <div class="mb-4">
-                                <h6 class="font-weight-bold text-gray-3">
-                                    <a href="#">Ashleigh</a>
-                                </h6>
-                                <div class="font-weight-normal font-size-14 text-gray-9 mb-2">April 25, 2019 at 10:46 am</div>
-                                <div class="d-flex align-items-center flex-column flex-md-row mb-2">
-                                    <button type="button" class="btn btn-xs btn-primary rounded-xs font-size-14 py-1 px-2 mr-2 mb-2 mb-md-0">4.6 /5 </button>
-                                    <span class="font-weight-bold font-italic text-gray-3">Was too noisy and not suitable for business meetings.”</span>
-                                </div>
-                                <p class="text-lh-1dot6 pr-lg-5 mb-0">Morbi velit eros, sagittis in facilisis non, rhoncus et erat. Nam posuere ultricies tortor imperdiet vitae. Curabitur lacinia neque non metus</p>
-                            </div>
-                            <div class="review">
-                                <div class="row no-gutters justify-content-between align-items-center border border-color-8 border-width-2 rounded-xs p-3 px-md-3 py-md-2 pr-xl-5">
-                                    <div class="col">
-                                        <div class="font-weight-normal font-size-14 text-gray-1 mx-lg-1 my-lg-1 mb-3 mb-md-0">Was This Review...?</div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-7 col-xl-4">
-                                        <div class="d-flex justify-content-between my-lg-1">
-                                            <a class="text-indigo-light" href="#">
-                                                <i class="flaticon-like-1 font-size-15 mr-1"></i>
-                                                <span class="font-size-14 font-weight-normal">Like</span>
-                                            </a>
-                                            <a class="text-gray-7" href="#">
-                                                <i class="flaticon-dislike font-size-15 mr-1"></i>
-                                                <span class="font-size-14 font-weight-normal">Dislike</span>
-                                            </a>
-                                            <a class="text-red-light-2" href="#">
-                                                <i class="flaticon-like font-size-15 mr-1"></i>
-                                                <span class="font-size-14 font-weight-normal">Love</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <div *ngIf="toursReviews.length">
+                        <ngb-pagination [collectionSize]="total" [(page)]="page" [rotate]="true" [pageSize]="pageSize"
+                          [maxSize]="5" (pageChange)="currentPage(page)">
+                          <ng-template ngbPaginationPrevious>Previous</ng-template>
+                          <ng-template ngbPaginationNext>Next</ng-template>
+                          <ng-template ngbPaginationEllipsis>...</ng-template>
+                        </ngb-pagination>
+                      </div>
                 </div>
                 <div class="py-4">
-                    <h5 class="font-size-21 font-weight-bold text-dark mb-6">
+                    <h5 class="font-size-21 font-weight-bold text-dark mb-5">
                         Write a Review
                     </h5>
-                    <div class="row">
-                        <div class="col-md-4 mb-6">
-                            <h6 class="font-weight-bold text-dark mb-1">
-                                Cleanliness
-                            </h6>
-                            <span class="text-primary font-size-20 letter-spacing-3">
-                                <small class="far fa-smile"></small>
-                                <small class="far fa-smile"></small>
-                                <small class="far fa-smile"></small>
-                                <small class="far fa-smile text-muted"></small>
-                                <small class="far fa-smile text-muted"></small>
-                            </span>
-                        </div>
-                        <div class="col-md-4 mb-6">
-                            <h6 class="font-weight-bold text-dark mb-1">
-                                Facilities
-                            </h6>
-                            <span class="text-primary font-size-20 letter-spacing-3">
-                                <small class="far fa-smile"></small>
-                                <small class="far fa-smile"></small>
-                                <small class="far fa-smile"></small>
-                                <small class="far fa-smile text-muted"></small>
-                                <small class="far fa-smile text-muted"></small>
-                            </span>
-                        </div>
-                        <div class="col-md-4 mb-6">
-                            <h6 class="font-weight-bold text-dark mb-1">
-                                Value for money
-                            </h6>
-                            <span class="text-primary font-size-20 letter-spacing-3">
-                                <small class="far fa-smile"></small>
-                                <small class="far fa-smile"></small>
-                                <small class="far fa-smile"></small>
-                                <small class="far fa-smile"></small>
-                                <small class="far fa-smile"></small>
-                            </span>
-                        </div>
-                        <div class="col-md-4 mb-6">
-                            <h6 class="font-weight-bold text-dark mb-1">
-                                Service
-                            </h6>
-                            <span class="text-primary font-size-20 letter-spacing-3">
-                                <small class="far fa-smile"></small>
-                                <small class="far fa-smile"></small>
-                                <small class="far fa-smile"></small>
-                                <small class="far fa-smile text-muted"></small>
-                                <small class="far fa-smile text-muted"></small>
-                            </span>
-                        </div>
-                        <div class="col-md-4 mb-6">
-                            <h6 class="font-weight-bold text-dark mb-1">
-                                Location
-                            </h6>
-                            <span class="text-primary font-size-20 letter-spacing-3">
-                                <small class="far fa-smile"></small>
-                                <small class="far fa-smile"></small>
-                                <small class="far fa-smile"></small>
-                                <small class="far fa-smile text-muted"></small>
-                                <small class="far fa-smile text-muted"></small>
-                            </span>
-                        </div>
-                    </div>
                     <form class="js-validate" novalidate="novalidate">
                         <div class="row mb-5 mb-lg-0">
-                            <!-- Input -->
-                            <div class="col-sm-6 mb-5">
-                                <div class="js-form-message">
-                                    <input type="text" class="form-control" name="name" placeholder="Name" aria-label="Jack Wayley" required="" data-error-class="u-has-error" data-msg="Please enter your name." data-success-class="u-has-success">
-                                </div>
+                            <div class="ml-xl-3 font-size-20 letter-spacing-2">
+                                <span class="d-block">
+                                    <span class="fas fa-star review-star" #firstStar (click)="removeStarColor(); setStarColor(1); rating = 1"></span>
+                                    <span class="fas fa-star review-star" #secondStar (click)="removeStarColor(); setStarColor(2); rating = 2"></span>
+                                    <span class="fas fa-star review-star" #thirdStar (click)="removeStarColor(); setStarColor(3); rating = 3"></span>
+                                    <span class="fas fa-star review-star" #fourthStar (click)="removeStarColor(); setStarColor(4); rating = 4"></span>
+                                    <span class="fas fa-star review-star" #fifthStar (click)="removeStarColor(); setStarColor(5); rating = 5"></span>
+                                </span>
                             </div>
-                            <!-- End Input -->
-
-                            <!-- Input -->
-                            <div class="col-sm-6 mb-5">
-                                <div class="js-form-message">
-                                    <input type="email" class="form-control" name="email" placeholder="Email" aria-label="jackwayley@gmail.com" required="" data-msg="Please enter a valid email address." data-error-class="u-has-error" data-success-class="u-has-success">
-                                </div>
+                            <div class="col-sm-12 required-text mb-5">
+                                <small *ngIf="rating === 0 && isSubmitted">Please rate this tour</small>
                             </div>
-                            <!-- End Input -->
-                            <div class="col-sm-12 mb-5">
+                            <div class="col-sm-12 mb-1">
                                 <div class="js-form-message">
                                     <div class="input-group">
-                                        <textarea class="form-control" rows="6" cols="77" name="text" placeholder="Comment" aria-label="Hi there, I would like to ..." required="" data-msg="Please enter a reason." data-error-class="u-has-error" data-success-class="u-has-success"></textarea>
+                                        <textarea class="form-control" rows="6" cols="77" name="text" placeholder="Comment" [(ngModel)]="content"></textarea>
                                     </div>
                                 </div>
                             </div>
-                            <!-- End Input -->
+                            <div class="col-sm-12 required-text mb-5">
+                                <small *ngIf="(content === undefined || content === '') && isSubmitted">Please write your comment</small>
+                            </div>
                             <div class="col d-flex justify-content-center justify-content-lg-start">
-                                <button type="submit" class="btn rounded-xs bg-blue-dark-1 text-white p-2 height-51 width-190 transition-3d-hover">Submit Review</button>
+                                <button class="btn rounded-xs bg-blue-dark-1 text-white p-2 height-51 width-190 transition-3d-hover" (click)="createToursReview()">Submit Review</button>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
-            <div class="col-lg-4 col-xl-3">
+            <div class="col-lg-4 col-xl-4">
                 <div class="mb-4">
                     <div class="border border-color-7 rounded mb-5">
                         <div class="border-bottom">
                             <div class="p-4">
-                                <span class="font-size-14">From</span>
-                                <span class="font-size-24 text-gray-6 font-weight-bold ml-1">£350.00</span>
+                                <span class="font-size-14">Price</span>
+                                <span class="font-size-24 text-primary font-weight-bold ml-1">{{tour.sale_price}}$</span>
+                                <del *ngIf="tour.sale_price !== tour.list_price" class="text-gray-6 ml-1">{{tour.list_price}}$</del>
                             </div>
                         </div>
                         <div class="p-4">
-                            <!-- Input -->
-                            <span class="d-block text-gray-1 font-weight-normal mb-0 text-left">Date</span>
-                            <div class="mb-4">
-                                <div class="border-bottom border-width-2 border-color-1">
-                                    <div id="datepickerWrapperPick" class="u-datepicker input-group">
-                                        <input class="js-range-datepicker w-auto height-40 font-size-16 shadow-none font-weight-bold form-control hero-form bg-transparent border-0 flatpickr-input p-0" type="text" placeholder="July 7/2019" aria-label="July 7/2019"
-                                        data-rp-wrapper="#datepickerWrapperPick"
-                                        data-rp-date-format="M d / Y"
-                                        data-rp-default-date='["Jul 7 / 2020"]'>
+                            <span class="d-block text-gray-1 font-weight-normal mb-0 text-left">Host</span>
+                            <div class="dropdown-wrapper border-bottom border-width-2 border-color-1 mb-4">
+                                <div class="ae-dropdown dropdown" (click)="showAllToursHosts();">
+                                    <div class="ae-select">
+                                        <span class="ae-select-content" id="selecting-tours-host">
+                                            <div class="host-option">
+                                                <div class="avatar-container">
+                                                  <img src="https://likealocal-stagingbucket.s3-ap-southeast-1.amazonaws.com/tour-cover/no_profile1602742383942.png" class="avatar">
+                                                </div>
+                                                <div class="host-information">
+                                                  <p style="margin-top: 0px; margin-bottom: 5px;"><b>Choose your host...</b></p>
+                                                  <p style="margin-top: 0px; margin-bottom: 0px; font-size: 14px;">Languages...</p>
+                                                </div>
+                                            </div>
+                                        </span>
+                                        <i class="material-icons down-icon">keyboard_arrow_down</i>
+                                        <!-- <i class="fas fa-chevron-down"></i> -->
                                     </div>
-                                    <!-- End Datepicker -->
+                                    <ul [ngClass]="isToursHostsShown ? 'dropdown-menuz' : 'dropdown-menuz ae-hide'">
+                                        <li *ngFor="let toursHost of tour.toursHosts" (click)="selectToursHost($event, toursHost)" id="{{'toursHost' + toursHost.tours_host_id}}" style="list-style-type:none;" class="mb-1">
+                                            <div class="host-option">
+                                                <div class="avatar-container">
+                                                  <img src="{{toursHost.host.avatar}}" class="avatar">
+                                                </div>
+                                                <div class="host-information">
+                                                  <p style="margin-top: 0px; margin-bottom: 5px;"><b>{{toursHost.host.user_name}}</b></p>
+                                                  <p style="margin-top: 0px; margin-bottom: 0px; font-size: 14px;">{{toursHost.host.languages}}</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
-                            <!-- End Input -->
 
                             <!-- Input -->
-                            <span class="d-block text-gray-1 font-weight-normal mb-2 text-left">Adults</span>
+                            <span class="d-block text-gray-1 font-weight-normal mb-2 text-left">Date</span>
+                            <div class="mb-4">
+                                <div class="border-bottom border-width-2 border-color-1 pb-1">
+                                    <mat-form-field class="date-picker" appearance="fill">
+                                        <mat-label style="background: transparent;">Choose a date</mat-label>
+                                        <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker" (dateChange)="onDate($event)">
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker [dateClass]="dateClass" #picker></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <span class="d-block text-gray-1 font-weight-normal mb-0 text-left">Time</span>
+                            <div class="dropdown-wrapper border-bottom border-width-2 border-color-1 mb-4">
+                                <div class="ae-dropdown dropdown" (click)="showAllTimes();">
+                                    <div class="ae-select">
+                                        <span class="ae-select-content" id="selecting-time">
+                                            Choose a time
+                                        </span>
+                                        <i class="material-icons down-icon">keyboard_arrow_down</i>
+                                    </div>
+                                    <ul [ngClass]="isTimesShown ? 'dropdown-menuz' : 'dropdown-menuz ae-hide'">
+                                        <li *ngFor="let time of times" (click)="selectTime($event, time)" id="{{'time' + time}}" style="list-style-type:none;" class="mb-1">
+                                            <div class="time-option">
+                                                {{time}}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+
+                            <!-- Input -->
+                            <span class="d-block text-gray-1 font-weight-normal mb-2 text-left">Number of people</span>
                             <div class="mb-4">
                                 <div class="border-bottom border-width-2 border-color-1 pb-1">
                                     <div class="js-quantity flex-center-between mb-1 text-dark font-weight-bold">
-                                        <span class="d-block">Age 18+</span>
+                                        <span class="d-block">Adult</span>
                                         <div class="flex-horizontal-center">
-                                            <a class="js-minus font-size-10 text-dark" href="javascript:;">
-                                                <i class="fas fa-chevron-up"></i>
+                                            <a class="js-plus font-size-10 text-dark">
+                                                <i class="fas fa-chevron-up" (click)="handlePlus()"></i>
                                             </a>
-                                            <input class="js-result form-control h-auto width-30 font-weight-bold font-size-16 shadow-none bg-tranparent border-0 rounded p-0 mx-1 text-center" type="text" value="2" min="01" max="100">
-                                            <a class="js-plus font-size-10 text-dark" href="javascript:;">
-                                                <i class="fas fa-chevron-down"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Input -->
-
-                            <!-- Input -->
-                            <span class="d-block text-gray-1 font-weight-normal mb-2 text-left">Children</span>
-                            <div class="mb-4">
-                                <div class="border-bottom border-width-2 border-color-1 pb-1">
-                                    <div class="js-quantity flex-center-between mb-1 text-dark font-weight-bold">
-                                        <span class="d-block">Age 6-17</span>
-                                        <div class="flex-horizontal-center">
-                                            <a class="js-minus font-size-10 text-dark" href="javascript:;">
-                                                <i class="fas fa-chevron-up"></i>
-                                            </a>
-                                            <input class="js-result form-control h-auto width-30 font-weight-bold font-size-16 shadow-none bg-tranparent border-0 rounded p-0 mx-1 text-center" type="text" value="4" min="01" max="100">
-                                            <a class="js-plus font-size-10 text-dark" href="javascript:;">
-                                                <i class="fas fa-chevron-down"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Input -->
-
-                            <!-- Input -->
-                            <span class="d-block text-gray-1 font-weight-normal mb-2 text-left">Infant</span>
-                            <div class="mb-4">
-                                <div class="border-bottom border-width-2 border-color-1 pb-1">
-                                    <div class="js-quantity flex-center-between mb-1 text-dark font-weight-bold">
-                                        <span class="d-block">Age 0-5</span>
-                                        <div class="flex-horizontal-center">
-                                            <a class="js-minus font-size-10 text-dark" href="javascript:;">
-                                                <i class="fas fa-chevron-up"></i>
-                                            </a>
-                                            <input class="js-result form-control h-auto width-30 font-weight-bold font-size-16 shadow-none bg-tranparent border-0 rounded p-0 mx-1 text-center" type="text" value="1" min="01" max="100">
-                                            <a class="js-plus font-size-10 text-dark" href="javascript:;">
-                                                <i class="fas fa-chevron-down"></i>
+                                            <input class="js-result form-control h-auto width-30 font-weight-bold font-size-16 shadow-none bg-tranparent border-0 rounded p-0 mx-1 text-center" type="number" value="1" [(ngModel)]="numberOfPeople" disabled>
+                                            <a class="js-minus font-size-10 text-dark">
+                                                <i class="fas fa-chevron-down" (click)="handleMinus()"></i>
                                             </a>
                                         </div>
                                     </div>
@@ -1019,4 +864,16 @@
         </div>
         <!-- End Product Cards carousel -->
     </div>
+    
+    <div bsModal #modalImage="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+        aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="background: none; border: none">
+          <img src="{{imagePath}}" width="100%">
+        </div>
+      </div>
+    </div>
 </main>
+
+<app-dialog></app-dialog>
+<ngx-spinner [fullScreen]="true" type="ball-clip-rotate-multiple" size="medium"></ngx-spinner>

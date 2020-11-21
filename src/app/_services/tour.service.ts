@@ -17,6 +17,13 @@ export class TourService {
       }));
   }
 
+  getToursByCategory(categoryId: number, limit: number, orderType: number) {
+    return this.http.get<any>(`${environment.apiUrl}/tours?page=${1}&limit=${limit}&category_id=${categoryId}&order_type=${orderType}`)
+      .pipe(map((result: any) => {
+        return result;
+      }));
+  }
+
   getTour(tour_id: any) {
     return this.http.get<any>(`${environment.apiUrl}/tours/${tour_id}`, {
     })

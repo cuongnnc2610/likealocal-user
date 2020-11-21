@@ -23,11 +23,17 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 
+//
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatNativeDateModule } from '@angular/material/core';
+
 import { AppComponent } from './app.component';
 import { DefaultLayoutComponent } from './containers';
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
-import { HomeComponent } from './views/home/home.component';
+// import { HomeComponent } from './views/home/home.component';
 import { LoginComponent,EmailInputComponent, ResetPwdComponent } from './views/auths-management';
 
 const APP_CONTAINERS = [ DefaultLayoutComponent ];
@@ -50,6 +56,10 @@ const APP_CONTAINERS = [ DefaultLayoutComponent ];
     FormsModule,
     NgbPaginationModule,
     HttpClientModule,
+    MatDatepickerModule,
+    // MatFormFieldModule,
+    MatInputModule,
+    MatNativeDateModule,
     ModalModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
@@ -67,7 +77,7 @@ const APP_CONTAINERS = [ DefaultLayoutComponent ];
     LoginComponent,
     ResetPwdComponent,
     EmailInputComponent,
-    HomeComponent
+    // HomeComponent
   ],
   providers: [{
     provide: LocationStrategy,

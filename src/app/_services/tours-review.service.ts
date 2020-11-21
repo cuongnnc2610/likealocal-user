@@ -10,12 +10,8 @@ export class ToursReviewService {
 
   constructor(private http: HttpClient) { }
 
-  getToursReviews(numberPage, searchInputForm, orderType) {
-    let date = '';
-    if (searchInputForm.date.value !== '' && searchInputForm.date.value !== null) {      
-      date = searchInputForm.date.value.toISOString().substring(0, 10);
-    }
-    return this.http.get<any>(`${environment.apiUrl}/tours-reviews?page=${numberPage}&content=${searchInputForm.content.value}&user=${searchInputForm.user.value}&host=${searchInputForm.host.value}&tour_name=${searchInputForm.tour_name.value}&date=${date}&order_type=${orderType}`)
+  getToursReviews(numberPage, tourId, orderType) {
+    return this.http.get<any>(`${environment.apiUrl}/tours-reviews?page=${numberPage}&tour_id=${tourId}&&order_type=${orderType}`)
       .pipe(map((result: any) => {
         return result;
       }));
@@ -23,6 +19,17 @@ export class ToursReviewService {
 
   deleteToursReview(toursReview: any) {
     return this.http.delete<any>(`${environment.apiUrl}/tours-reviews/${toursReview.tours_review_id}`)
+      .pipe(map((result: any) => {
+        return result;
+      }));
+  }
+
+  createToursReview(tourId: number, rating: number, content: string) {
+    return this.http.post<any>(`${environment.apiUrl}/tours-reviews`, {
+      tour_id: tourId,
+      rating: rating,
+      content: content
+    })
       .pipe(map((result: any) => {
         return result;
       }));

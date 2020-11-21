@@ -16,6 +16,13 @@ export class MasterDataService {
         return result;
       }));
   }
+  
+  getCountriesWithTheMostTours(limit: number) {
+    return this.http.get<any>(`${environment.apiUrl}/countries/the-most-tours?limit=${limit}`)
+      .pipe(map((result: any) => {
+        return result;
+      }));
+  }
 
   getCities(country_id: any) {
     return this.http.get<any>(`${environment.apiUrl}/cities?country_id=${country_id}`, {

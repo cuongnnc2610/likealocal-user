@@ -13,6 +13,34 @@
                             <div class="pb-4 mb-2">
                                 <div class="sidebar border border-color-1 rounded-xs">
                                     <div class="p-4 mx-1 mb-1">
+                                        <div class="col dropdown-custom px-0 mb-5">
+                                            <!-- Input -->
+                                            <span class="d-block text-gray-1 text-left font-weight-normal mb-2">Country</span>
+                                            <div class="flex-horizontal-center border-bottom border-width-2 border-color-1 pb-2">
+                                                <i class="flaticon-backpack d-flex align-items-center mr-2 font-size-24 text-primary"></i>
+                                                <select class="js-select selectpicker dropdown-select bootstrap-select__custom-nav"
+                                                    data-style="btn-sm mt-1 py-0 px-0  text-black font-size-16 font-weight-semi-bold d-flex align-items-center">
+                                                    <option value="one" selected>City Tour</option>
+                                                    <option value="two">Village Tour</option>
+                                                    <option value="three">Holiday Tour</option>
+                                                    <option value="four">City Tour</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col dropdown-custom px-0 mb-5">
+                                            <!-- Input -->
+                                            <span class="d-block text-gray-1 text-left font-weight-normal mb-2">City</span>
+                                            <div class="flex-horizontal-center border-bottom border-width-2 border-color-1 pb-2">
+                                                <i class="flaticon-backpack d-flex align-items-center mr-2 font-size-24 text-primary"></i>
+                                                <select class="js-select selectpicker dropdown-select bootstrap-select__custom-nav"
+                                                    data-style="btn-sm mt-1 py-0 px-0  text-black font-size-16 font-weight-semi-bold d-flex align-items-center">
+                                                    <option value="one" selected>City Tour</option>
+                                                    <option value="two">Village Tour</option>
+                                                    <option value="three">Holiday Tour</option>
+                                                    <option value="four">City Tour</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                         <!-- Input -->
                                         <span class="d-block text-gray-1  font-weight-normal mb-0 text-left">Destination or Hotel Name</span>
                                         <div class="mb-4">
@@ -43,7 +71,22 @@
 
                                         <div class="col dropdown-custom px-0 mb-5">
                                             <!-- Input -->
-                                            <span class="d-block text-gray-1 text-left font-weight-normal mb-2">Trip Type</span>
+                                            <span class="d-block text-gray-1 text-left font-weight-normal mb-2">Category</span>
+                                            <div class="flex-horizontal-center border-bottom border-width-2 border-color-1 pb-2">
+                                                <i class="flaticon-backpack d-flex align-items-center mr-2 font-size-24 text-primary"></i>
+                                                <select class="js-select selectpicker dropdown-select bootstrap-select__custom-nav"
+                                                    data-style="btn-sm mt-1 py-0 px-0  text-black font-size-16 font-weight-semi-bold d-flex align-items-center">
+                                                    <option value="one" selected>City Tour</option>
+                                                    <option value="two">Village Tour</option>
+                                                    <option value="three">Holiday Tour</option>
+                                                    <option value="four">City Tour</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col dropdown-custom px-0 mb-5">
+                                            <!-- Input -->
+                                            <span class="d-block text-gray-1 text-left font-weight-normal mb-2">Transport</span>
                                             <div class="flex-horizontal-center border-bottom border-width-2 border-color-1 pb-2">
                                                 <i class="flaticon-backpack d-flex align-items-center mr-2 font-size-24 text-primary"></i>
                                                 <select class="js-select selectpicker dropdown-select bootstrap-select__custom-nav"
@@ -143,6 +186,18 @@
                                                             <div class="d-inline-flex align-items-center font-size-13 text-lh-1 text-primary">
                                                                 <div class="green-lighter ml-1 letter-spacing-2">
                                                                     <i class="fas fa-star"></i>
+                                                                    <i class="fas fa-star"></i>
+                                                                </div>
+                                                            </div>
+                                                      </label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group font-size-14 text-lh-md text-secondary mb-3">
+                                                    <div class="custom-control custom-checkbox">
+                                                      <input type="checkbox" class="custom-control-input" id="brandFredPerry">
+                                                      <label class="custom-control-label text-lh-inherit text-color-1" for="brandFredPerry">
+                                                            <div class="d-inline-flex align-items-center font-size-13 text-lh-1 text-primary">
+                                                                <div class="green-lighter ml-1 letter-spacing-2">
                                                                     <i class="fas fa-star"></i>
                                                                 </div>
                                                             </div>
@@ -285,7 +340,7 @@
             <div class="col-lg-8 col-xl-9 order-md-1 order-lg-2">
                 <!-- Shop-control-bar Title -->
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h3 class="font-size-21 font-weight-bold mb-0 text-lh-1">London: 3292 tours found</h3>
+                    <h3 class="font-size-21 font-weight-bold mb-0 text-lh-1">3292 tours found</h3>
                     <ul class="nav tab-nav-shop flex-nowrap" id="pills-tab" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link font-size-22 p-0" id="pills-three-example1-tab" data-toggle="pill" href="#pills-three-example1" role="tab" aria-controls="pills-three-example1" aria-selected="true">
@@ -329,14 +384,6 @@
                                   <option value="three">Three</option>
                                   <option value="four">Four</option>
                                 </select>
-                            </li>
-                            <li class="nav-item d-flex align-items-center flex-shrink-0 flex-xl-shrink-1 border-left">
-                                <a href="#" class="nav-link font-weight-normal text-gray-1 text-lh-1dot6 py-1 px-4 px-wd-5 font-weight-normal font-size-15 ">Guest Rating
-                                </a>
-                            </li>
-                            <li class="nav-item d-flex align-items-center flex-shrink-0 flex-xl-shrink-1 border-left">
-                                <a href="#" class="nav-link font-weight-normal text-gray-1 text-lh-1dot6 py-1 px-4 px-wd-5 font-weight-normal font-size-15 ">Distance
-                                </a>
                             </li>
                             <li class="nav-item d-flex align-items-center flex-shrink-0 flex-xl-shrink-1 border-left">
                                 <a href="#" class="nav-link font-weight-normal text-gray-1 text-lh-1dot6 py-1 px-4 px-wd-5 font-weight-normal font-size-15 ">Top Reviewed

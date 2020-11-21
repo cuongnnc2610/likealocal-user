@@ -1,0 +1,160 @@
+.review-star {
+    cursor: pointer;
+}
+
+.tour-image-container {
+  padding: 0 5px;
+  margin-bottom: 10px;
+  position: relative;
+  /* width: 100%;
+  height: 130px; */
+}
+  
+  
+.tour-image-container:hover .image-button {
+  display: block;
+  background-color: rgba(0, 0, 0, .6);
+}
+
+.tour-image {
+  border-radius: 5px;
+  object-fit: cover;
+}
+
+.required-text {
+  font-weight: 700;
+  color: #f86c6b;
+  font-size: 14px;
+  min-height: 18px;
+}
+
+/* Dropdown style */
+.dropdown-wrapper{
+  width:100%;
+}
+
+.dropdown-wrapper .ae-select {
+  padding: 8px 0px;
+  position: relative;
+  /* border: 1px solid #ccc; */
+  /* height: 60px; */
+}
+
+.dropdown-wrapper .ae-select.chosen {
+  color: #333;
+}
+
+.dropdown-wrapper .ae-select .down-icon, .ae-select .up-icon {
+  position: absolute;
+  /* right: 8px; */
+  right: 0px;
+  top: 7px;
+}
+
+.dropdown-wrapper .ae-dropdown .dropdown-menuz {
+  box-shadow: none;
+  border-radius: 0px;
+  z-index: 99;
+}
+
+.dropdown-wrapper .ae-dropdown .ae-select, .dropdown-wrapper .ae-dropdown .dropdown-menuz>li {
+  cursor: pointer;
+}
+
+.dropdown-wrapper .ae-dropdown .dropdown-menuz>li>a:focus, .dropdown-wrapper .ae-dropdown .dropdown-menuz>li>a:hover {
+  background: none;
+}
+
+.dropdown-wrapper .ae-disabled{
+  pointer-events: none;
+}
+
+.ae-hide{
+  display:none;
+}
+
+ul.dropdown-menuz{
+  position: absolute;
+  background: white;
+  width: -webkit-fill-available;
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+  /* border: 1px solid #ccc; */
+  border-radius: 0.3125rem !important;
+  box-shadow: 0 5px 9px rgba(41, 124, 187, 0.075), 0 5px 9px rgba(119, 131, 143, 0.075) !important;
+}
+
+ul.dropdown-menuz li{
+  padding: 5px 0px;
+}
+
+ul.dropdown-menuz li:hover{
+  background-color: rgba(99, 194, 222, 0.8);
+  color: white;
+}
+/* Dropdown style */
+
+.avatar-container {
+  width: 60px;
+  border-radius: 100%;
+  display: inline-block;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 100%;
+  overflow: hidden;
+}
+
+.host-option {
+  position: relative;
+  margin: 0px 8px;
+}
+
+.host-information {
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  height: 60px;
+  margin-top: -30px;
+  margin-left: 10px;
+  color: #67747C;
+}
+
+input[type="number"]:disabled {
+  background: transparent;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+
+.js-minus, .js-plus {
+  cursor: pointer;
+}
+
+.date-picker {
+  width: 100%;
+  background: transparent;
+}
+
+::ng-deep.mat-form-field-wrapper {
+  padding: 0 !important;
+} 
+
+::ng-deep.mat-form-field-flex {
+  background: transparent !important;
+  padding: 0 !important;
+} 
+
+::ng-deep.mat-form-field-underline {
+  display: none !important;
+} 
+
+.time-option {
+  position: relative;
+  margin: 0px 8px;
+}
