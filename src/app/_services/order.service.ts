@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { Order } from '../_models';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,24 @@ import { environment } from '../../environments/environment';
 export class OrderService {
 
   constructor(private http: HttpClient) { }
+
+  createOrder(order: Order) {
+    console.log(order);
+    return this.http.post<any>(`${environment.apiUrl}/orders`, {
+      tours_host_id: order.tours_host_id,
+      fullname: order.fullname,
+      email: order.email,
+      phone_number: order.phone_number,
+      language_id: order.language_id,
+      number_of_people: order.number_of_people,
+      date_time: order.date_time,
+      coupon: order.coupon.code,
+    })
+      .pipe(map((result: any) => {
+        return result;
+      }));
+  }
+  
 
   getOrders(numberPage: number, searchInputForm, orderType) {
     let createdAt = '';

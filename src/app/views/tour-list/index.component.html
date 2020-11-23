@@ -17,41 +17,51 @@
                                             <!-- Input -->
                                             <span class="d-block text-gray-1 text-left font-weight-normal mb-2">Country</span>
                                             <div class="flex-horizontal-center border-bottom border-width-2 border-color-1 pb-2">
-                                                <i class="flaticon-backpack d-flex align-items-center mr-2 font-size-24 text-primary"></i>
-                                                <select class="js-select selectpicker dropdown-select bootstrap-select__custom-nav"
-                                                    data-style="btn-sm mt-1 py-0 px-0  text-black font-size-16 font-weight-semi-bold d-flex align-items-center">
-                                                    <option value="one" selected>City Tour</option>
-                                                    <option value="two">Village Tour</option>
-                                                    <option value="three">Holiday Tour</option>
-                                                    <option value="four">City Tour</option>
-                                                </select>
+                                                <!-- <i class="flaticon-backpack d-flex align-items-center mr-2 font-size-24 text-primary"></i> -->
+                                                <div class="dropdown-wrapper">
+                                                    <div class="ae-dropdown dropdown" (click)="showAllCountries();">
+                                                        <div class="ae-select">
+                                                            <span class="ae-select-content" id="selecting-country" style="font-weight: 500;">
+                                                                Choose a country
+                                                            </span>
+                                                            <i class="material-icons down-icon">keyboard_arrow_down</i>
+                                                        </div>
+                                                        <ul [ngClass]="isCountriesShown ? 'dropdown-menuz' : 'dropdown-menuz ae-hide'">
+                                                            <li *ngFor="let country of countries" (click)="selectCountry($event, country)" id="{{'country' + country.country_id}}" style="list-style-type: none; padding: 10px 10px;" class="mb-1">
+                                                                <div class="time-option">
+                                                                    {{country.name}}
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col dropdown-custom px-0 mb-5">
                                             <!-- Input -->
                                             <span class="d-block text-gray-1 text-left font-weight-normal mb-2">City</span>
                                             <div class="flex-horizontal-center border-bottom border-width-2 border-color-1 pb-2">
-                                                <i class="flaticon-backpack d-flex align-items-center mr-2 font-size-24 text-primary"></i>
-                                                <select class="js-select selectpicker dropdown-select bootstrap-select__custom-nav"
-                                                    data-style="btn-sm mt-1 py-0 px-0  text-black font-size-16 font-weight-semi-bold d-flex align-items-center">
-                                                    <option value="one" selected>City Tour</option>
-                                                    <option value="two">Village Tour</option>
-                                                    <option value="three">Holiday Tour</option>
-                                                    <option value="four">City Tour</option>
-                                                </select>
+                                                <div class="dropdown-wrapper">
+                                                    <div class="ae-dropdown dropdown" (click)="showAllCities();">
+                                                        <div class="ae-select">
+                                                            <span class="ae-select-content" id="selecting-city" style="font-weight: 500;">
+                                                                All
+                                                            </span>
+                                                            <i class="material-icons down-icon">keyboard_arrow_down</i>
+                                                        </div>
+                                                        <ul [ngClass]="isCitiesShown ? 'dropdown-menuz' : 'dropdown-menuz ae-hide'">
+                                                            <li *ngFor="let city of cities" (click)="selectCity($event, city)" id="{{'city' + city.city_id}}" style="list-style-type: none; padding: 10px 10px;" class="mb-1">
+                                                                <div class="time-option">
+                                                                    {{city.name}}
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <!-- Input -->
-                                        <span class="d-block text-gray-1  font-weight-normal mb-0 text-left">Destination or Hotel Name</span>
-                                        <div class="mb-4">
-                                            <div class="input-group border-bottom border-width-2 border-color-1">
-                                                <i class="flaticon-pin-1 d-flex align-items-center mr-2 text-primary font-weight-semi-bold font-size-22"></i>
-                                              <input type="text" class="form-control font-weight-bold font-size-16 shadow-none hero-form font-weight-bold border-0 p-0" placeholder="Where are you going?" aria-label="Keyword or title" aria-describedby="keywordInputAddon">
-                                            </div>
-                                        </div>
-                                        <!-- End Input -->
-                                        <!-- Input -->
-                                        <span class="d-block text-gray-1 text-left font-weight-normal mb-0">From - To</span>
+                                        <!-- <span class="d-block text-gray-1 text-left font-weight-normal mb-0">Date</span>
                                         <div class="border-bottom border-width-2 border-color-1 mb-4">
                                             <div id="datepickerWrapperFromOne" class="u-datepicker input-group flex-nowrap">
                                                 <div class="input-group-prepend">
@@ -65,22 +75,30 @@
                                                     data-rp-date-format="M d / Y"
                                                     data-rp-default-date='["Jul 7 / 2020", "Aug 25 / 2020"]'>
                                             </div>
-                                             <!-- End Datepicker -->
-                                        </div>
+                                        </div> -->
                                         <!-- End Input -->
 
                                         <div class="col dropdown-custom px-0 mb-5">
                                             <!-- Input -->
                                             <span class="d-block text-gray-1 text-left font-weight-normal mb-2">Category</span>
                                             <div class="flex-horizontal-center border-bottom border-width-2 border-color-1 pb-2">
-                                                <i class="flaticon-backpack d-flex align-items-center mr-2 font-size-24 text-primary"></i>
-                                                <select class="js-select selectpicker dropdown-select bootstrap-select__custom-nav"
-                                                    data-style="btn-sm mt-1 py-0 px-0  text-black font-size-16 font-weight-semi-bold d-flex align-items-center">
-                                                    <option value="one" selected>City Tour</option>
-                                                    <option value="two">Village Tour</option>
-                                                    <option value="three">Holiday Tour</option>
-                                                    <option value="four">City Tour</option>
-                                                </select>
+                                                <div class="dropdown-wrapper">
+                                                    <div class="ae-dropdown dropdown" (click)="showAllCategories();">
+                                                        <div class="ae-select">
+                                                            <span class="ae-select-content" id="selecting-category" style="font-weight: 500;">
+                                                                All
+                                                            </span>
+                                                            <i class="material-icons down-icon">keyboard_arrow_down</i>
+                                                        </div>
+                                                        <ul [ngClass]="isCategoriesShown ? 'dropdown-menuz' : 'dropdown-menuz ae-hide'">
+                                                            <li *ngFor="let category of categories" (click)="selectCategory($event, category)" id="{{'category' + category.category_id}}" style="list-style-type: none; padding: 10px 10px;" class="mb-1">
+                                                                <div class="time-option">
+                                                                    {{category.name}}
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -88,19 +106,28 @@
                                             <!-- Input -->
                                             <span class="d-block text-gray-1 text-left font-weight-normal mb-2">Transport</span>
                                             <div class="flex-horizontal-center border-bottom border-width-2 border-color-1 pb-2">
-                                                <i class="flaticon-backpack d-flex align-items-center mr-2 font-size-24 text-primary"></i>
-                                                <select class="js-select selectpicker dropdown-select bootstrap-select__custom-nav"
-                                                    data-style="btn-sm mt-1 py-0 px-0  text-black font-size-16 font-weight-semi-bold d-flex align-items-center">
-                                                    <option value="one" selected>City Tour</option>
-                                                    <option value="two">Village Tour</option>
-                                                    <option value="three">Holiday Tour</option>
-                                                    <option value="four">City Tour</option>
-                                                </select>
+                                                <div class="dropdown-wrapper">
+                                                    <div class="ae-dropdown dropdown" (click)="showAllTransports();">
+                                                        <div class="ae-select">
+                                                            <span class="ae-select-content" id="selecting-transport" style="font-weight: 500;">
+                                                                All
+                                                            </span>
+                                                            <i class="material-icons down-icon">keyboard_arrow_down</i>
+                                                        </div>
+                                                        <ul [ngClass]="isTransportsShown ? 'dropdown-menuz' : 'dropdown-menuz ae-hide'">
+                                                            <li *ngFor="let transport of transports" (click)="selectTransport($event, transport)" id="{{'transport' + transport.transport_id}}" style="list-style-type: none; padding: 10px 10px;" class="mb-1">
+                                                                <div class="time-option">
+                                                                    {{transport.name}}
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
 
                                         <div class="text-center">
-                                            <button type="submit" class="btn btn-primary height-60 w-100 font-weight-bold mb-xl-0 mb-lg-1 transition-3d-hover"><i class="flaticon-magnifying-glass mr-2 font-size-17"></i>Search</button>
+                                            <button type="submit" class="btn btn-primary height-60 w-100 font-weight-bold mb-xl-0 mb-lg-1 transition-3d-hover" (click)="getTours()"><i class="flaticon-magnifying-glass mr-2 font-size-17"></i>Search</button>
                                         </div>
                                     </div>
                                 </div>
@@ -136,8 +163,8 @@
                                                 <!-- Checkboxes -->
                                                 <div class="form-group font-size-14 text-lh-md text-secondary mb-3">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" id="brandAdidas">
-                                                        <label class="custom-control-label text-lh-inherit text-color-1" for="brandAdidas">
+                                                        <input type="checkbox" class="custom-control-input" id="fiveStar">
+                                                        <label class="custom-control-label text-lh-inherit text-color-1" for="fiveStar">
                                                             <div class="d-inline-flex align-items-center font-size-13 text-lh-1 text-primary">
                                                                 <div class="green-lighter ml-1 letter-spacing-2">
                                                                     <i class="fas fa-star"></i>
@@ -152,8 +179,8 @@
                                                 </div>
                                                 <div class="form-group font-size-14 text-lh-md text-secondary mb-3">
                                                     <div class="custom-control custom-checkbox">
-                                                       <input type="checkbox" class="custom-control-input" id="brandNewBalance">
-                                                       <label class="custom-control-label text-lh-inherit text-color-1" for="brandNewBalance">
+                                                       <input type="checkbox" class="custom-control-input" id="fourStar">
+                                                       <label class="custom-control-label text-lh-inherit text-color-1" for="fourStar">
                                                             <div class="d-inline-flex align-items-center font-size-13 text-lh-1 text-primary">
                                                                 <div class="green-lighter ml-1 letter-spacing-2">
                                                                     <i class="fas fa-star"></i>
@@ -167,8 +194,8 @@
                                                 </div>
                                                 <div class="form-group font-size-14 text-lh-md text-secondary mb-3">
                                                     <div class="custom-control custom-checkbox">
-                                                      <input type="checkbox" class="custom-control-input" id="brandNike">
-                                                      <label class="custom-control-label text-lh-inherit text-color-1" for="brandNike">
+                                                      <input type="checkbox" class="custom-control-input" id="threeStar">
+                                                      <label class="custom-control-label text-lh-inherit text-color-1" for="threeStar">
                                                             <div class="d-inline-flex align-items-center font-size-13 text-lh-1 text-primary">
                                                                 <div class="green-lighter ml-1 letter-spacing-2">
                                                                     <i class="fas fa-star"></i>
@@ -181,8 +208,8 @@
                                                 </div>
                                                 <div class="form-group font-size-14 text-lh-md text-secondary mb-3">
                                                     <div class="custom-control custom-checkbox">
-                                                      <input type="checkbox" class="custom-control-input" id="brandFredPerry">
-                                                      <label class="custom-control-label text-lh-inherit text-color-1" for="brandFredPerry">
+                                                      <input type="checkbox" class="custom-control-input" id="secondStar">
+                                                      <label class="custom-control-label text-lh-inherit text-color-1" for="secondStar">
                                                             <div class="d-inline-flex align-items-center font-size-13 text-lh-1 text-primary">
                                                                 <div class="green-lighter ml-1 letter-spacing-2">
                                                                     <i class="fas fa-star"></i>
@@ -194,8 +221,8 @@
                                                 </div>
                                                 <div class="form-group font-size-14 text-lh-md text-secondary mb-3">
                                                     <div class="custom-control custom-checkbox">
-                                                      <input type="checkbox" class="custom-control-input" id="brandFredPerry">
-                                                      <label class="custom-control-label text-lh-inherit text-color-1" for="brandFredPerry">
+                                                      <input type="checkbox" class="custom-control-input" id="oneStar">
+                                                      <label class="custom-control-label text-lh-inherit text-color-1" for="oneStar">
                                                             <div class="d-inline-flex align-items-center font-size-13 text-lh-1 text-primary">
                                                                 <div class="green-lighter ml-1 letter-spacing-2">
                                                                     <i class="fas fa-star"></i>
@@ -340,8 +367,8 @@
             <div class="col-lg-8 col-xl-9 order-md-1 order-lg-2">
                 <!-- Shop-control-bar Title -->
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h3 class="font-size-21 font-weight-bold mb-0 text-lh-1">3292 tours found</h3>
-                    <ul class="nav tab-nav-shop flex-nowrap" id="pills-tab" role="tablist">
+                    <h3 class="font-size-21 font-weight-bold mb-0 text-lh-1">{{total}} tours found</h3>
+                    <!-- <ul class="nav tab-nav-shop flex-nowrap" id="pills-tab" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link font-size-22 p-0" id="pills-three-example1-tab" data-toggle="pill" href="#pills-three-example1" role="tab" aria-controls="pills-three-example1" aria-selected="true">
                                 <div class="d-md-flex justify-content-md-center align-items-md-center">
@@ -356,7 +383,7 @@
                                 </div>
                             </a>
                         </li>
-                    </ul>
+                    </ul> -->
                 </div>
                 <!-- End shop-control-bar Title -->
 
@@ -364,29 +391,37 @@
                 <div class="u-slick__tab">
                     <!-- Nav Links -->
                     <div class="mb-5">
-                        <ul class="nav flex-nowrap border border-radius-3 tab-nav align-items-center py-2 px-0" role="tablist">
+                        <ul class="nav flex-nowrap border border-radius-3 align-items-center py-2 px-0" role="tablist">
                             <li class="nav-item d-flex align-items-center flex-shrink-0 flex-xl-shrink-1">
-                                <a href="#" class="nav-link font-weight-normal text-gray-1 text-lh-1dot6 py-1 px-4 px-wd-5 font-weight-normal font-size-15 ">Recommended
+                                <a class="nav-link font-weight-normal text-primary text-lh-1dot6 py-1 px-4 px-wd-5 font-weight-normal font-size-15" id="best-seller" (click)="selectBestSeller()" style="cursor: pointer">Best Seller
                                 </a>
                             </li>
-                            <li class="nav-item d-flex align-items-center flex-shrink-0 flex-xl-shrink-1 border-left">
-                                <select class="js-select selectpicker dropdown-select bootstrap-select__custom-nav w-auto" data-style="btn-sm py-1 px-4 px-wd-5 font-weight-normal font-size-15  text-gray-1 d-flex align-items-center">
-                                  <option value="one" selected>Price</option>
-                                  <option value="two">Two</option>
-                                  <option value="three">Three</option>
-                                  <option value="four">Four</option>
-                                </select>
+                            <li class="nav-item d-flex align-items-center flex-shrink-0 flex-xl-shrink-1 border-left pl-4">
+                                <div class="dropdown-wrapper" style="width: 150px">
+                                    <div class="ae-dropdown dropdown" (click)="showAllPrices();">
+                                        <div class="ae-select">
+                                            <span class="ae-select-content" id="selecting-price">
+                                                <span class="font-weight-normal text-gray-1 font-size-15">Price</span>
+                                            </span>
+                                            <i class="material-icons down-icon">keyboard_arrow_down</i>
+                                        </div>
+                                        <ul [ngClass]="isPricesShown ? 'dropdown-menuz' : 'dropdown-menuz ae-hide'" style="width: 150px">
+                                            <li (click)="selectPrice($event, 7)" style="list-style-type: none; padding: 10px 10px;" class="mb-1">
+                                                <div class="time-option">
+                                                    High to Low
+                                                </div>
+                                            </li>
+                                            <li (click)="selectPrice($event, 8)" style="list-style-type: none; padding: 10px 10px;" class="mb-1">
+                                                <div class="time-option">
+                                                    Low to High
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </li>
                             <li class="nav-item d-flex align-items-center flex-shrink-0 flex-xl-shrink-1 border-left">
-                                <select class="js-select selectpicker dropdown-select bootstrap-select__custom-nav w-auto" data-style="btn-sm py-1 px-4 px-wd-5 font-weight-normal font-size-15  text-gray-1 d-flex align-items-center">
-                                  <option value="one" selected>Stars</option>
-                                  <option value="two">Two</option>
-                                  <option value="three">Three</option>
-                                  <option value="four">Four</option>
-                                </select>
-                            </li>
-                            <li class="nav-item d-flex align-items-center flex-shrink-0 flex-xl-shrink-1 border-left">
-                                <a href="#" class="nav-link font-weight-normal text-gray-1 text-lh-1dot6 py-1 px-4 px-wd-5 font-weight-normal font-size-15 ">Top Reviewed
+                                <a class="nav-link font-weight-normal text-gray-1 text-lh-1dot6 py-1 px-4 px-wd-5 font-weight-normal font-size-15" id="top-reviewed" (click)="selectTopReviewed()" style="cursor: pointer">Top Reviewed
                                 </a>
                             </li>
                         </ul>
@@ -395,7 +430,7 @@
 
                     <!-- Tab Content -->
                     <div class="tab-content" id="pills-tabContent">
-                        <div class="tab-pane fade" id="pills-three-example1" role="tabpanel" aria-labelledby="pills-three-example1-tab" data-target-group="groups">
+                        <!-- <div class="tab-pane fade" id="pills-three-example1" role="tabpanel" aria-labelledby="pills-three-example1-tab" data-target-group="groups">
                             <ul class="d-block list-unstyled products-group prodcut-list-view">
                                 <li class="card mb-5 overflow-hidden">
                                     <div class="product-item__outer w-100">
@@ -850,18 +885,27 @@
                                     </div>
                                 </li>
                             </ul>
-                        </div>
+                        </div> -->
                         <div class="tab-pane fade show active" id="pills-one-example1" role="tabpanel" aria-labelledby="pills-one-example1-tab" data-target-group="groups">
                             <div class="row">
-                                <div class="col-md-6 col-xl-4 mb-3 mb-md-4 pb-1">
+                                <div *ngIf="!tours.length" style="height: 500px; position: relative;" class="col-12">
+                                    <ngx-spinner
+                                        bdColor = "bg-transparent"
+                                        color = "#67747C"
+                                        [fullScreen]="false"
+                                        type="ball-clip-rotate-multiple" 
+                                        size="medium">
+                                    </ngx-spinner>
+                                </div>
+                                <div *ngFor="let tour of tours" class="col-md-6 col-xl-4 mb-3 mb-md-4 pb-1">
                                     <div class="card mb-1 transition-3d-hover shadow-hover-2 tab-card h-100">
                                         <div class="position-relative mb-2">
-                                            <a href="../tour/tour-single-v1.html" class="d-block gradient-overlay-half-bg-gradient-v5">
-                                                <img class="min-height-230 bg-img-hero card-img-top" src="../../assets/img/300x230/img1.jpg" alt="img">
+                                            <a [routerLink]="['/tour-detail', tour.tour_id]" class="d-block gradient-overlay-half-bg-gradient-v5">
+                                                <img class="min-height-230 bg-img-hero card-img-top" src="{{tour.cover_image}}" alt="img">
                                             </a>
                                             <div class="position-absolute top-0 left-0 pt-5 pl-3">
-                                                <span class="badge badge-pill bg-white text-primary px-4 py-2 font-size-14 font-weight-normal">Featured</span>
-                                                <span class="badge badge-pill bg-white text-danger px-3 ml-3 py-2 font-size-14 font-weight-normal">%25</span>
+                                                <!-- <span class="badge badge-pill bg-white text-primary px-4 py-2 font-size-14 font-weight-normal">Featured</span> -->
+                                                <span *ngIf="tour.sale_price !== tour.list_price" class="badge badge-pill bg-white text-danger px-3 py-2 font-size-14 font-weight-normal">%{{100 - (tour.sale_price / tour.list_price * 100).toFixed(0)}}</span>
                                             </div>
                                             <div class="position-absolute top-0 right-0 pt-5 pr-3">
                                               <button type="button" class="btn btn-sm btn-icon text-white rounded-circle" data-toggle="tooltip" data-placement="top" title="" data-original-title="Save for later">
@@ -870,384 +914,41 @@
                                             </div>
                                             <div class="position-absolute bottom-0 left-0 right-0">
                                                 <div class="px-3 pb-2">
-                                                    <h2 class="h5 text-white mb-0 font-weight-bold"><small class="mr-2">From</small>£350.00</h2>
+                                                    <h2 class="h5 text-white mb-0 font-weight-bold">
+                                                        <small class="mr-2">Price</small>
+                                                        {{tour.sale_price}}$
+                                                    </h2>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="card-body px-4 py-2">
-                                            <a href="../tour/tour-single-v1.html" class="d-block">
+                                            <a [routerLink]="['/tour-detail', tour.tour_id]" class="d-block">
                                                 <div class="mb-1 d-flex align-items-center font-size-14 text-gray-1">
-                                                    <i class="icon flaticon-pin-1 mr-2 font-size-15"></i> Greater London, United Kingdom
+                                                    <i class="icon flaticon-pin-1 mr-2 font-size-15"></i> {{tour.city.name}}, {{tour.city.country.name}}
                                                 </div>
                                             </a>
-                                            <a href="../tour/tour-single-v1.html" class="card-title font-size-17 font-weight-bold mb-0 text-dark">Stonehenge, Windsor Castle,<br>and Bath from London</a>
+                                            <a [routerLink]="['/tour-detail', tour.tour_id]" class="card-title font-size-17 font-weight-bold mb-0 text-dark">{{tour.name}}</a>
                                             <div class="my-2">
                                                 <div class="d-inline-flex align-items-center font-size-17 text-lh-1 text-primary">
-                                                    <div class="green-lighter mr-2">
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
+                                                    <div class="mr-2">
+                                                        <small *ngIf="tour.rating === 0" class="fas fa-star text-secondary"></small>
+                                                        <small *ngIf="tour.rating >= 1" class="fas fa-star green-lighter"></small>
+                                                        <small *ngIf="tour.rating < 2" class="fas fa-star text-secondary"></small>
+                                                        <small *ngIf="tour.rating >= 2" class="fas fa-star green-lighter"></small>
+                                                        <small *ngIf="tour.rating < 3" class="fas fa-star text-secondary"></small>
+                                                        <small *ngIf="tour.rating >= 3" class="fas fa-star green-lighter"></small>
+                                                        <small *ngIf="tour.rating < 4" class="fas fa-star text-secondary"></small>
+                                                        <small *ngIf="tour.rating >= 4" class="fas fa-star green-lighter"></small>
+                                                        <small *ngIf="tour.rating < 5" class="fas fa-star text-secondary"></small>
+                                                        <small *ngIf="tour.rating === 5" class="fas fa-star green-lighter"></small>
                                                     </div>
-                                                    <span class="text-secondary font-size-14 mt-1">48 Reviews</span>
+                                                    <span class="text-secondary font-size-14 mt-1">{{tour.number_of_reviews}} Reviews</span>
                                                 </div>
                                             </div>
                                             <div class="mb-1 d-flex align-items-center font-size-14 text-gray-1">
-                                                <i class="icon flaticon-clock-circular-outline mr-2 font-size-14"></i> 3 hours 45 minutes
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-xl-4 mb-3 mb-md-4 pb-1">
-                                    <div class="card mb-1 transition-3d-hover shadow-hover-2 tab-card h-100">
-                                        <div class="position-relative mb-2">
-                                            <a href="../tour/tour-single-v2.html" class="d-block gradient-overlay-half-bg-gradient-v5">
-                                                <img class="min-height-230 bg-img-hero card-img-top" src="../../assets/img/300x230/img2.jpg" alt="img">
-                                            </a>
-                                            <div class="position-absolute top-0 left-0 pt-5 pl-3">
-                                                <span class="badge badge-pill bg-white text-danger px-3 ml-3 py-2 font-size-14 font-weight-normal">%25</span>
-                                            </div>
-                                            <div class="position-absolute top-0 right-0 pt-5 pr-3">
-                                              <button type="button" class="btn btn-sm btn-icon text-white rounded-circle" data-toggle="tooltip" data-placement="top" title="" data-original-title="Save for later">
-                                                <span class="flaticon-valentine-heart font-size-20"></span>
-                                              </button>
-                                            </div>
-                                            <div class="position-absolute bottom-0 left-0 right-0">
-                                                <div class="px-3 pb-2">
-                                                    <span class="text-gray-10 font-weight-normal font-size-14">Multi-day Tours</span>
-                                                    <h2 class="h5 text-white mb-0 font-weight-bold"><small class="mr-2">From</small>£899.00</h2>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body px-4 py-2">
-                                            <a href="../tour/tour-single-v2.html" class="d-block">
-                                                <div class="mb-1 d-flex align-items-center font-size-14 text-gray-1">
-                                                    <i class="icon flaticon-pin-1 mr-2 font-size-15"></i> Istanbul, Turkey
-                                                </div>
-                                            </a>
-                                            <a href="../tour/tour-single-v2.html" class="card-title text-dark font-size-17 font-weight-bold">Bosphorus Strait and Black Sea Half-Day Cruise from Istanbul</a>
-                                            <div class="my-2">
-                                                <div class="d-inline-flex align-items-center font-size-17 text-lh-1">
-                                                    <div class="green-lighter mr-2">
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                    </div>
-                                                    <span class="text-secondary font-size-14 mt-1">48 Reviews</span>
-                                                </div>
-                                            </div>
-                                            <div class="mb-1 d-flex align-items-center font-size-14 text-gray-1">
-                                                <i class="icon flaticon-clock-circular-outline mr-2 font-size-14"></i> 3 hours 45 minutes
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-xl-4 mb-3 mb-md-4 pb-1">
-                                    <div class="card mb-1 transition-3d-hover shadow-hover-2 tab-card h-100">
-                                        <div class="position-relative mb-2">
-                                            <a href="../tour/tour-single-v1.html" class="d-block gradient-overlay-half-bg-gradient-v5">
-                                                <img class="min-height-230 bg-img-hero card-img-top" src="../../assets/img/300x230/img3.jpg" alt="img">
-                                            </a>
-                                            <div class="position-absolute top-0 right-0 pt-5 pr-3">
-                                              <button type="button" class="btn btn-sm btn-icon text-white rounded-circle" data-toggle="tooltip" data-placement="top" title="" data-original-title="Save for later">
-                                                <span class="flaticon-valentine-heart font-size-20"></span>
-                                              </button>
-                                            </div>
-                                            <div class="position-absolute bottom-0 left-0 right-0">
-                                                <div class="px-3 pb-2">
-                                                    <span class="text-gray-10 font-weight-normal font-size-14">Attraction Tickets</span>
-                                                    <h2 class="h5 text-white mb-0 font-weight-bold"><small class="mr-2">From</small>£590.00</h2>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body px-4 py-2">
-                                            <a href="../tour/tour-single-v1.html" class="d-block">
-                                                <div class="mb-1 d-flex align-items-center font-size-14 text-gray-1">
-                                                    <i class="icon flaticon-pin-1 mr-2 font-size-15"></i> Istanbul, Turkey
-                                                </div>
-                                            </a>
-                                            <a href="../tour/tour-single-v1.html" class="card-title text-dark font-size-17 font-weight-bold">NYC One World Observatory Skip-the-Line Ticket</a>
-                                            <div class="my-2">
-                                                <div class="d-inline-flex align-items-center font-size-17 text-lh-1">
-                                                    <div class="green-lighter mr-2">
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                    </div>
-                                                    <span class="text-secondary font-size-14 mt-1">48 Reviews</span>
-                                                </div>
-                                            </div>
-                                            <div class="mb-1 d-flex align-items-center font-size-14 text-gray-1">
-                                                <i class="icon flaticon-clock-circular-outline mr-2 font-size-14"></i> 3 hours 45 minutes
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-xl-4 mb-3 mb-md-4 pb-1">
-                                    <div class="card mb-1 transition-3d-hover shadow-hover-2 tab-card h-100">
-                                        <div class="position-relative mb-2">
-                                            <a href="../tour/tour-single-v1.html" class="d-block gradient-overlay-half-bg-gradient-v5">
-                                                <img class="min-height-230 bg-img-hero card-img-top" src="../../assets/img/300x230/img4.jpg" alt="img">
-                                            </a>
-                                            <div class="position-absolute top-0 right-0 pt-5 pr-3">
-                                                  <button type="button" class="btn btn-sm btn-icon text-white rounded-circle" data-toggle="tooltip" data-placement="top" title="" data-original-title="Save for later">
-                                                    <span class="flaticon-valentine-heart font-size-20"></span>
-                                                  </button>
-                                            </div>
-                                            <div class="position-absolute bottom-0 left-0 right-0">
-                                                <div class="px-3 pb-2">
-                                                    <span class="text-gray-10 font-weight-normal font-size-14">Culturals Tours</span>
-                                                    <h2 class="h5 text-white mb-0 font-weight-bold"><small class="mr-2">From</small>£550.00</h2>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body px-4 py-2">
-                                            <a href="../tour/tour-single-v1.html" class="d-block">
-                                                <div class="mb-1 d-flex align-items-center font-size-14 text-gray-1">
-                                                    <i class="icon flaticon-pin-1 mr-2 font-size-15"></i> Istanbul, Turkey
-                                                </div>
-                                            </a>
-                                            <a href="../tour/tour-single-v1.html" class="card-title text-dark font-size-17 font-weight-bold">Small-Group Blue Mountains Day Trip from Sydney with River Cruise</a>
-                                            <div class="my-2">
-                                                <div class="d-inline-flex align-items-center font-size-17 text-lh-1">
-                                                    <div class="green-lighter mr-2">
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                    </div>
-                                                    <span class="text-secondary font-size-14 mt-1">48 Reviews</span>
-                                                </div>
-                                            </div>
-                                            <div class="mb-1 d-flex align-items-center font-size-14 text-gray-1">
-                                                <i class="icon flaticon-clock-circular-outline mr-2 font-size-14"></i> 3 hours 45 minutes
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-xl-4 mb-3 mb-md-4 pb-1">
-                                    <div class="card mb-1 transition-3d-hover shadow-hover-2 tab-card h-100">
-                                        <div class="position-relative mb-2">
-                                            <a href="../tour/tour-single-v2.html" class="d-block gradient-overlay-half-bg-gradient-v5">
-                                                <img class="min-height-230 bg-img-hero card-img-top" src="../../assets/img/300x230/img48.jpg" alt="img">
-                                            </a>
-                                            <div class="position-absolute top-0 left-0 pt-5 pl-3">
-                                                <span class="badge badge-pill bg-white text-danger px-3 ml-3 py-2 font-size-14 font-weight-normal">%25</span>
-                                            </div>
-                                            <div class="position-absolute top-0 right-0 pt-5 pr-3">
-                                              <button type="button" class="btn btn-sm btn-icon text-white rounded-circle" data-toggle="tooltip" data-placement="top" title="" data-original-title="Save for later">
-                                                <span class="flaticon-valentine-heart font-size-20"></span>
-                                              </button>
-                                            </div>
-                                            <div class="position-absolute bottom-0 left-0 right-0">
-                                                <div class="px-3 pb-2">
-                                                    <span class="text-gray-10 font-weight-normal font-size-14">Multi-day Tours</span>
-                                                    <h2 class="h5 text-white mb-0 font-weight-bold"><small class="mr-2">From</small>£899.00</h2>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body px-4 py-2">
-                                            <a href="../tour/tour-single-v2.html" class="d-block">
-                                                <div class="mb-1 d-flex align-items-center font-size-14 text-gray-1">
-                                                    <i class="icon flaticon-pin-1 mr-2 font-size-15"></i> Istanbul, Turkey
-                                                </div>
-                                            </a>
-                                            <a href="../tour/tour-single-v2.html" class="card-title text-dark font-size-17 font-weight-bold pr-xl-3">Africa – Amazing African Safari</a>
-                                            <div class="my-2">
-                                                <div class="d-inline-flex align-items-center font-size-17 text-lh-1">
-                                                    <div class="green-lighter mr-2">
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                    </div>
-                                                    <span class="text-secondary font-size-14 mt-1">48 Reviews</span>
-                                                </div>
-                                            </div>
-                                            <div class="mb-1 d-flex align-items-center font-size-14 text-gray-1">
-                                                <i class="icon flaticon-clock-circular-outline mr-2 font-size-14"></i> 3 hours 45 minutes
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-xl-4 mb-3 mb-md-4 pb-1">
-                                    <div class="card mb-1 transition-3d-hover shadow-hover-2 tab-card h-100">
-                                        <div class="position-relative mb-2">
-                                            <a href="../tour/tour-single-v1.html" class="d-block gradient-overlay-half-bg-gradient-v5">
-                                                <img class="min-height-230 bg-img-hero card-img-top" src="../../assets/img/300x230/img49.jpg" alt="img">
-                                            </a>
-                                            <div class="position-absolute top-0 right-0 pt-5 pr-3">
-                                              <button type="button" class="btn btn-sm btn-icon text-white rounded-circle" data-toggle="tooltip" data-placement="top" title="" data-original-title="Save for later">
-                                                <span class="flaticon-valentine-heart font-size-20"></span>
-                                              </button>
-                                            </div>
-                                            <div class="position-absolute bottom-0 left-0 right-0">
-                                                <div class="px-3 pb-2">
-                                                    <span class="text-gray-10 font-weight-normal font-size-14">Attraction Tickets</span>
-                                                    <h2 class="h5 text-white mb-0 font-weight-bold"><small class="mr-2">From</small>£590.00</h2>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body px-4 py-2">
-                                            <a href="../tour/tour-single-v1.html" class="d-block">
-                                                <div class="mb-1 d-flex align-items-center font-size-14 text-gray-1">
-                                                    <i class="icon flaticon-pin-1 mr-2 font-size-15"></i> Istanbul, Turkey
-                                                </div>
-                                            </a>
-                                            <a href="../tour/tour-single-v1.html" class="card-title text-dark font-size-17 font-weight-bold">Enquiry Form Only  <br> Paris – 6 Days</a>
-                                            <div class="my-2">
-                                                <div class="d-inline-flex align-items-center font-size-17 text-lh-1">
-                                                    <div class="green-lighter mr-2">
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                    </div>
-                                                    <span class="text-secondary font-size-14 mt-1">48 Reviews</span>
-                                                </div>
-                                            </div>
-                                            <div class="mb-1 d-flex align-items-center font-size-14 text-gray-1">
-                                                <i class="icon flaticon-clock-circular-outline mr-2 font-size-14"></i> 3 hours 45 minutes
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-xl-4 mb-3 mb-md-4 pb-1">
-                                    <div class="card mb-1 transition-3d-hover shadow-hover-2 tab-card h-100">
-                                        <div class="position-relative mb-2">
-                                            <a href="../tour/tour-single-v2.html" class="d-block gradient-overlay-half-bg-gradient-v5">
-                                                <img class="min-height-230 bg-img-hero card-img-top" src="../../assets/img/300x230/img50.jpg" alt="img">
-                                            </a>
-                                            <div class="position-absolute top-0 right-0 pt-5 pr-3">
-                                                  <button type="button" class="btn btn-sm btn-icon text-white rounded-circle" data-toggle="tooltip" data-placement="top" title="" data-original-title="Save for later">
-                                                    <span class="flaticon-valentine-heart font-size-20"></span>
-                                                  </button>
-                                            </div>
-                                            <div class="position-absolute bottom-0 left-0 right-0">
-                                                <div class="px-3 pb-2">
-                                                    <span class="text-gray-10 font-weight-normal font-size-14">Culturals Tours</span>
-                                                    <h2 class="h5 text-white mb-0 font-weight-bold"><small class="mr-2">From</small>£550.00</h2>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body px-4 py-2">
-                                            <a href="../tour/tour-single-v2.html" class="d-block">
-                                                <div class="mb-1 d-flex align-items-center font-size-14 text-gray-1">
-                                                    <i class="icon flaticon-pin-1 mr-2 font-size-15"></i> Istanbul, Turkey
-                                                </div>
-                                            </a>
-                                            <a href="../tour/tour-single-v2.html" class="card-title text-dark font-size-17 font-weight-bold pr-xl-3">Venice, Rome and Milan – <br> 9 Days 8 Nights</a>
-                                            <div class="my-2">
-                                                <div class="d-inline-flex align-items-center font-size-17 text-lh-1">
-                                                    <div class="green-lighter mr-2">
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                    </div>
-                                                    <span class="text-secondary font-size-14 mt-1">48 Reviews</span>
-                                                </div>
-                                            </div>
-                                            <div class="mb-1 d-flex align-items-center font-size-14 text-gray-1">
-                                                <i class="icon flaticon-clock-circular-outline mr-2 font-size-14"></i> 3 hours 45 minutes
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-xl-4 mb-3 mb-md-4 pb-1">
-                                    <div class="card mb-1 transition-3d-hover shadow-hover-2 tab-card h-100">
-                                        <div class="position-relative mb-2">
-                                            <a href="../tour/tour-single-v1.html" class="d-block gradient-overlay-half-bg-gradient-v5">
-                                                <img class="min-height-230 bg-img-hero card-img-top" src="../../assets/img/300x230/img51.jpg" alt="img">
-                                            </a>
-                                            <div class="position-absolute top-0 left-0 pt-5 pl-3">
-                                                <span class="badge badge-pill bg-white text-danger px-3 ml-3 py-2 font-size-14 font-weight-normal">%25</span>
-                                            </div>
-                                            <div class="position-absolute top-0 right-0 pt-5 pr-3">
-                                              <button type="button" class="btn btn-sm btn-icon text-white rounded-circle" data-toggle="tooltip" data-placement="top" title="" data-original-title="Save for later">
-                                                <span class="flaticon-valentine-heart font-size-20"></span>
-                                              </button>
-                                            </div>
-                                            <div class="position-absolute bottom-0 left-0 right-0">
-                                                <div class="px-3 pb-2">
-                                                    <span class="text-gray-10 font-weight-normal font-size-14">Multi-day Tours</span>
-                                                    <h2 class="h5 text-white mb-0 font-weight-bold"><small class="mr-2">From</small>£899.00</h2>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body px-4 py-2">
-                                            <a href="../tour/tour-single-v1.html" class="d-block">
-                                                <div class="mb-1 d-flex align-items-center font-size-14 text-gray-1">
-                                                    <i class="icon flaticon-pin-1 mr-2 font-size-15"></i> Istanbul, Turkey
-                                                </div>
-                                            </a>
-                                            <a href="../tour/tour-single-v1.html" class="card-title text-dark font-size-17 font-weight-bold">Molokini and Turtle Arches Snorkeling Trip</a>
-                                            <div class="my-2">
-                                                <div class="d-inline-flex align-items-center font-size-17 text-lh-1">
-                                                    <div class="green-lighter mr-2">
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                    </div>
-                                                    <span class="text-secondary font-size-14 mt-1">48 Reviews</span>
-                                                </div>
-                                            </div>
-                                            <div class="mb-1 d-flex align-items-center font-size-14 text-gray-1">
-                                                <i class="icon flaticon-clock-circular-outline mr-2 font-size-14"></i> 3 hours 45 minutes
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-xl-4 mb-3 mb-md-4 pb-1">
-                                    <div class="card mb-1 transition-3d-hover shadow-hover-2 tab-card h-100">
-                                        <div class="position-relative mb-2">
-                                            <a href="../tour/tour-single-v2.html" class="d-block gradient-overlay-half-bg-gradient-v5">
-                                                <img class="min-height-230 bg-img-hero card-img-top" src="../../assets/img/300x230/img52.jpg" alt="img">
-                                            </a>
-                                            <div class="position-absolute top-0 right-0 pt-5 pr-3">
-                                              <button type="button" class="btn btn-sm btn-icon text-white rounded-circle" data-toggle="tooltip" data-placement="top" title="" data-original-title="Save for later">
-                                                <span class="flaticon-valentine-heart font-size-20"></span>
-                                              </button>
-                                            </div>
-                                            <div class="position-absolute bottom-0 left-0 right-0">
-                                                <div class="px-3 pb-2">
-                                                    <span class="text-gray-10 font-weight-normal font-size-14">Attraction Tickets</span>
-                                                    <h2 class="h5 text-white mb-0 font-weight-bold"><small class="mr-2">From</small>£590.00</h2>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body px-4 py-2">
-                                            <a href="../tour/tour-single-v2.html" class="d-block">
-                                                <div class="mb-1 d-flex align-items-center font-size-14 text-gray-1">
-                                                    <i class="icon flaticon-pin-1 mr-2 font-size-15"></i> Istanbul, Turkey
-                                                </div>
-                                            </a>
-                                            <a href="../tour/tour-single-v2.html" class="card-title text-dark font-size-17 font-weight-bold">Two Capitals Tour of 7 days and 6 nights From Moscow</a>
-                                            <div class="my-2">
-                                                <div class="d-inline-flex align-items-center font-size-17 text-lh-1">
-                                                    <div class="green-lighter mr-2">
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                        <small class="fas fa-star"></small>
-                                                    </div>
-                                                    <span class="text-secondary font-size-14 mt-1">48 Reviews</span>
-                                                </div>
-                                            </div>
-                                            <div class="mb-1 d-flex align-items-center font-size-14 text-gray-1">
-                                                <i class="icon flaticon-clock-circular-outline mr-2 font-size-14"></i> 3 hours 45 minutes
+                                                <i class="icon flaticon-clock-circular-outline mr-2 font-size-14"></i>
+                                                    {{Math.floor(tour.duration)}} hours&nbsp;
+                                                    <span *ngIf="tour.duration !== Math.floor(tour.duration)">{{Number("0." + (tour.duration + "").split(".")[1]) * 60}} minutes</span>
                                             </div>
                                         </div>
                                     </div>
@@ -1255,36 +956,26 @@
                             </div>
                         </div>
                     </div>
-                    <!-- End Tab Content -->
-                    <div class="text-center text-md-left font-size-14 mb-3 text-lh-1">Showing 1–15</div>
+
+                    <div class="text-center text-md-left font-size-14 mb-3 text-lh-1">Showing {{from}}–{{to}}</div>
                     <nav aria-label="Page navigation">
-                        <ul class="list-pagination-1 pagination border border-color-4 rounded-sm overflow-auto overflow-xl-visible justify-content-md-center align-items-center py-2 mb-0">
-                            <li class="page-item">
-                                <a class="page-link border-right rounded-0 text-gray-5" href="#" aria-label="Previous">
-                                    <i class="flaticon-left-direction-arrow font-size-10 font-weight-bold"></i>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                            </li>
-                            <li class="page-item"><a class="page-link font-size-14" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link font-size-14 active" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link font-size-14" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link font-size-14" href="#">4</a></li>
-                            <li class="page-item"><a class="page-link font-size-14" href="#">5</a></li>
-                            <li class="page-item disabled"><a class="page-link font-size-14" href="#">...</a></li>
-                            <li class="page-item"><a class="page-link font-size-14" href="#">66</a></li>
-                            <li class="page-item"><a class="page-link font-size-14" href="#">67</a></li>
-                            <li class="page-item">
-                                <a class="page-link border-left rounded-0 text-gray-5" href="#" aria-label="Next">
-                                    <i class="flaticon-right-thin-chevron font-size-10 font-weight-bold"></i>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </li>
-                        </ul>
+                        <div class="border border-color-4 justify-content-md-center align-items-center pagination">
+                            <ngb-pagination *ngIf="tours.length" [collectionSize]="total" [(page)]="page" [rotate]="true" [pageSize]="pageSize"
+                              [maxSize]="5" (pageChange)="currentPage(page)">
+                              <ng-template ngbPaginationPrevious>
+                                <i class="flaticon-left-direction-arrow font-size-10 font-weight-bold"></i>
+                                <span class="sr-only">Previous</span>
+                              </ng-template>
+                              <ng-template ngbPaginationNext>
+                                <i class="flaticon-right-thin-chevron font-size-10 font-weight-bold"></i>
+                                <span class="sr-only">Next</span>
+                              </ng-template>
+                              <ng-template ngbPaginationEllipsis>...</ng-template>
+                            </ngb-pagination>
+                        </div>
                     </nav>
                 </div>
             </div>
-            <!-- Slick Tab carousel -->
         </div>
     </div>
 </main>
-<!-- ========== END MAIN CONTENT ========== -->

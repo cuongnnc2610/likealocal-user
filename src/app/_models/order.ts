@@ -9,11 +9,13 @@ export class Order {
   fullname: string;
   email: string;
   phone_number: string;
-  country_id: number;
+  language_id: number;
   number_of_people: number;
+  date_time: string;
   price: number;
   coupon_id: number;
   discount: number;
+  note: string;
   status: number;
   is_cancelled: boolean;
   is_paid_to_system: boolean;

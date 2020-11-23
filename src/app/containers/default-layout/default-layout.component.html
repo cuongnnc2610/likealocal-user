@@ -30,8 +30,26 @@
                             </a>
                         </li>
                     </ul>
-                    <div class="position-relative px-3 u-header__login-form dropdown-connector-xl u-header__topbar-divider--dark">
-                        <a id="signUpDropdownInvoker"  href="javascript:;" class="d-flex align-items-center text-dark" aria-controls="signUpDropdown" aria-haspopup="true" aria-expanded="true" data-unfold-event="click" data-unfold-target="#signUpDropdown" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="true" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
+                    <div *ngIf="currentUser" class="position-relative px-3 u-header__login-form dropdown-connector-xl u-header__topbar-divider--dark">
+                        <a (click)="showAccount()" href="javascript:;" class="d-flex align-items-center text-dark" id="nav-bar-account">
+                            <i class="flaticon-user mr-2 ml-1 font-size-18"></i>
+                            <span class="d-inline-block font-size-14 mr-1">{{payload.user_name}}</span>
+                        </a>
+                        <ul [ngClass]="isAccountShown ? 'dropdown-menuz' : 'dropdown-menuz ae-hide'" style="z-index: 99; width: 120px">
+                            <li (click)="navigateToMyAccount()" style="list-style-type:none;" class="mb-1">
+                                <div class="time-option">
+                                    My account
+                                </div>
+                            </li>
+                            <li (click)="logout()" style="list-style-type:none;" class="mb-1">
+                                <div class="time-option">
+                                    Logout
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div *ngIf="!currentUser" class="position-relative px-3 u-header__login-form dropdown-connector-xl u-header__topbar-divider--dark">
+                        <a id="signUpDropdownInvoker" (click)="toggleSignUpDropdown()" href="javascript:;" class="d-flex align-items-center text-dark" aria-controls="signUpDropdown" aria-haspopup="true" aria-expanded="true" data-unfold-event="click" data-unfold-target="#signUpDropdown" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="true" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
                             <i class="flaticon-user mr-2 ml-1 font-size-18"></i>
                             <span class="d-inline-block font-size-14 mr-1">Sign in or Register</span>
                         </a>
@@ -51,7 +69,7 @@
                                                 <div class="js-form-message js-focus-state border border-width-2 border-color-8 rounded-sm">
                                                     <label class="sr-only" for="signinSrEmail">Email</label>
                                                     <div class="input-group input-group-tranparent input-group-borderless input-group-radiusless">
-                                                        <input type="email" class="form-control" name="email" id="signinSrEmail" placeholder="Email Or Username" aria-label="Email Or Username" aria-describedby="signinEmail" required="" data-msg="Please enter a valid email address." data-error-class="u-has-error" data-success-class="u-has-success">
+                                                        <input [(ngModel)]="loginEmail" type="email" class="form-control" name="email" id="signinSrEmail" placeholder="Email" aria-label="Email" aria-describedby="signinEmail" required="" data-msg="Please enter a valid email address." data-error-class="u-has-error" data-success-class="u-has-success">
                                                         <div class="input-group-append">
                                                             <span class="input-group-text" id="signinEmail">
                                                                 <span class="far fa-envelope font-size-20"></span>
@@ -66,7 +84,7 @@
                                                 <div class="js-form-message js-focus-state border border-width-2 border-color-8 rounded-sm">
                                                     <label class="sr-only" for="signinSrPassword">Password</label>
                                                     <div class="input-group input-group-tranparent input-group-borderless input-group-radiusless">
-                                                        <input type="password" class="form-control" name="password" id="signinSrPassword" placeholder="Password" aria-label="Password" aria-describedby="signinPassword" required="" data-msg="Your password is invalid. Please try again." data-error-class="u-has-error" data-success-class="u-has-success">
+                                                        <input [(ngModel)]="loginPassword" type="password" class="form-control" name="password" id="signinSrPassword" placeholder="Password" aria-label="Password" aria-describedby="signinPassword" required="" data-msg="Your password is invalid. Please try again." data-error-class="u-has-error" data-success-class="u-has-success">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text" id="signinPassword">
                                                                 <span class="flaticon-password font-size-20"></span>
@@ -75,16 +93,20 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div *ngIf="loginError" class="mb-3">
+                                                <small class="required-text">Your email or password is not correct</small>
+                                            </div>
+                                            
                                             <!-- End Form Group -->
                                             <div class="mb-3 pb-1">
-                                                <button type="submit" class="btn btn-md btn-block btn-blue-1 rounded-xs font-weight-bold transition-3d-hover">Login</button>
+                                                <button type="submit" class="btn btn-md btn-block btn-blue-1 rounded-xs font-weight-bold transition-3d-hover" (click)=login()>Login</button>
                                             </div>
                                             <div class="d-flex justify-content-between mb-1">
                                                 <div class="custom-control custom-checkbox custom-control-inline">
                                                     <input type="checkbox" id="customCheckboxInline1" name="customCheckboxInline1" class="custom-control-input">
                                                     <label class="custom-control-label" for="customCheckboxInline1">Remember me</label>
                                                 </div>
-                                                <a class="js-animation-link text-primary font-size-14" href="javascript:;" data-target="#forgotPassword" data-link-group="idForm" data-animation-in="fadeIn"><u>Forgot Password?</u></a>
+                                                <a class="js-animation-link text-primary font-size-14" href="javascript:;" data-target="#forgotPassword" data-link-group="idForm" data-animation-in="fadeIn" (click)="showForgotPassword()"><u>Forgot Password?</u></a>
                                             </div>
                                         </div>
                                         <div class="card-footer p-0">
@@ -106,29 +128,20 @@
 
                                             <div class="card-footer__bottom p-4 text-center font-size-14">
                                                 <span class="text-gray-1">Do not have an account?</span>
-                                                <a class="js-animation-link font-weight-bold" href="javascript:;" data-target="#signup" data-link-group="idForm" data-animation-in="fadeIn">Sign Up</a>
+                                                <a class="js-animation-link font-weight-bold" href="javascript:;" data-target="#signup" data-link-group="idForm" data-animation-in="fadeIn" (click)="showSignUp()">Sign Up</a>
                                             </div>
                                         </div>
                                     </div>
                                     <!-- End Login -->
 
                                     <!-- Signup -->
-                                    <div id="signup" style="opacity: 0; display: none;" data-target-group="idForm">
+                                    <div id="signup" style="display: none;" data-target-group="idForm">
                                         <!-- Header -->
                                         <div class="card-header text-center">
                                             <h3 class="h5 mb-0 font-weight-semi-bold">Register</h3>
                                         </div>
                                         <!-- End Header -->
                                         <div class="card-body pt-5 pb-4">
-                                            <ul class="nav nav-default nav-pills nav-white nav-justified nav-rounded-pill font-weight-medium px-6 pb-5" role="tablist">
-                                                <li class="nav-item">
-                                                    <a class="nav-link active" id="pills-one-code-sample-tab" data-toggle="pill" href="#pills-one-code-sample" role="tab" aria-controls="pills-one-code-sample" aria-selected="true">Normal User</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" id="pills-two-code-sample-tab" data-toggle="pill" href="#pills-two-code-sample" role="tab" aria-controls="pills-two-code-sample" aria-selected="false">Partner User</a>
-                                                </li>
-                                            </ul>
-
                                             <div class="tab-content">
                                                 <div class="tab-pane fade active show" id="pills-one-code-sample" role="tabpanel" aria-labelledby="pills-one-code-sample-tab">
                                                     <!-- Form Group -->
@@ -204,97 +217,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="tab-pane fade" id="pills-two-code-sample" role="tabpanel" aria-labelledby="pills-two-code-sample-tab">
-                                                    <!-- Form Group -->
-                                                    <div class="form-group pb-1">
-                                                        <div class="js-form-message js-focus-state border border-width-2 border-color-8 rounded-sm">
-                                                            <label class="sr-only" for="puname">User Name</label>
-                                                            <div class="input-group input-group-tranparent input-group-borderless input-group-radiusless">
-                                                                <input type="text" class="form-control" name="puname" id="puname" placeholder="User Name" aria-label="User Name" aria-describedby="partnerusername" required="" data-msg="Please enter a valid user name." data-error-class="u-has-error" data-success-class="u-has-success">
-                                                                <div class="input-group-append">
-                                                                    <span class="input-group-text" id="partnerusername">
-                                                                        <span class="flaticon-user font-size-20"></span>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End Form Group -->
-
-                                                    <!-- Form Group -->
-                                                    <div class="form-group pb-1">
-                                                        <div class="js-form-message js-focus-state border border-width-2 border-color-8 rounded-sm">
-                                                            <label class="sr-only" for="pname">Full Name</label>
-                                                            <div class="input-group input-group-tranparent input-group-borderless input-group-radiusless">
-                                                                <input type="text" class="form-control" name="pname" id="pname" placeholder="Full Name" aria-label="Full Name" aria-describedby="partnername" required="" data-msg="Please enter a valid name." data-error-class="u-has-error" data-success-class="u-has-success">
-                                                                <div class="input-group-append">
-                                                                    <span class="input-group-text" id="partnername">
-                                                                        <span class="flaticon-browser-1 font-size-20"></span>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End Form Group -->
-
-                                                    <!-- Form Group -->
-                                                    <div class="form-group pb-1">
-                                                        <div class="js-form-message js-focus-state border border-width-2 border-color-8 rounded-sm">
-                                                            <label class="sr-only" for="signupPartnerSrEmail">Email</label>
-                                                            <div class="input-group input-group-tranparent input-group-borderless input-group-radiusless">
-                                                                <input type="email" class="form-control" name="pemail" id="signupPartnerSrEmail" placeholder="Email" aria-label="Email" aria-describedby="signupPartnerEmail" required="" data-msg="Please enter a valid email address." data-error-class="u-has-error" data-success-class="u-has-success">
-                                                                <div class="input-group-append">
-                                                                    <span class="input-group-text" id="signupPartnerEmail">
-                                                                        <span class="far fa-envelope font-size-20"></span>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End Form Group -->
-
-                                                    <!-- Form Group -->
-                                                    <div class="form-group pb-1">
-                                                        <div class="js-form-message js-focus-state border border-width-2 border-color-8 rounded-sm">
-                                                            <label class="sr-only" for="signupPartnerSrPassword">Password</label>
-                                                            <div class="input-group input-group-tranparent input-group-borderless input-group-radiusless">
-                                                                <input type="password" class="form-control" name="Partnerpassword" id="signupPartnerSrPassword" placeholder="Password" aria-label="PartnerPassword" aria-describedby="signupPartnerPassword" required="" data-msg="Your password is invalid. Please try again." data-error-class="u-has-error" data-success-class="u-has-success">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text" id="signupPartnerPassword">
-                                                                        <span class="flaticon-password font-size-20"></span>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End Form Group -->
-
-                                                    <!-- Form Group -->
-                                                    <div class="form-group pb-1">
-                                                        <div class="js-form-message js-focus-state border border-width-2 border-color-8 rounded-sm">
-                                                            <label class="sr-only" for="signupPartnerSrConfirmPassword">Confirm Password</label>
-                                                            <div class="input-group input-group-tranparent input-group-borderless input-group-radiusless">
-                                                                <input type="password" class="form-control" name="confirmpartnerpassword" id="signupPartnerSrConfirmPassword" placeholder="Confirm Password" aria-label="Confirm Password" aria-describedby="signupPartnerConfirmPassword" required="" data-msg="Your password is invalid. Please try again." data-error-class="u-has-error" data-success-class="u-has-success">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text" id="signupPartnerConfirmPassword">
-                                                                        <span class="fas fa-key font-size-20"></span>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End Form Group -->
-
-                                                    <div class="mb-3 pb-1">
-                                                        <button type="submit" class="btn btn-md btn-block btn-blue-1 rounded-xs font-weight-bold transition-3d-hover">Register</button>
-                                                    </div>
-                                                    <div class="d-flex justify-content-between mb-1">
-                                                        <div class="custom-control custom-checkbox custom-control-inline">
-                                                            <input type="checkbox" id="customCheckboxInline3" name="customCheckboxInline3" class="custom-control-input">
-                                                            <label class="custom-control-label" for="customCheckboxInline3">I have read and accept the <a href="#">Terms and Privacy Policy</a></label>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                         <div class="card-footer p-0">
@@ -316,14 +238,14 @@
 
                                             <div class="card-footer__bottom p-4 text-center font-size-14">
                                                 <span class="text-gray-1">Already have an account?</span>
-                                                <a class="js-animation-link font-weight-bold" href="javascript:;" data-target="#login" data-link-group="idForm" data-animation-in="fadeIn">Log In</a>
+                                                <a class="js-animation-link font-weight-bold" href="javascript:;" data-target="#login" data-link-group="idForm" data-animation-in="fadeIn" (click)="showLogin()">Log In</a>
                                             </div>
                                         </div>
                                     </div>
                                     <!-- End Signup -->
 
                                     <!-- Forgot Passwrd -->
-                                    <div id="forgotPassword" style="opacity: 0; display: none;" data-target-group="idForm">
+                                    <div id="forgotPassword" style="display: none;" data-target-group="idForm">
                                         <!-- Header -->
                                         <div class="card-header bg-light text-center py-3 px-5">
                                             <h3 class="h6 mb-0 font-weight-semi-bold">Recover password</h3>
@@ -350,7 +272,7 @@
                                             </div>
                                             <div class="text-center font-size-14">
                                                 <span class="text-gray-1">Remember your password?</span>
-                                                <a class="js-animation-link font-weight-bold" href="javascript:;" data-target="#login" data-link-group="idForm" data-animation-in="fadeIn">Log In</a>
+                                                <a class="js-animation-link font-weight-bold" href="javascript:;" data-target="#login" data-link-group="idForm" data-animation-in="fadeIn" (click)="showLogin()">Log In</a>
                                             </div>
                                         </div>
                                     </div>
@@ -697,3 +619,5 @@
       </div>
   </div>
 </footer>
+<!-- <app-dialog></app-dialog> -->
+<!-- <ngx-spinner [fullScreen]="true" type="ball-clip-rotate-multiple" size="medium"></ngx-spinner> -->

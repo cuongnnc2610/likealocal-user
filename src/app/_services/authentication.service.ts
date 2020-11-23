@@ -25,6 +25,7 @@ export class AuthenticationService {
         if (user.code === 20001) {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
           sessionStorage.setItem('currentUser', JSON.stringify(user.data));
+          localStorage.setItem('currentUser', JSON.stringify(user.data));
           this.currentUserSubject.next(user.data);
         }
         return user;
@@ -48,6 +49,7 @@ export class AuthenticationService {
   logout() {
     // remove user from local storage to log user out
     sessionStorage.removeItem('currentUser');
+    localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
   }
 }

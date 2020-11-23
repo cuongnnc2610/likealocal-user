@@ -6,6 +6,7 @@ export * from './terms-of-use.service';
 export * from './coupon.service';
 export * from './tour.service';
 export * from './tours-edit.service';
+export * from './tours-schedule.service';
 export * from './tours-image.service';
 export * from './masterData.service';
 export * from './benefit.service';

@@ -13,6 +13,7 @@ export class Tour {
     description: string;
     sale_price: number;
     city: City = new City();
+    duration: number;
     category: Category = new Category();
     transport: Transport = new Transport();
     host: User = new User();

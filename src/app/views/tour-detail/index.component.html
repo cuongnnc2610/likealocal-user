@@ -225,7 +225,7 @@
                             <div class="border rounded flex-content-center py-5 border-width-2">
                                 <div class="text-center">
                                     <h2 class="font-size-50 font-weight-bold text-primary mb-0 text-lh-sm">
-                                        {{tour.rating}}<span class="font-size-20">/5</span>
+                                        {{(tour.rating + 0).toFixed(2)}}<span class="font-size-20">/5</span>
                                     </h2>
                                     <div *ngIf="Math.round(tour.rating) === 5" class="font-size-25 text-dark mb-3">Very Good</div>
                                     <div *ngIf="Math.round(tour.rating) === 4" class="font-size-25 text-dark mb-3">Good</div>
@@ -346,36 +346,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="media flex-column flex-md-row align-items-center align-items-md-start mb-4">
-                        <div class="mr-md-5">
-                            <a class="d-block" href="#">
-                                <img class="img-fluid mb-3 mb-md-0 rounded-circle" src="../../assets/img/85x85/img1.jpg" alt="Image-Description">
-                            </a>
-                        </div>
-                        <div class="media-body text-center text-md-left">
-                            <div class="mb-4">
-                                <h6 class="font-weight-bold text-gray-3">
-                                    <a href="#">Helena</a>
-                                </h6>
-                                <div class="d-flex align-items-center flex-column flex-md-row mb-2">
-                                    <div class="font-size-10 letter-spacing-2">
-                                        <span class="d-block green-lighter">
-                                            <span class="fas fa-star"></span>
-                                            <span class="fas fa-star"></span>
-                                            <span class="fas fa-star"></span>
-                                            <span class="fas fa-star"></span>
-                                            <span class="fas fa-star"></span>
-                                        </span>
-                                    </div>
-                                    <span class="ml-1 text-secondary font-size-14">
-                                        (About local&nbsp;<span class="font-weight-bold text-primary">Localname</span>)
-                                    </span>
-                                </div>
-                                <div class="font-weight-normal font-size-14 text-gray-9 mb-2">April 25, 2019 at 10:46 am</div>
-                                <p class="text-lh-1dot6 mb-0 pr-lg-5">Morbi velit eros, sagittis in facilisis non, rhoncus et erat. Nam posuere ultricies tortor imperdiet vitae. Curabitur lacinia neque non metus</p>
-                            </div>
-                        </div>
-                    </div>
                     <div *ngIf="toursReviews.length">
                         <ngb-pagination [collectionSize]="total" [(page)]="page" [rotate]="true" [pageSize]="pageSize"
                           [maxSize]="5" (pageChange)="currentPage(page)">
@@ -383,7 +353,7 @@
                           <ng-template ngbPaginationNext>Next</ng-template>
                           <ng-template ngbPaginationEllipsis>...</ng-template>
                         </ngb-pagination>
-                      </div>
+                    </div>
                 </div>
                 <div class="py-4">
                     <h5 class="font-size-21 font-weight-bold text-dark mb-5">
@@ -471,7 +441,7 @@
                                 <div class="border-bottom border-width-2 border-color-1 pb-1">
                                     <mat-form-field class="date-picker" appearance="fill">
                                         <mat-label style="background: transparent;">Choose a date</mat-label>
-                                        <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker" (dateChange)="onDate($event)">
+                                        <input #inputDate matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker" (dateChange)="onDate($event)">
                                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                         <mat-datepicker [dateClass]="dateClass" #picker></mat-datepicker>
                                     </mat-form-field>
@@ -519,7 +489,7 @@
                             <!-- End Input -->
 
                             <div class="text-center">
-                                <a href="../tour/tour-booking.html" class="btn btn-primary d-flex align-items-center justify-content-center  height-60 w-100 mb-xl-0 mb-lg-1 transition-3d-hover font-weight-bold">Book Now</a>
+                                <a class="btn btn-primary d-flex align-items-center justify-content-center height-60 w-100 mb-xl-0 mb-lg-1 transition-3d-hover font-weight-bold text-white" style="cursor: pointer;" (click)="navigateToTourBooking()">Book Now</a>
                             </div>
                         </div>
                     </div>

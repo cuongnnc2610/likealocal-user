@@ -11,7 +11,7 @@ export class ToursReviewService {
   constructor(private http: HttpClient) { }
 
   getToursReviews(numberPage, tourId, orderType) {
-    return this.http.get<any>(`${environment.apiUrl}/tours-reviews?page=${numberPage}&tour_id=${tourId}&&order_type=${orderType}`)
+    return this.http.get<any>(`${environment.apiUrl}/tours-reviews?page=${numberPage}&tour_id=${tourId}&limit=${5}&order_type=${orderType}`)
       .pipe(map((result: any) => {
         return result;
       }));

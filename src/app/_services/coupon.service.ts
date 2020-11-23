@@ -17,6 +17,13 @@ export class CouponService {
       }));
   }
 
+  verifyCoupon(code: string) {
+    return this.http.get<any>(`${environment.apiUrl}/coupons/verify?code=${code}`)
+      .pipe(map((result: any) => {
+        return result;
+      }));
+  }
+
   createCoupon(coupon: any) {
     return this.http.post<any>(`${environment.apiUrl}/coupons`, {
       code: coupon.code,

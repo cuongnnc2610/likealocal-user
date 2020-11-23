@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {TourService, ToursReviewService} from '../../_services';
+import {TourService, ToursReviewService, ToursScheduleService} from '../../_services';
 import {DialogComponent} from '../../components';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {ModalDirective} from 'ngx-bootstrap/modal';
@@ -10,6 +10,7 @@ import { ElementRef } from '@angular/core';
 import { Renderer2 } from '@angular/core';
 import { MatCalendarCellClassFunction } from '@angular/material/datepicker';
 import { DatePipe } from '@angular/common';
+import { MatInput } from '@angular/material/input';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class IndexComponent implements OnInit {
   @ViewChild('thirdStar') thirdStar: ElementRef;
   @ViewChild('fourthStar') fourthStar: ElementRef;
   @ViewChild('fifthStar') fifthStar: ElementRef;
-  @ViewChild('.dropdown-menu > li') listItems: ElementRef;
+  @ViewChild('inputDate', { read: MatInput}) inputDate: MatInput;
 
   Math = Math;
   Number = Number;
@@ -38,6 +39,7 @@ export class IndexComponent implements OnInit {
   constructor(
     public TourService: TourService,
     public ToursReviewService: ToursReviewService,
+    public ToursScheduleService: ToursScheduleService,
     private spinner: NgxSpinnerService,
     public translate: TranslateService,
     private route: ActivatedRoute,
@@ -103,6 +105,7 @@ export class IndexComponent implements OnInit {
   getToursReviews(numberPage: number = 1) {
     this.ToursReviewService.getToursReviews(numberPage, this.tourId, 1).subscribe(
       (result) => {
+        this.spinner.hide();
         console.log(result);
         if (result.code === 20001) {
           result = result.data;
@@ -192,7 +195,8 @@ export class IndexComponent implements OnInit {
     this.isTimesShown = !this.isTimesShown;
   }
 
-  availableDateTimes: DateTime[] = [];
+  includedDatetimes: DateTime[] = [];
+  excludedDatetimes: DateTime[] = [];
   toursSchedule: ToursSchedule = new ToursSchedule();
   toursHostId: number;
   selectToursHost(event: any, toursHost: any) {
@@ -200,29 +204,44 @@ export class IndexComponent implements OnInit {
     // var idAttr = target.attributes.id;
     // var idValue = event.srcElement.attributes.id || event.currentTarget.id;
     this.toursHostId = toursHost.tours_host_id;
-    const span = document.getElementById('selecting-tours-host');
-    const selectingElement = document.getElementById('toursHost' + this.toursHostId);
-    span.innerHTML= '';
-    const returnedTarget = selectingElement.cloneNode(true);
-    span.appendChild(returnedTarget);
 
-    // SET AVAILABLE DATES
-    this.availableDateTimes = [];
+    /* SET CONTENT FOR SELECT */
+    const spanSelectingToursHost = document.getElementById('selecting-tours-host');
+    const selectingElement = document.getElementById('toursHost' + this.toursHostId);
+    spanSelectingToursHost.innerHTML= '';
+    const returnedTarget = selectingElement.cloneNode(true);
+    spanSelectingToursHost.appendChild(returnedTarget);
+    /* SET CONTENT FOR SELECT */
+
+    /* SET AVAILABLE DATES */
+    this.includedDatetimes = [];
     this.toursSchedule = this.tour.toursHosts.filter(toursHost => toursHost.tours_host_id === this.toursHostId)[0].toursSchedule;
-    if (!this.toursSchedule.is_recurring) {
-      this.toursSchedule.included_datetimes.forEach(datetime => this.availableDateTimes.push(datetime));
+    if (this.toursSchedule.included_datetimes !== null) {
+      this.toursSchedule.included_datetimes.forEach(datetime => this.includedDatetimes.push(datetime));
     }
-    console.log(this.availableDateTimes);
+    if (this.toursSchedule.is_recurring && this.toursSchedule.excluded_datetimes !== null) {
+      this.toursSchedule.excluded_datetimes.forEach(datetime => this.excludedDatetimes.push(datetime));
+    }
+    /* SET AVAILABLE DATES */
+
+    /* RESET SELECTED DATE AND TIME */
+    this.inputDate.value = '';
+
+    const spanSelectingTime = document.getElementById('selecting-time');
+    spanSelectingTime.innerHTML= 'Choose a time';
+    this.times = [];
+    this.selectedTime = null;
+    /* RESET SELECTED DATE AND TIME */
   }
 
-  time: string;
+  selectedTime: string;
   selectTime(event: any, time: any) {
-    this.time = time;
+    this.selectedTime = time;
     const span = document.getElementById('selecting-time');
-    const selectingElement = document.getElementById('time' + time);
-    span.innerHTML= '';
-    const returnedTarget = selectingElement.cloneNode(true);
-    span.appendChild(returnedTarget);
+    // const selectingElement = document.getElementById('time' + time);
+    span.innerHTML= time;
+    // const returnedTarget = selectingElement.cloneNode(true);
+    // span.appendChild(returnedTarget);
   }
 
   numberOfPeople = 0;
@@ -238,31 +257,79 @@ export class IndexComponent implements OnInit {
     }  
   }
 
+  currentDate = new Date();
+  currentFormattedDate = this.datePipe.transform(this.currentDate, 'yyyy-MM-dd');
   dateClass: MatCalendarCellClassFunction<Date> = (cellDate, view) => {
     // Only highligh dates inside the month view.
     if (view === 'month') {
-      const date = this.availableDateTimes.find(availableDate => availableDate.date === this.datePipe.transform(cellDate, 'yyyy-MM-dd'));
-      return date && date.date >= this.datePipe.transform(new Date(), 'yyyy-MM-dd') ? 'example-custom-date-class' : '';
-      // const date = cellDate.getDate();
-      // return (date === 1 || date === 20) ? 'example-custom-date-class' : '';
+      const date = this.datePipe.transform(cellDate, 'yyyy-MM-dd');
+      const includedDatetime = this.includedDatetimes.find(datetime => datetime.date === date);
+      const excludedDatetime = this.excludedDatetimes.find(datetime => datetime.date === date);
+
+      let isMarked = false;
+      isMarked = this.toursSchedule.recurring_unit === 'DAY'
+        || this.toursSchedule.recurring_unit === 'DAYWEEK'
+        || (this.toursSchedule.recurring_unit === 'WEEK' && this.toursSchedule.everyweek_recurring_days.findIndex(day => day.weekday === cellDate.getDay()) !== -1)
+        || (includedDatetime !== undefined && includedDatetime !== null);
+      if (excludedDatetime || cellDate < new Date(new Date().setDate(new Date().getDate() + 3))) {
+        isMarked = false;
+      }
+      return isMarked && !this.toursSchedule.is_blocked ? 'example-custom-date-class' : '';
     }
     return '';
   }
 
   myFilter = (d: Date | null): boolean => {
-    const selectingDate = this.datePipe.transform(d, 'yyyy-MM-dd');
-    const date = this.availableDateTimes.find(availableDate => availableDate.date === selectingDate);
-    return date && date.date >= this.datePipe.transform(new Date(), 'yyyy-MM-dd');
-    // const day = (d || new Date()).getDay();
-    // // Prevent Saturday and Sunday from being selected.
-    // return day !== 0 && day !== 6;
+    const date = this.datePipe.transform(d, 'yyyy-MM-dd');
+    const includedDatetime = this.includedDatetimes.find(datetime => datetime.date === date);
+    const excludedDatetime = this.excludedDatetimes.find(datetime => datetime.date === date);
+
+    let isMarked = false;
+    isMarked = this.toursSchedule.recurring_unit === 'DAY'
+      || this.toursSchedule.recurring_unit === 'DAYWEEK'
+      || (this.toursSchedule.recurring_unit === 'WEEK' && this.toursSchedule.everyweek_recurring_days.findIndex(day => day.weekday === d.getDay()) !== -1)
+      || (includedDatetime !== undefined && includedDatetime !== null);
+    if (excludedDatetime || d < new Date(new Date().setDate(new Date().getDate() + 3))) {
+      isMarked = false;
+    }
+    return isMarked && !this.toursSchedule.is_blocked;
   }
 
   selectedDate: any;
   times: string[] = [];
   onDate(event): void {
+    // RESET SELECTING TIME
+    const spanSelectingTime = document.getElementById('selecting-time');
+    spanSelectingTime.innerHTML= 'Choose a time';
+    this.times = [];
+    this.selectedTime = null;
+
     this.selectedDate = this.datePipe.transform(event.value, 'yyyy-MM-dd');
-    this.times = this.availableDateTimes.filter(datetime => datetime.date === this.selectedDate)[0].time;
+    this.ToursScheduleService.getAvailableSchedulesInDateAndMonth(this.toursHostId, this.selectedDate).subscribe(
+      (result) => {
+        console.log(result);
+        if (result.code === 20001) {
+          this.times = result.data.times_in_date;
+        }        
+      },
+      (error) => {
+        this.spinner.hide();
+        this.dialog.show(error, 'error');
+      }
+    );
+  }
+
+  navigateToTourBooking() {
+    if (!this.toursHostId || !this.selectedDate || !this.selectedTime || !this.numberOfPeople) {
+      return;
+    }
+    this.router.navigate(['/tour-booking'], { queryParams: {
+      tours_host_id: this.toursHostId,
+      tour_id: this.tourId,
+      host_id: this.tour.host.user_id,
+      time: this.selectedDate + ' ' + this.selectedTime,
+      number_of_people: this.numberOfPeople,
+    }});
   }
 
 }

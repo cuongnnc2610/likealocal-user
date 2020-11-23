@@ -17,6 +17,13 @@ export class TourService {
       }));
   }
 
+  getTours(numberPage, limit, countryId, cityId, categoryId, transportId, name = '', orderType) {
+    return this.http.get<any>(`${environment.apiUrl}/tours?page=${numberPage}&limit=${limit}&country_id=${countryId}&city_id=${cityId}&category_id=${categoryId}&transport_id=${transportId}&name=${name}&order_type=${orderType}`)
+      .pipe(map((result: any) => {
+        return result;
+      }));
+  }
+
   getToursByCategory(categoryId: number, limit: number, orderType: number) {
     return this.http.get<any>(`${environment.apiUrl}/tours?page=${1}&limit=${limit}&category_id=${categoryId}&order_type=${orderType}`)
       .pipe(map((result: any) => {

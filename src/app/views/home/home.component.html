@@ -32,7 +32,7 @@
                         </li>
                     </ul>
                     <div class="position-relative px-3 u-header__login-form dropdown-connector-xl u-header__topbar-divider">
-                        <a id="signUpDropdownInvoker"  href="javascript:;" class="d-flex align-items-center text-white py-3" aria-controls="signUpDropdown" aria-haspopup="true" aria-expanded="true" data-unfold-event="click" data-unfold-target="#signUpDropdown" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="true" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
+                        <a id="signUpDropdownInvoker" (click)="toggleSignUpDropdown()" class="d-flex align-items-center text-white py-3" aria-controls="signUpDropdown" aria-haspopup="true" aria-expanded="true" data-unfold-event="click" data-unfold-target="#signUpDropdown" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="true" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
                             <i class="flaticon-user mr-2 ml-1 font-size-18"></i>
                             <span class="d-inline-block font-size-14 mr-1">Sign in or Register</span>
                         </a>
@@ -85,7 +85,7 @@
                                                     <input type="checkbox" id="customCheckboxInline1" name="customCheckboxInline1" class="custom-control-input">
                                                     <label class="custom-control-label" for="customCheckboxInline1">Remember me</label>
                                                 </div>
-                                                <a class="js-animation-link text-primary font-size-14" href="javascript:;" data-target="#forgotPassword" data-link-group="idForm" data-animation-in="fadeIn"><u>Forgot Password?</u></a>
+                                                <a class="js-animation-link text-primary font-size-14" href="javascript:;" data-target="#forgotPassword" data-link-group="idForm" data-animation-in="fadeIn" (click)="showForgotPassword()"><u>Forgot Password?</u></a>
                                             </div>
                                         </div>
                                         <div class="card-footer p-0">
@@ -107,14 +107,14 @@
 
                                             <div class="card-footer__bottom p-4 text-center font-size-14">
                                                 <span class="text-gray-1">Do not have an account?</span>
-                                                <a class="js-animation-link font-weight-bold" href="javascript:;" data-target="#signup" data-link-group="idForm" data-animation-in="fadeIn">Sign Up</a>
+                                                <a class="js-animation-link font-weight-bold" href="javascript:;" data-target="#signup" data-link-group="idForm" data-animation-in="fadeIn" (click)="showSignUp()">Sign Up</a>
                                             </div>
                                         </div>
                                     </div>
                                     <!-- End Login -->
 
                                     <!-- Signup -->
-                                    <div id="signup" style="opacity: 0; display: none;" data-target-group="idForm">
+                                    <div id="signup" style="display: none;" data-target-group="idForm">
                                         <!-- Header -->
                                         <div class="card-header text-center">
                                             <h3 class="h5 mb-0 font-weight-semi-bold">Register</h3>
@@ -217,14 +217,14 @@
 
                                             <div class="card-footer__bottom p-4 text-center font-size-14">
                                                 <span class="text-gray-1">Already have an account?</span>
-                                                <a class="js-animation-link font-weight-bold" href="javascript:;" data-target="#login" data-link-group="idForm" data-animation-in="fadeIn">Log In</a>
+                                                <a class="js-animation-link font-weight-bold" href="javascript:;" data-target="#login" data-link-group="idForm" data-animation-in="fadeIn" (click)="showLogin()">Log In</a>
                                             </div>
                                         </div>
                                     </div>
                                     <!-- End Signup -->
 
                                     <!-- Forgot Passwrd -->
-                                    <div id="forgotPassword" style="opacity: 0; display: none;" data-target-group="idForm">
+                                    <div id="forgotPassword" style="display: none;" data-target-group="idForm">
                                         <!-- Header -->
                                         <div class="card-header bg-light text-center py-3 px-5">
                                             <h3 class="h6 mb-0 font-weight-semi-bold">Recover password</h3>
@@ -251,7 +251,7 @@
                                             </div>
                                             <div class="text-center font-size-14">
                                                 <span class="text-gray-1">Remember your password?</span>
-                                                <a class="js-animation-link font-weight-bold" href="javascript:;" data-target="#login" data-link-group="idForm" data-animation-in="fadeIn">Log In</a>
+                                                <a class="js-animation-link font-weight-bold" href="javascript:;" data-target="#login" data-link-group="idForm" data-animation-in="fadeIn" (click)="showLogin()">Log In</a>
                                             </div>
                                         </div>
                                     </div>
@@ -683,9 +683,9 @@
                     <div [ngClass]="(i < 2) ? 'min-height-350 bg-img-hero rounded-border p-5 gradient-overlay-half-bg-gradient transition-3d-hover shadow-hover-2 border-0 dropdown' : 'min-height-350 gradient-overlay-half-bg-gradient rounded-border p-5 bg-img-hero transition-3d-hover shadow-hover-2 border-0 dropdown'" [ngStyle]="{'background-image':'url('+country.country.image+')'}">
                         <header class="w-100 d-flex justify-content-between mb-2">
                             <div class="position-relative">
-                                <a href="../others/destination.html" class="destination text-white font-weight-bold font-size-21 pb-3 mb-3 text-lh-1 d-block">{{country.country.name}}</a>
+                                <a [routerLink]="['/tour-list']" [queryParams]="{country_id: country.country.country_id}" class="destination text-white font-weight-bold font-size-21 pb-3 mb-3 text-lh-1 d-block">{{country.country.name}}</a>
                                 <div class="destination-dropdown v1">
-                                    <a class="dropdown-item" href="../tour/tour-list.html">{{country.number_of_tours}} Tours</a>
+                                    <a class="dropdown-item" [routerLink]="['/tour-list']" [queryParams]="{country_id: country.country.country_id}">{{country.number_of_tours}} Tours</a>
                                 </div>
                             </div>
                         </header>
@@ -758,7 +758,7 @@
                                                 <small *ngIf="tour.rating < 5" class="fas fa-star text-secondary"></small>
                                                 <small *ngIf="tour.rating === 5" class="fas fa-star green-lighter"></small>
                                             </div>
-                                            <span class="text-secondary font-size-14 mt-1">48 Reviews</span>
+                                            <span class="text-secondary font-size-14 mt-1">{{tour.number_of_reviews}} Reviews</span>
                                         </div>
                                     </div>
                                     <div class="mb-1 d-flex align-items-center font-size-14 text-gray-1">

@@ -10,7 +10,6 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [ IndexComponent ],
@@ -21,7 +20,6 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
     CKEditorModule,
     DialogModule,
     NgxSpinnerModule,
-    NgbPaginationModule,
     ModalModule.forRoot(),
     TranslateModule.forRoot({
       loader: {

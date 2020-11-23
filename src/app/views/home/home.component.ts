@@ -112,4 +112,45 @@ export class HomeComponent implements OnInit {
       end_date: '',
     });
   }
+
+  toggleSignUpDropdown() {
+    const divSignUpDropdown = document.getElementById('signUpDropdown');
+    if (divSignUpDropdown.classList.contains('u-unfold--css-animation') && divSignUpDropdown.classList.contains('slideInUp')) {
+      divSignUpDropdown.classList.remove('u-unfold--css-animation');
+      divSignUpDropdown.classList.remove('slideInUp');
+    } else {
+      divSignUpDropdown.classList.add('u-unfold--css-animation');
+      divSignUpDropdown.classList.add('slideInUp');
+    }
+  }
+
+  showSignUp() {
+    const login = document.getElementById('login');
+    const signup = document.getElementById('signup');
+    const forgotPassword = document.getElementById('forgotPassword');
+
+    login.style.display = 'none';
+    forgotPassword.style.display = 'none';
+    signup.style.display = 'block';
+  }
+
+  showLogin() {
+    const login = document.getElementById('login');
+    const signup = document.getElementById('signup');
+    const forgotPassword = document.getElementById('forgotPassword');
+
+    signup.style.display = 'none';
+    forgotPassword.style.display = 'none';
+    login.style.display = 'block';
+  }
+
+  showForgotPassword() {
+    const login = document.getElementById('login');
+    const signup = document.getElementById('signup');
+    const forgotPassword = document.getElementById('forgotPassword');
+
+    signup.style.display = 'none';
+    login.style.display = 'none';
+    forgotPassword.style.display = 'block';
+  }
 }

@@ -1,10 +1,12 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {first} from 'rxjs/operators';
-import {TermsOfUseService} from '../../_services';
+import { TourService, CouponService, OrderService, MasterDataService} from '../../_services';
 import {DialogComponent} from '../../components';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {ModalDirective} from 'ngx-bootstrap/modal';
 import { TranslateService } from '@ngx-translate/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Coupon, Order, Tour, User } from '../../_models';
+import { Language } from '../../_models/language';
 
 @Component({
   selector: 'app-tour-booking',
@@ -15,46 +17,138 @@ export class IndexComponent implements OnInit {
   @ViewChild(DialogComponent) dialog: DialogComponent;
   @ViewChild('modalConfirmUpdate') modalConfirmUpdate: ModalDirective;
 
-  public data: string;
-  public dataChange: string;
-  public ckeConfig: any;
-  public msgUpdateTermsOfUseFail: string = 'The terms of service has been updated failure';
-  public msgDataRequired: string = 'Please enter the terms of service';
-  public msgGetTermsOfUseFail: string = 'The terms of service has been get failure';
-  public msgUpdateTermsOfUseSuccess: string = 'The terms of service has been updated';
+  Math = Math;
+  Number = Number;
 
   constructor(
-    public termsOfUseService: TermsOfUseService,
+    public TourService: TourService,
+    public CouponService: CouponService,
+    public OrderService: OrderService,
+    public MasterDataService: MasterDataService,
     private spinner: NgxSpinnerService,
     public translate: TranslateService,
+    private route: ActivatedRoute,
+    private router: Router,
   ) {}
 
+  tourId: number;
+  time: string;
+
   ngOnInit(): void {
-    this.translateLang();
-    this.ckeConfig = {
-      allowedContent: false,
-      extraPlugins: 'divarea',
-      forcePasteAsPlainText: true,
-      language: 'en',
-    };
     this.spinner.show();
-    this.termsOfUseService.getTermsOfUse()
-      .pipe(first())
-      .subscribe(
-        (result: any) => {
+    this.route.queryParams.subscribe(params => {
+      this.order.tours_host_id = Number(params['tours_host_id']);
+      this.tourId = Number(params['tour_id']);
+      this.time = params['time'];
+      this.order.date_time = params['time'].replace(' ', 'T') + ':00.000+00:00';
+      this.order.number_of_people = Number(params['number_of_people']);
+    });
+    this.getTour();
+    this.getLanguages();
+  }
+
+  isLoaded: boolean = false;
+  tour: Tour = new Tour();
+  host: User = new User();
+  getTour() {
+    this.TourService.getTour(this.tourId).subscribe(
+      (result) => {
+        console.log(result);
+        if (result.code === 20001) {
+          this.tour = result.data;
+          this.host = this.tour.toursHosts.filter(toursHost => toursHost.tours_host_id === this.order.tours_host_id)[0].host;
+          this.isLoaded = true;
           this.spinner.hide();
-          this.data = '';
-          this.dataChange = '';
-          if (result.data) {
-            this.data = result.data.content_en;
-            this.dataChange = result.data.content_en;
-          }
-        },
-        (error) => {
-          this.spinner.hide();
-          this.dialog.show(this.msgGetTermsOfUseFail, 'error');
+        } else {
+          this.router.navigateByUrl('/404');
         }
-      );
+        
+      },
+      (error) => {
+        this.spinner.hide();
+        this.dialog.show(error, 'error');
+      }
+    );
+  }
+
+  code: string;
+  coupon: Coupon = null;
+  errorCoupon: boolean = false;
+  isVerifyCouponCalling: boolean = false;
+  verifyCoupon() {
+    this.isVerifyCouponCalling = true;
+    this.CouponService.verifyCoupon(this.code).subscribe(
+      (result) => {
+        this.isVerifyCouponCalling = false;
+        console.log(result);
+        if (result.code === 20001) {
+          this.errorCoupon = !result.data.is_available || result.data.used_quantity >= result.data.total_quantity;
+          if (!this.errorCoupon) {
+            this.order.coupon = result.data;
+            this.coupon = result.data;
+          }
+        } else {
+          this.coupon = null;
+          this.errorCoupon = true;
+        }
+        
+      },
+      (error) => {
+        this.isVerifyCouponCalling = false;
+        this.spinner.hide();
+        this.dialog.show(error, 'error');
+      }
+    );
+  }
+
+  order: Order = new Order();
+  createOrder() {
+    console.log(this.order);
+    this.OrderService.createOrder(this.order).subscribe(
+      (result) => {
+        console.log(result);
+        if (result.code === 20001) {
+          this.router.navigate(['/order-confirmed'], { queryParams: {
+            order_id: result.data.order_id,
+          }});
+        } else {
+          this.spinner.hide();
+          this.dialog.show(result.message, 'error');
+        }
+      },
+      (error) => {
+        this.isVerifyCouponCalling = false;
+        this.spinner.hide();
+        this.dialog.show(error, 'error');
+      }
+    );
+  }
+
+  isLanguagesShown: boolean = false;
+  showAllLanguages() {
+    this.isLanguagesShown = !this.isLanguagesShown;
+  }
+
+  selectLanguage(language: any) {
+    this.order.language_id = language.language_id;
+    const span = document.getElementById('selecting-language-id');
+    span.innerHTML= language.name;
+  }
+
+  languages: Language[] = [];
+  getLanguages() {
+    this.MasterDataService.getLanguages().subscribe(
+      (result) => {
+        console.log(result);
+        if (result.code === 20001) {
+          this.languages = result.data.languages;
+        }
+      },
+      (error) => {
+        this.spinner.hide();
+        this.dialog.show(error, 'error');
+      }
+    );
   }
 
   //TRANSLATE
@@ -65,32 +159,6 @@ export class IndexComponent implements OnInit {
       this.translate.use('en');
     else
       this.translate.use(localStorage.getItem('lang'));
-  }
-
-  update() {
-    this.modalConfirmUpdate.hide();
-    this.spinner.show();
-    this.termsOfUseService.updateTermsOfUse({'content_en': this.data}).subscribe(
-      result => {
-        this.spinner.hide();
-        this.dialog.show(this.msgUpdateTermsOfUseSuccess, 'success');
-      }, (error) => {
-        this.spinner.hide();
-        this.dialog.show(this.msgUpdateTermsOfUseFail, 'error');
-      });
-  }
-
-  public onEditorChange( event: any) {
-    this.dataChange = event.editor.getData();
-  }
-
-  openModalConfirmUpdate() {
-    this.data = this.dataChange;
-    if (!this.data || this.data === '') {
-      this.dialog.show(this.msgDataRequired, 'error');
-    } else {
-      this.modalConfirmUpdate.show();
-    }
   }
 }
 

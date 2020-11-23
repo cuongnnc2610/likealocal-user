@@ -1,4 +1,4 @@
-<main id="content" class="bg-gray space-2">
+<main *ngIf="isLoaded" id="content" class="bg-gray space-2">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-xl-9">
@@ -39,7 +39,7 @@
                                             Full Name
                                         </label>
 
-                                        <input type="text" class="form-control" name="firstName" placeholder="Ali" aria-label="Ali" required
+                                        <input [(ngModel)] = "order.fullname" type="text" class="form-control" name="firstName" placeholder="John Henry" aria-label="John Henry" required
                                         data-msg="Please enter your first name."
                                         data-error-class="u-has-error"
                                         data-success-class="u-has-success">
@@ -54,7 +54,7 @@
                                             Email
                                         </label>
 
-                                        <input type="email" class="form-control" name="email" placeholder="creativelayers088@gmail.com" aria-label="creativelayers088@gmail.com" required
+                                        <input [(ngModel)] = "order.email" type="email" class="form-control" name="email" placeholder="johnhenry@gmail.com" aria-label="johnhenry@gmail.com" required
                                         data-msg="Please enter a valid email address."
                                         data-error-class="u-has-error"
                                         data-success-class="u-has-success">
@@ -69,7 +69,7 @@
                                             Phone
                                         </label>
 
-                                        <input type="number" class="form-control" name="phone" placeholder="+90 (254) 458 96 32" aria-label="+90 (254) 458 96 32" required
+                                        <input [(ngModel)] = "order.phone_number" type="text" class="form-control" name="phone" placeholder="+84999999999" aria-label="+84999999999" required
                                         data-msg="Please enter a valid phone number."
                                         data-error-class="u-has-error"
                                         data-success-class="u-has-success">
@@ -77,11 +77,38 @@
                                 </div>
                                 <!-- End Input -->
 
-                                <div class="w-100"></div>
+                                <!-- <div class="w-100"></div>
 
-                                <div class="w-100"></div>
+                                <div class="w-100"></div> -->
 
-                                <div class="col">
+                                <!-- Input -->
+                                <div class="col-sm-12">
+                                    <div class="js-form-message">
+                                        <label class="form-label">
+                                            Language
+                                        </label>
+                                        <div class="dropdown-wrapper mb-4 form-control" style="padding: 0">
+                                            <div class="ae-dropdown dropdown " (click)="showAllLanguages();">
+                                                <div class="ae-select" style="padding: 14.4px 16px 14.4px 16px;">
+                                                    <span class="ae-select-content" id="selecting-language-id">
+                                                        Choose your language
+                                                    </span>
+                                                    <i class="material-icons down-icon" style="top: auto">keyboard_arrow_down</i>
+                                                </div>
+                                                <ul [ngClass]="isLanguagesShown ? 'dropdown-menuz' : 'dropdown-menuz ae-hide'">
+                                                    <li *ngFor="let language of languages" (click)="selectLanguage(language)" style="list-style-type:none;" class="mb-1">
+                                                        <div class="time-option">
+                                                            {{language.name}}
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Input -->
+
+                                <div class="col-12">
                                     <!-- Input -->
                                     <div class="js-form-message mb-6">
                                         <label class="form-label">
@@ -89,7 +116,7 @@
                                         </label>
 
                                         <div class="input-group">
-                                            <textarea class="form-control" rows="4" name="text" placeholder="" aria-label="" required
+                                            <textarea [(ngModel)] = "order.note" class="form-control" rows="4" name="text" placeholder="" aria-label="" required
                                             data-msg="Please enter a reason."
                                             data-error-class="u-has-error"
                                             data-success-class="u-has-success"></textarea>
@@ -98,29 +125,9 @@
                                     <!-- End Input -->
                                 </div>
 
-                                <div class="w-100"></div>
-
-                                <!-- Input -->
-                                <div class="col-sm-6 mb-10">
-                                    <div class="js-form-message">
-                                        <h5 id="scroll-description" class="font-size-21 font-weight-bold text-dark mb-2">
-                                            Let us know
-                                        </h5>
-                                        <p class="font-size-14 gray-1">We'll let the property or host know when to expect you.</p>
-                                        <select class="form-control js-select selectpicker dropdown-select" required="" data-msg="Please select country." data-error-class="u-has-error" data-success-class="u-has-success"
-                                            data-style="form-control font-size-16 border-width-2 border-gray font-weight-normal">
-                                            <option value="One" selected>I don’t know</option>
-                                            <option value="Two">I will tell later</option>
-                                            <option value="Three">I don’t know</option>
-                                            <option value="Four">I don’t know</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <!-- End Input -->
-
-                                <div class="col-sm-6 align-self-end">
+                                <div class="col-sm-12 align-self-end">
                                     <div class="text-right">
-                                        <button type="submit" class="btn btn-primary btn-wide rounded-sm transition-3d-hover font-size-16 font-weight-bold py-3">NEXT PAGE</button>
+                                        <button type="submit" class="btn btn-primary btn-wide rounded-sm transition-3d-hover font-size-16 font-weight-bold py-3" (click)="createOrder()">SUBMIT ORDER</button>
                                     </div>
                                 </div>
                             </div>
@@ -344,113 +351,40 @@
                         <!-- End Tab Content -->
                     </div>
                 </div>
-                <div class="mb-5 shadow-soft bg-white rounded-sm">
-                    <div class="py-6 px-5 border-bottom">
-                        <div class="flex-horizontal-center">
-                            <div class="height-50 width-50 flex-shrink-0 flex-content-center bg-primary rounded-circle">
-                                <i class="flaticon-tick text-white font-size-24"></i>
-                            </div>
-                            <div class="ml-3">
-                                <h3 class="font-size-18 font-weight-bold text-dark mb-0 text-lh-sm">
-                                    Thank You. Your Booking Order is Confirmed Now.
-                                </h3>
-                                <p class="mb-0">A confirmation email has been sent to your provided email address.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="pt-4 pb-5 px-5 border-bottom">
-                        <h5 id="scroll-description" class="font-size-21 font-weight-bold text-dark mb-2">
-                            Traveler Information
-                        </h5>
-                        <!-- Fact List -->
-                        <ul class="list-unstyled font-size-1 mb-0 font-size-16">
-                            <li class="d-flex justify-content-between py-2">
-                                <span class="font-weight-medium">Booking number</span>
-                                <span class="text-secondary text-right">5784-BD245</span>
-                            </li>
-
-                            <li class="d-flex justify-content-between py-2">
-                                <span class="font-weight-medium">First name</span>
-                                <span class="text-secondary text-right">Jessica</span>
-                            </li>
-
-                            <li class="d-flex justify-content-between py-2">
-                                <span class="font-weight-medium">Last name</span>
-                                <span class="text-secondary text-right">Brown</span>
-                            </li>
-
-                            <li class="d-flex justify-content-between py-2">
-                                <span class="font-weight-medium">E-mail address</span>
-                                <span class="text-secondary text-right">Info@Jessica.com</span>
-                            </li>
-
-                            <li class="d-flex justify-content-between py-2">
-                                <span class="font-weight-medium">Street Address and number</span>
-                                <span class="text-secondary text-right">353 Third floor Avenue</span>
-                            </li>
-
-                            <li class="d-flex justify-content-between py-2">
-                                <span class="font-weight-medium">Town / City</span>
-                                <span class="text-secondary text-right">Paris,France</span>
-                            </li>
-
-                            <li class="d-flex justify-content-between py-2">
-                                <span class="font-weight-medium">ZIP code</span>
-                                <span class="text-secondary text-right">75800-875</span>
-                            </li>
-
-                            <li class="d-flex justify-content-between py-2">
-                                <span class="font-weight-medium">Country</span>
-                                <span class="text-secondary text-right">United States of america</span>
-                            </li>
-                        </ul>
-                        <!-- End Fact List -->
-                    </div>
-                    <div class="pt-4 pb-5 px-5 border-bottom">
-                        <h5 id="scroll-description" class="font-size-21 font-weight-bold text-dark mb-3">
-                            Payment
-                        </h5>
-                        <p class="">
-                            Praesent dolor lectus, rutrum sit amet risus vitae, imperdiet cursus neque. Nulla tempor nec lorem eu suscipit. Donec dignissim lectus a nunc molestie consectetur. Nulla eu urna in nisi adipiscing placerat. Nam vel scelerisque magna. Donec justo urna,  posuere ut dictum quis.
-                        </p>
-
-                        <a href="#" class="text-underline text-primary">Payment is made by Credit Card Via Paypal.</a>
-                    </div>
-                    <div class="pt-4 pb-5 px-5">
-                        <h5 id="scroll-description" class="font-size-21 font-weight-bold text-dark mb-3">
-                            View Booking Details
-                        </h5>
-                        <p class="">
-                            Praesent dolor lectus, rutrum sit amet risus vitae, imperdiet cursus neque. Nulla tempor nec lorem eu suscipit. Donec dignissim lectus a nunc molestie consectetur. Nulla eu urna in nisi adipiscing placerat. Nam vel scelerisque magna. Donec justo urna,  posuere ut dictum quis.
-                        </p>
-
-                        <a href="#" class="text-underline text-primary">https://www.mytravel.com/booking-details/?=f4acb19f-9542-4a5c-b8ee</a>
-                    </div>
-                </div>
             </div>
             <div class="col-lg-4 col-xl-3">
                 <div class="shadow-soft bg-white rounded-sm">
                     <div class="pt-5 pb-3 px-5 border-bottom">
                         <a href="#" class="d-block mb-3">
-                            <img class="img-fluid rounded-sm" src="../../assets/img/240x160/img5.jpg" alt="Image-Description">
+                            <img class="img-fluid rounded-sm" src="{{tour.cover_image}}" alt="Image-Description">
                         </a>
-                        <a href="#" class="text-dark font-weight-bold mb-2 d-block">5-Day Oahu Tour: Honolulu, Pearl Harbor, & Diamond Head</a>
+                        <a href="#" class="text-dark font-weight-bold mb-2 d-block">{{tour.name}}</a>
                         <div class="mb-1 flex-horizontal-center text-gray-1">
-                            <i class="icon flaticon-pin-1 mr-2 font-size-15"></i> United Kingdom
+                            <i class="icon flaticon-pin-1 mr-2 font-size-15"></i>{{tour.city.name}}, {{tour.city.country.name}}
                         </div>
+                        <div class="mb-1 flex-horizontal-center text-gray-1">
+                            <i class="icon flaticon-hourglass mr-2 font-size-15"></i>
+                                {{Math.floor(tour.duration)}} hours
+                                <span *ngIf="tour.duration !== Math.floor(tour.duration)">{{Number("0." + (tour.duration + "").split(".")[1]) * 60}} minutes</span>
+                        </div>
+                        <div class="mb-1 flex-horizontal-center text-gray-1">
+                            <i class="icon flaticon-user mr-2 font-size-15"></i>{{host.user_name}}
+                        </div>
+                        <!-- <div class="mb-1 flex-horizontal-center text-gray-1">
+                            <i class="icon flaticon-envelope mr-2 font-size-15"></i>{{hostEmail}}
+                        </div> -->
                     </div>
                     <!-- Basics Accordion -->
                     <div id="basicsAccordion">
-                        <!-- Card -->
                         <div class="card rounded-0 border-top-0 border-left-0 border-right-0">
                             <div class="card-header card-collapse bg-transparent border-0" id="basicsHeadingOne">
                                 <h5 class="mb-0">
                                     <button type="button" class="btn btn-link border-0 btn-block d-flex justify-content-between card-btn py-3 px-4 font-size-17 font-weight-bold text-dark">
                                         Booking Detail
 
-                                        <span class="card-btn-arrow font-size-14 text-dark">
+                                        <!-- <span class="card-btn-arrow font-size-14 text-dark">
                                             <i class="fas fa-chevron-down"></i>
-                                        </span>
+                                        </span> -->
                                     </button>
                                 </h5>
                             </div>
@@ -458,28 +392,19 @@
                                 aria-labelledby="basicsHeadingOne"
                                 data-parent="#basicsAccordion">
                                 <div class="card-body px-4 pt-0">
-                                    <!-- Fact List -->
                                     <ul class="list-unstyled font-size-1 mb-0 font-size-16">
                                         <li class="d-flex justify-content-between py-2">
-                                            <span class="font-weight-medium">Date <br> 22/09/2020</span>
-                                            <span class="text-secondary"><a href="#" class="text-underline">Edit</a></span>
+                                            <span class="font-weight-medium">Time</span>
+                                            <span class="text-secondary">{{time}}</span>
                                         </li>
-
                                         <li class="d-flex justify-content-between py-2">
-                                            <span class="font-weight-medium">Duration</span>
-                                            <span class="text-secondary">26 days</span>
-                                        </li>
-
-                                        <li class="d-flex justify-content-between py-2">
-                                            <span class="font-weight-medium">Tour Type</span>
-                                            <span class="text-secondary">Daily Activity</span>
+                                            <span class="font-weight-medium">Number of people</span>
+                                            <span class="text-secondary">{{order.number_of_people}}</span>
                                         </li>
                                     </ul>
-                                    <!-- End Fact List -->
                                 </div>
                             </div>
                         </div>
-                        <!-- End Card -->
 
                         <!-- Card -->
                         <div class="card rounded-0 border-top-0 border-left-0 border-right-0">
@@ -488,9 +413,9 @@
                                     <button type="button" class="btn btn-link border-0 btn-block d-flex justify-content-between card-btn py-3 px-4 font-size-17 font-weight-bold text-dark">
                                         Coupon Code
 
-                                        <span class="card-btn-arrow font-size-14 text-dark">
+                                        <!-- <span class="card-btn-arrow font-size-14 text-dark">
                                             <i class="fas fa-chevron-down"></i>
-                                        </span>
+                                        </span> -->
                                     </button>
                                 </h5>
                             </div>
@@ -498,17 +423,18 @@
                                 aria-labelledby="basicsHeadingThree"
                                 data-parent="#basicsAccordion">
                                 <div class="card-body px-4 pt-0 pb-4">
-                                    <!-- Subscribe Form -->
-                                    <form class="js-focus-state">
-                                        <label class="sr-only" for="CouponCodeExample1">Coupon Code</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" name="email" id="CouponCodeExample1" placeholder="" aria-label="" aria-describedby="CouponCodeExample2" required>
-                                            <div class="input-group-append">
-                                                <button class="btn btn-primary py-2" type="button" id="CouponCodeExample2">Apply</button>
-                                            </div>
+                                    <label class="sr-only" for="CouponCodeExample1">Coupon Code</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="CouponCodeExample1" placeholder="" aria-label="" aria-describedby="CouponCodeExample2" [(ngModel)]="code" style="text-transform:uppercase">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary py-2" type="button" id="CouponCodeExample2" (click)="verifyCoupon()" style="width: 80px;">
+                                                <i *ngIf="isVerifyCouponCalling" class="fa fa-spinner fa-spin" style="font-size:24px"></i>
+                                                <span *ngIf="!isVerifyCouponCalling">Apply</span>
+                                            </button>
                                         </div>
-                                    </form>
-                                    <!-- End Subscribe Form -->
+                                    </div>
+                                    <small *ngIf="errorCoupon" class="required-text">This coupon is not available</small>
+                                    <small *ngIf="coupon" class="required-text text-success">Discount {{coupon.discount}}%</small>
                                 </div>
                             </div>
                         </div>
@@ -521,9 +447,9 @@
                                     <button type="button" class="btn btn-link border-0 btn-block d-flex justify-content-between card-btn py-3 px-4 font-size-17 font-weight-bold text-dark">
                                         Payment
 
-                                        <span class="card-btn-arrow font-size-14 text-dark">
+                                        <!-- <span class="card-btn-arrow font-size-14 text-dark">
                                             <i class="fas fa-chevron-down"></i>
-                                        </span>
+                                        </span> -->
                                     </button>
                                 </h5>
                             </div>
@@ -535,17 +461,18 @@
                                     <ul class="list-unstyled font-size-1 mb-0 font-size-16">
                                         <li class="d-flex justify-content-between py-2">
                                             <span class="font-weight-medium">Subtotal</span>
-                                            <span class="text-secondary">580.00$</span>
+                                            <span class="text-secondary">{{tour.sale_price}}$</span>
                                         </li>
 
                                         <li class="d-flex justify-content-between py-2">
                                             <span class="font-weight-medium">Discount</span>
-                                            <span class="text-secondary">53.00$</span>
+                                            <span class="text-secondary">{{(!errorCoupon && coupon) ? (tour.sale_price * coupon.discount / 100).toFixed(2) : '0.00'}}$</span>
                                         </li>
 
                                         <li class="d-flex justify-content-between py-2 font-size-17 font-weight-bold">
                                             <span class="font-weight-bold">Pay Amount</span>
-                                            <span class="">580.00$</span>
+                                            <span *ngIf="!coupon">{{tour.sale_price}}$</span>
+                                            <span *ngIf="coupon">{{(tour.sale_price - tour.sale_price * coupon.discount / 100).toFixed(2)}}$</span>
                                         </li>
                                     </ul>
                                     <!-- End Fact List -->
@@ -560,3 +487,5 @@
         </div>
     </div>
 </main>
+<app-dialog></app-dialog>
+<ngx-spinner [fullScreen]="true" type="ball-clip-rotate-multiple" size="medium"></ngx-spinner>

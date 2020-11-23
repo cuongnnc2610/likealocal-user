@@ -79,7 +79,11 @@ export const routes: Routes = [
         loadChildren: () => import('./views/tour-booking/index.module').then(m => m.IndexModule)
       },
       {
-        path: 'host',
+        path: 'order-confirmed',
+        loadChildren: () => import('./views/order-confirmed/index.module').then(m => m.IndexModule)
+      },
+      {
+        path: 'host/:id',
         loadChildren: () => import('./views/host/index.module').then(m => m.IndexModule)
       },
       {
