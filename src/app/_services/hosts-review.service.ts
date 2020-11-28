@@ -17,8 +17,26 @@ export class HostsReviewService {
       }));
   }
 
+  getHostsReviewsByHostId(numberPage, hostId, orderType) {
+    return this.http.get<any>(`${environment.apiUrl}/hosts-reviews?page=${numberPage}&limit=${5}&host_id=${hostId}&order_type=${orderType}`)
+      .pipe(map((result: any) => {
+        return result;
+      }));
+  }
+
   deleteHostsReview(hostsReview: any) {
     return this.http.delete<any>(`${environment.apiUrl}/hosts-reviews/${hostsReview.hosts_review_id}`)
+      .pipe(map((result: any) => {
+        return result;
+      }));
+  }
+
+  createHostsReview(hostId: number, rating: number, content: string) {
+    return this.http.post<any>(`${environment.apiUrl}/hosts-reviews`, {
+      host_id: hostId,
+      rating: rating,
+      content: content
+    })
       .pipe(map((result: any) => {
         return result;
       }));

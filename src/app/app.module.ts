@@ -30,13 +30,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
 
 import { AppComponent } from './app.component';
-import { DefaultLayoutComponent } from './containers';
+import { DefaultLayoutComponent, MyAccountLayoutComponent } from './containers';
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 // import { HomeComponent } from './views/home/home.component';
 import { LoginComponent,EmailInputComponent, ResetPwdComponent } from './views/auths-management';
 
-const APP_CONTAINERS = [ DefaultLayoutComponent ];
+const APP_CONTAINERS = [ DefaultLayoutComponent, MyAccountLayoutComponent ];
 
 @NgModule({
   imports: [

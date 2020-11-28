@@ -16938,7 +16938,7 @@ screen and (max-height:300px) {
 	font-family: Flaticon;
 	font-size: 20px;
 	font-style: normal;
-	margin-left: 20px
+	/* margin-left: 20px */
 }
 
 .flaticon-skyline:before {
@@ -20422,7 +20422,7 @@ h6 {
 }
 
 .personal_text h3 {
-	font-size: 48px;
+	font-size: 38px;
 	text-transform: uppercase;
 	margin-bottom: 15px;
 	color: #222
@@ -21187,5 +21187,5 @@ h6 {
 }
 
 .media-body {
-	margin-left: 125px;
+	/* margin-left: 125px; */
 }

@@ -1,72 +1,118 @@
-<main class="space-2 ng-star-inserted">
+<main *ngIf="isLoaded" class="space-2 ng-star-inserted">
 	<div class="container">
 		<section class="host-banner">
 			<div class="container box_1620">
-				<div class="banner_inner d-flex align-items-center">
+				<div class="banner_inner">
 					<div class="banner_content">
-						<div class="media">
-							<div class="d-flex">
-								<img src="../../../assets/xpersonal.jpg.pagespeed.ic.0nYDRDpxHl.webp" alt="">
+						<div class="media col-12 row">
+							<div class="col-6">
+								<video id="introduction-video" poster="{{host.avatar}}" width="100%" height="100%" style="object-fit: cover;" controls>
+									<source id='source-video' src="{{host.introduction_video}}" type="video/mp4">
+										Your browser does not support the video tag.
+								</video>
 							</div>
-							<div class="media-body">
+							<div class="media-body col-4">
 								<div class="personal_text">
-									<h6>Hello Everybody, i am</h6>
-									<h3>Donald McKinney</h3>
-									<h4>Junior UI/UX Developer</h4>
-									<p>You will begin to realise why this exercise is called the Dickens Pattern (with reference to the ghost showing Scrooge some different futures)</p>
+									<!-- <h6>Hello Everybody, i am</h6> -->
+									<h3>{{host.user_name}}</h3>
+									<div class="mb-2">
+										<span *ngIf="host.rating === 0" class="fas fa-star text-secondary"></span>
+										<span *ngIf="host.rating >= 1" class="fas fa-star green-lighter"></span>
+										<span *ngIf="host.rating < 2" class="fas fa-star text-secondary"></span>
+										<span *ngIf="host.rating >= 2" class="fas fa-star green-lighter"></span>
+										<span *ngIf="host.rating < 3" class="fas fa-star text-secondary"></span>
+										<span *ngIf="host.rating >= 3" class="fas fa-star green-lighter"></span>
+										<span *ngIf="host.rating < 4" class="fas fa-star text-secondary"></span>
+										<span *ngIf="host.rating >= 4" class="fas fa-star green-lighter"></span>
+										<span *ngIf="host.rating < 5" class="fas fa-star text-secondary"></span>
+										<span *ngIf="host.rating === 5" class="fas fa-star green-lighter"></span>
+										<span class="ml-1">({{host.number_of_reviews}} Reviews)</span>
+									</div>
 									<ul class="list basic_info">
-										<li><a href="https://preview.colorlib.com/theme/meetme/#"><i class="lnr lnr-calendar-full"></i> 31st December, 1992</a></li>
-										<li><a href="https://preview.colorlib.com/theme/meetme/#"><i class="lnr lnr-phone-handset"></i> 44 (012) 6954 783</a></li>
-										<li><a href="https://preview.colorlib.com/theme/meetme/#"><i class="lnr lnr-envelope"></i> businessplan@donald</a></li>
-										<li><a href="https://preview.colorlib.com/theme/meetme/#"><i class="lnr lnr-home"></i> Santa monica bullevard</a></li>
-									</ul>
-									<ul class="list personal_social">
-										<li><a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-facebook"></i></a></li>
-										<li><a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-twitter"></i></a></li>
-										<li><a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-linkedin"></i></a></li>
+										<li><i class="flaticon-pin font-size-25 text-primary pr-1"></i>{{host.city.name}}, {{host.city.country.name}}</li>
+										<li><i class="flaticon-worldwide font-size-25 text-primary pr-1"></i>{{host.languages}}</li>
+										<li><i class="flaticon-worldwide font-size-25 text-primary pr-1"></i>400 tours guided</li>
 									</ul>
 								</div>
+							</div>
+							<div class="col-2">
+								<img src="{{host.avatar}}" class="rounded-circle col-12 p-0">
+							</div>
+							<div class="col-12 mt-3">
+								<p>{{host.self_introduction}}</p>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</section>
-		<!--================End Home Banner Area =================-->
-		<!--================Welcome Area =================-->
 		<section class="welcome_area p_120">
 			<div class="container">
 				<div class="row welcome_inner">
-					<div class="col-lg-6">
+					<div class="col-lg-12">
 						<div class="welcome_text">
-							<h4>About Myself</h4>
-							<p>inappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct standards especially in the workplace. That’s why it’s crucial that, as women, our behavior on the job is beyond reproach. inappropriate behavior is often laughed.</p>
+							<h4>My Offers</h4>
 							<div class="row">
-								<div class="col-md-4">
-									<div class="wel_item">
-										<i class="lnr lnr-database"></i>
-										<h4>$2.5M</h4>
-										<p>Total Donation</p>
-									</div>
-								</div>
-								<div class="col-md-4">
-									<div class="wel_item">
-										<i class="lnr lnr-book"></i>
-										<h4>1465</h4>
-										<p>Total Projects</p>
-									</div>
-								</div>
-								<div class="col-md-4">
-									<div class="wel_item">
-										<i class="lnr lnr-users"></i>
-										<h4>3965</h4>
-										<p>Total Volunteers</p>
-									</div>
-								</div>
+								<div *ngFor="let tour of tours" class="col-xl-3 col-md-4 col-sm-6 col-xs-12 mb-3 mb-md-4 pb-1">
+                                    <div class="card mb-1 transition-3d-hover shadow-hover-2 tab-card h-100">
+                                        <div class="position-relative mb-2">
+                                            <a [routerLink]="['/tour-detail', tour.tour_id]" class="d-block gradient-overlay-half-bg-gradient-v5">
+                                                <img class="min-height-230 bg-img-hero card-img-top" src="{{tour.cover_image}}" alt="img" style="object-fit: cover;">
+                                            </a>
+                                            <div class="position-absolute top-0 left-0 pt-4 pl-3">
+                                                <!-- <span class="badge badge-pill bg-white text-primary px-4 py-2 font-size-14 font-weight-normal">Featured</span> -->
+                                                <span *ngIf="tour.sale_price !== tour.list_price" class="badge badge-pill bg-white text-danger px-3 py-2 font-size-14 font-weight-normal">%{{100 - (tour.sale_price / tour.list_price * 100).toFixed(0)}}</span>
+                                            </div>
+                                            <div class="position-absolute top-0 right-0 pt-4 pr-3">
+                                              <button type="button" class="btn btn-sm btn-icon text-white rounded-circle" data-toggle="tooltip" data-placement="top" title="" data-original-title="Save for later">
+                                                <span class="flaticon-valentine-heart font-size-20"></span>
+                                              </button>
+                                            </div>
+                                            <div class="position-absolute bottom-0 left-0 right-0">
+                                                <div class="px-3 pb-2">
+                                                    <h2 class="h5 text-white mb-0 font-weight-bold">
+                                                        <small class="mr-2">Price</small>
+                                                        {{tour.sale_price}}$
+                                                    </h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body px-4 py-2">
+                                            <!-- <a [routerLink]="['/tour-detail', tour.tour_id]" class="d-block">
+                                                <div class="mb-1 d-flex align-items-center font-size-14 text-gray-1">
+                                                    <i class="icon flaticon-pin-1 mr-2 font-size-15"></i> {{tour.city.name}}, {{tour.city.country.name}}
+                                                </div>
+                                            </a> -->
+                                            <a [routerLink]="['/tour-detail', tour.tour_id]" class="card-title font-size-17 font-weight-bold mb-0 text-dark">{{tour.name}}</a>
+                                            <div class="my-2">
+                                                <div class="d-inline-flex align-items-center font-size-17 text-lh-1">
+                                                    <div class="mr-2">
+                                                        <span *ngIf="tour.rating === 0" class="fas fa-star text-secondary"></span>
+                                                        <span *ngIf="tour.rating >= 1" class="fas fa-star green-lighter"></span>
+                                                        <span *ngIf="tour.rating < 2" class="fas fa-star text-secondary"></span>
+                                                        <span *ngIf="tour.rating >= 2" class="fas fa-star green-lighter"></span>
+                                                        <span *ngIf="tour.rating < 3" class="fas fa-star text-secondary"></span>
+                                                        <span *ngIf="tour.rating >= 3" class="fas fa-star green-lighter"></span>
+                                                        <span *ngIf="tour.rating < 4" class="fas fa-star text-secondary"></span>
+                                                        <span *ngIf="tour.rating >= 4" class="fas fa-star green-lighter"></span>
+                                                        <span *ngIf="tour.rating < 5" class="fas fa-star text-secondary"></span>
+														<span *ngIf="tour.rating === 5" class="fas fa-star green-lighter"></span>
+                                                    </div>
+                                                    <span class="text-secondary font-size-14 mt-1">{{tour.number_of_reviews}} Reviews</span>
+                                                </div>
+                                            </div>
+                                            <div class="mb-1 d-flex align-items-center font-size-14 text-gray-1">
+                                                <i class="icon flaticon-clock-circular-outline mr-2 font-size-14"></i>
+                                                    {{Math.floor(tour.duration)}} hours&nbsp;
+                                                    <span *ngIf="tour.duration !== Math.floor(tour.duration)">{{Number("0." + (tour.duration + "").split(".")[1]) * 60}} minutes</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-6">
+					<!-- <div class="col-lg-6">
 						<div class="tools_expert">
 							<div class="skill_main">
 								<div class="skill_item">
@@ -111,278 +157,58 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</section>
-		<!--================End Welcome Area =================-->
-		<!--================Feature Area =================-->
-		<section class="feature_area p_120">
+		<section class="welcome_area">
 			<div class="container">
-				<div class="main_title">
-					<h2>offerings to my clients</h2>
-					<p>If you are looking at blank cassettes on the web, you may be very confused at the difference in price. You may see some for as low as $.17 each.</p>
-				</div>
-				<div class="feature_inner row">
-					<div class="col-lg-4 col-md-6">
-						<div class="feature_item">
-							<i class="flaticon-city"></i>
-							<h4>Architecture</h4>
-							<p>If you are looking at blank cassettes on the web, you may be very confused at the difference in price. You may see some for as low as $17 each.</p>
-						</div>
-					</div>
-					<div class="col-lg-4 col-md-6">
-						<div class="feature_item">
-							<i class="flaticon-skyline"></i>
-							<h4>Interior Design</h4>
-							<p>If you are looking at blank cassettes on the web, you may be very confused at the difference in price. You may see some for as low as $17 each.</p>
-						</div>
-					</div>
-					<div class="col-lg-4 col-md-6">
-						<div class="feature_item">
-							<i class="flaticon-sketch"></i>
-							<h4>Concept Design</h4>
-							<p>If you are looking at blank cassettes on the web, you may be very confused at the difference in price. You may see some for as low as $17 each.</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!--================End Feature Area =================-->
-		<!--================Home Gallery Area =================-->
-		<section class="home_gallery_area p_120">
-			<div class="container">
-				<div class="main_title">
-					<h2>Our Latest Featured Projects</h2>
-					<p>Who are in extremely love with eco friendly system.</p>
-				</div>
-				<div class="isotope_fillter">
-					<ul class="gallery_filter list">
-						<li class="active" data-filter="*"><a href="https://preview.colorlib.com/theme/meetme/#">All</a></li>
-						<li data-filter=".brand"><a href="https://preview.colorlib.com/theme/meetme/#">Vector</a></li>
-						<li data-filter=".manipul"><a href="https://preview.colorlib.com/theme/meetme/#">Raster</a></li>
-						<li data-filter=".creative"><a href="https://preview.colorlib.com/theme/meetme/#">UI/UX</a></li>
-						<li data-filter=".design"><a href="https://preview.colorlib.com/theme/meetme/#">Printing</a></li>
-					</ul>
-				</div>
-			</div>
-			<div class="container">
-				<div class="gallery_f_inner row imageGallery1" style="position: relative; height: 928.8px;">
-					<div class="col-lg-4 col-md-4 col-sm-6 brand manipul design print" style="position: absolute; left: 0px; top: 0px;">
-						<div class="h_gallery_item">
-							<div class="g_img_item">
-								<img class="img-fluid" src="../../../assets/xproject-1.jpg.pagespeed.ic.ywp98aZnNZ.webp" alt="">
-								<a class="light" href="https://preview.colorlib.com/theme/meetme/img/gallery/project-1.jpg"><img src="../../../assets/xicon.png.pagespeed.ic.zKwfM-RL_y.webp" alt=""></a>
-							</div>
-							<div class="g_item_text">
-								<h4>3D Helmet Design</h4>
-								<p>Client Project</p>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-4 col-md-4 col-sm-6 brand manipul creative" style="position: absolute; left: 390px; top: 0px;">
-						<div class="h_gallery_item">
-							<div class="g_img_item">
-								<img class="img-fluid" src="../../../assets/xproject-2.jpg.pagespeed.ic.s3xYIeOtvI.webp" alt="">
-								<a class="light" href="https://preview.colorlib.com/theme/meetme/img/gallery/project-2.jpg"><img src="../../../assets/xicon.png.pagespeed.ic.zKwfM-RL_y.webp" alt=""></a>
-							</div>
-							<div class="g_item_text">
-								<h4>2D Vinyl Design</h4>
-								<p>Client Project</p>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-4 col-md-4 col-sm-6 manipul creative design print" style="position: absolute; left: 780px; top: 0px;">
-						<div class="h_gallery_item">
-							<div class="g_img_item">
-								<img class="img-fluid" src="../../../assets/xproject-3.jpg.pagespeed.ic.w2QyGuZbNp.webp" alt="">
-								<a class="light" href="https://preview.colorlib.com/theme/meetme/img/gallery/project-3.jpg"><img src="../../../assets/xicon.png.pagespeed.ic.zKwfM-RL_y.webp" alt=""></a>
-							</div>
-							<div class="g_item_text">
-								<h4>Creative Poster Design</h4>
-								<p>Client Project</p>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-4 col-md-4 col-sm-6 brand creative print" style="position: absolute; left: 0px; top: 464.4px;">
-						<div class="h_gallery_item">
-							<div class="g_img_item">
-								<img class="img-fluid" src="../../../assets/xproject-4.jpg.pagespeed.ic.HayBAxBZfl.webp" alt="">
-								<a class="light" href="https://preview.colorlib.com/theme/meetme/img/gallery/project-4.jpg"><img src="../../../assets/xicon.png.pagespeed.ic.zKwfM-RL_y.webp" alt=""></a>
-							</div>
-							<div class="g_item_text">
-								<h4>Embosed Logo Design</h4>
-								<p>Client Project</p>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-4 col-md-4 col-sm-6 brand manipul design" style="position: absolute; left: 390px; top: 464.4px;">
-						<div class="h_gallery_item">
-							<div class="g_img_item">
-								<img class="img-fluid" src="../../../assets/xproject-5.jpg.pagespeed.ic.JRpWISxSAc.webp" alt="">
-								<a class="light" href="https://preview.colorlib.com/theme/meetme/img/gallery/project-5.jpg"><img src="../../../assets/xicon.png.pagespeed.ic.zKwfM-RL_y.webp" alt=""></a>
-							</div>
-							<div class="g_item_text">
-								<h4>3D Disposable Bottle</h4>
-								<p>Client Project</p>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-4 col-md-4 col-sm-6 brand creative" style="position: absolute; left: 780px; top: 464.4px;">
-						<div class="h_gallery_item">
-							<div class="g_img_item">
-								<img class="img-fluid" src="../../../assets/xproject-6.jpg.pagespeed.ic.2CYAgHZdUc.webp" alt="">
-								<a class="light" href="https://preview.colorlib.com/theme/meetme/img/gallery/project-6.jpg"><img src="../../../assets/xicon.png.pagespeed.ic.zKwfM-RL_y.webp" alt=""></a>
-							</div>
-							<div class="g_item_text">
-								<h4>3D Logo Design</h4>
-								<p>Client Project</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="more_btn">
-					<a class="main_btn" href="https://preview.colorlib.com/theme/meetme/#">Load More Items</a>
-				</div>
-			</div>
-		</section>
-		<!--================End Home Gallery Area =================-->
-		<!--================Testimonials Area =================-->
-		<section class="testimonials_area p_120">
-			<div class="container">
-				<div class="main_title">
-					<h2>Testimonials</h2>
-					<p>If you are looking at blank cassettes on the web, you may be very confused at the difference in price. You may see some for as low as $.17 each.</p>
-				</div>
-				<div class="testi_inner">
-					<div class="testi_slider owl-carousel owl-loaded owl-drag">
-						<div class="owl-stage-outer">
-							<div class="owl-stage" style="transform: translate3d(-1950px, 0px, 0px); transition: all 1.5s ease 0s; width: 3510px;">
-								<div class="owl-item cloned" style="width: 360px; margin-right: 30px;">
-									<div class="item">
-										<div class="testi_item">
-											<p>As conscious traveling Paup ers we must always be oncerned about our dear Mother Earth. If you think about it, you travel across her face</p>
-											<h4>Fanny Spencer</h4>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star-half-o"></i></a>
+				<div class="row welcome_inner">
+					<div class="col-lg-12">
+						<div class="welcome_text">
+							<h4>Reviews</h4>
+							<div class="row">
+								<div *ngFor="let review of hostsReviews" class="media mb-4 col-12">
+									<div class="mr-md-5">
+										<a class="d-block" href="#">
+											<img class="img-fluid mb-3 mb-md-0 rounded-circle" src="{{review.user.avatar}}" alt="Image-Description" style="width: 85px; height: 85px;">
+										</a>
+									</div>
+									<div class="media-body text-center text-md-left">
+										<div class="mb-4">
+											<h6 class="font-weight-bold text-gray-3">
+												<a href="#">{{review.user.user_name}}</a>
+											</h6>
+											<div class="d-flex align-items-center flex-column flex-md-row mb-2">
+												<div class="font-size-10 letter-spacing-2">
+													<span class="d-block">
+														<span *ngIf="review.rating === 0" class="fas fa-star text-secondary"></span>
+														<span *ngIf="review.rating >= 1" class="fas fa-star green-lighter"></span>
+														<span *ngIf="review.rating < 2" class="fas fa-star text-secondary"></span>
+														<span *ngIf="review.rating >= 2" class="fas fa-star green-lighter"></span>
+														<span *ngIf="review.rating < 3" class="fas fa-star text-secondary"></span>
+														<span *ngIf="review.rating >= 3" class="fas fa-star green-lighter"></span>
+														<span *ngIf="review.rating < 4" class="fas fa-star text-secondary"></span>
+														<span *ngIf="review.rating >= 4" class="fas fa-star green-lighter"></span>
+														<span *ngIf="review.rating < 5" class="fas fa-star text-secondary"></span>
+														<span *ngIf="review.rating === 5" class="fas fa-star green-lighter"></span>
+													</span>
+												</div>
+											</div>
+											<div class="font-weight-normal font-size-14 text-gray-9 mb-2">{{review.createdAt | date: 'medium'}}</div>
+											<div class="font-weight-normal">{{review.content}}</div>
 										</div>
 									</div>
 								</div>
-								<div class="owl-item cloned" style="width: 360px; margin-right: 30px;">
-									<div class="item">
-										<div class="testi_item">
-											<p>As conscious traveling Paup ers we must always be oncerned about our dear Mother Earth. If you think about it, you travel across her face</p>
-											<h4>Fanny Spencer</h4>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star-half-o"></i></a>
-										</div>
-									</div>
-								</div>
-								<div class="owl-item cloned" style="width: 360px; margin-right: 30px;">
-									<div class="item">
-										<div class="testi_item">
-											<p>As conscious traveling Paup ers we must always be oncerned about our dear Mother Earth. If you think about it, you travel across her face</p>
-											<h4>Fanny Spencer</h4>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star-half-o"></i></a>
-										</div>
-									</div>
-								</div>
-								<div class="owl-item" style="width: 360px; margin-right: 30px;">
-									<div class="item">
-										<div class="testi_item">
-											<p>As conscious traveling Paup ers we must always be oncerned about our dear Mother Earth. If you think about it, you travel across her face</p>
-											<h4>Fanny Spencer</h4>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star-half-o"></i></a>
-										</div>
-									</div>
-								</div>
-								<div class="owl-item" style="width: 360px; margin-right: 30px;">
-									<div class="item">
-										<div class="testi_item">
-											<p>As conscious traveling Paup ers we must always be oncerned about our dear Mother Earth. If you think about it, you travel across her face</p>
-											<h4>Fanny Spencer</h4>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star-half-o"></i></a>
-										</div>
-									</div>
-								</div>
-								<div class="owl-item active" style="width: 360px; margin-right: 30px;">
-									<div class="item">
-										<div class="testi_item">
-											<p>As conscious traveling Paup ers we must always be oncerned about our dear Mother Earth. If you think about it, you travel across her face</p>
-											<h4>Fanny Spencer</h4>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star-half-o"></i></a>
-										</div>
-									</div>
-								</div>
-								<div class="owl-item cloned active" style="width: 360px; margin-right: 30px;">
-									<div class="item">
-										<div class="testi_item">
-											<p>As conscious traveling Paup ers we must always be oncerned about our dear Mother Earth. If you think about it, you travel across her face</p>
-											<h4>Fanny Spencer</h4>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star-half-o"></i></a>
-										</div>
-									</div>
-								</div>
-								<div class="owl-item cloned active" style="width: 360px; margin-right: 30px;">
-									<div class="item">
-										<div class="testi_item">
-											<p>As conscious traveling Paup ers we must always be oncerned about our dear Mother Earth. If you think about it, you travel across her face</p>
-											<h4>Fanny Spencer</h4>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star-half-o"></i></a>
-										</div>
-									</div>
-								</div>
-								<div class="owl-item cloned" style="width: 360px; margin-right: 30px;">
-									<div class="item">
-										<div class="testi_item">
-											<p>As conscious traveling Paup ers we must always be oncerned about our dear Mother Earth. If you think about it, you travel across her face</p>
-											<h4>Fanny Spencer</h4>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star"></i></a>
-											<a href="https://preview.colorlib.com/theme/meetme/#"><i class="fa fa-star-half-o"></i></a>
-										</div>
-									</div>
+								<div *ngIf="hostsReviews.length" class="col-12">
+									<ngb-pagination [collectionSize]="total" [(page)]="page" [rotate]="true" [pageSize]="pageSize"
+									  [maxSize]="5" (pageChange)="currentPage(page)">
+									  <ng-template ngbPaginationPrevious>Previous</ng-template>
+									  <ng-template ngbPaginationNext>Next</ng-template>
+									  <ng-template ngbPaginationEllipsis>...</ng-template>
+									</ngb-pagination>
 								</div>
 							</div>
-						</div>
-						<div class="owl-nav disabled">
-							<div class="owl-prev">prev</div>
-							<div class="owl-next">next</div>
-						</div>
-						<div class="owl-dots disabled">
-							<div class="owl-dot active"><span></span></div>
 						</div>
 					</div>
 				</div>
@@ -390,3 +216,5 @@
 		</section>
 	</div>
 </main>
+<app-dialog></app-dialog>
+<ngx-spinner [fullScreen]="true" type="ball-clip-rotate-multiple" size="medium"></ngx-spinner>

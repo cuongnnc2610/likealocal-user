@@ -16,7 +16,8 @@ export class JwtInterceptor implements HttpInterceptor {
     const user = this.authenticationService.currentUserValue;
     const isLoggedIn = user && user.token;
     const isApiUrl = request.url.startsWith(environment.apiUrl);
-    const token = JSON.parse(sessionStorage.getItem('currentUser'))?.token;
+    // const token = JSON.parse(sessionStorage.getItem('currentUser'))?.token;
+    const token = JSON.parse(localStorage.getItem('currentUser'))?.token;
     const d = new Date();
     // const n = d.getTimezoneOffset();
     const n = 0;

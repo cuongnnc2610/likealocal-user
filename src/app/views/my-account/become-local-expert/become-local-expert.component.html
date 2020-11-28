@@ -1,0 +1,195 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row px-5">
+              <div *ngIf="user.request_status === 2" class="col-12 alert alert-warning">
+                Your request is being reviewed
+              </div>
+              <div *ngIf="user.request_status === 1" class="col-12 alert alert-danger">
+                Your request has been declined
+              </div>
+          </div>
+          <form [formGroup]="userForm" (ngSubmit)="requestToBeHost()">
+            <div class="row px-5">
+              <div class="col-xl-7 col-md-12">
+                <div class="form-group">
+                  <label for="code">Username</label>
+                  <input class="form-control" id="user_name" type="text" name="user_name" formControlName="user_name"/>
+                  <div [style.visibility]="isUserSubmitted ||
+                  (userForm.get('user_name').invalid && userForm.get('user_name').touched) ||
+                  userForm.get('user_name').dirty ? 'visible' : 'hidden'" class="error-message">
+                    <small *ngIf="userForm.get('user_name').errors?.required" class="help-block text-danger">
+                      Please enter the username
+                    </small>
+                    <small *ngIf="userForm.get('user_name').errors?.maxlength" class="help-block text-danger">
+                      The username cannot be more than 255 characters
+                    </small>
+                    <small *ngIf="userForm.get('user_name').errors?.pattern" class="help-block text-danger">
+                      The username cannot contain special characters
+                    </small>
+                  </div>
+                </div> 
+                <div class="form-group">
+                  <label for="code">Phone number</label>
+                  <input class="form-control" id="phone_number" type="text" name="phone_number" formControlName="phone_number"/>
+                  <div [style.visibility]="isUserSubmitted ||
+                  (userForm.get('phone_number').invalid && userForm.get('phone_number').touched) ||
+                  userForm.get('phone_number').dirty ? 'visible' : 'hidden'" class="error-message">
+                    <small *ngIf="userForm.get('phone_number').errors?.required" class="help-block text-danger">
+                      Please enter the phone number
+                    </small>
+                    <small *ngIf="userForm.get('phone_number').errors?.maxlength" class="help-block text-danger">
+                      The phone number cannot be more than 11 digits
+                    </small>
+                    <small *ngIf="userForm.get('phone_number').errors?.pattern" class="help-block text-danger">
+                      The phone number is not in correct format
+                    </small>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-6">
+                    <label for="code">Country</label>
+                    <select class="form-control" name="country_id" formControlName="country_id" (change)="spinner.show(); getCities();">
+                      <option *ngFor="let country of countries" [value]="country.country_id">{{country.name}}</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-6">
+                    <label for="code">City</label>
+                    <select class="form-control" name="city_id" formControlName="city_id">
+                      <option *ngFor="let city of cities" [value]="city.city_id">{{city.name}}</option>
+                    </select>
+                    <div [style.visibility]="isUserSubmitted ? 'visible' : 'hidden'" class="error-message">
+                      <small *ngIf="!cityId" class="help-block text-danger">
+                        Please select your city
+                      </small>
+                    </div>
+                  </div>
+                  <!-- <div class="form-group col-6">
+                    <span class="d-block text-gray-1 font-weight-normal mb-0 text-left">Time</span>
+                    <div class="dropdown-wrapper border border-width-2 border-color-1 mb-4">
+                        <div class="ae-dropdown dropdown" (click)="showAllTimes();">
+                            <div class="ae-select">
+                                <span class="ae-select-content" id="selecting-time">
+                                    Choose a time
+                                </span>
+                                <i class="material-icons down-icon">keyboard_arrow_down</i>
+                            </div>
+                            <ul [ngClass]="isTimesShown ? 'dropdown-menuz' : 'dropdown-menuz ae-hide'">
+                                <li *ngFor="let time of times" (click)="selectTime($event, time)" id="{{'time' + time}}" style="list-style-type:none;" class="mb-1">
+                                    <div class="time-option">
+                                        {{time}}
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+              <div class="col-xl-5 col-md-12 border-left">
+                <div class="form-group text-center">
+                  <div class="avatar-container">
+                    <img src="{{user.avatar}}" class="avatar">
+                  </div>
+                  <div class="form-group">
+                    <input type="file" id="file" style="display: none;" (change)="uploadAvatar($event.target.files)">
+                    <button type="button" class="btn btn-outline-primary p-2 mt-3" onclick="document.getElementById('file').click();">
+                      Choose file
+                    </button>
+                  </div>
+                </div> 
+              </div>
+            </div>
+            <div class="row px-5">
+              <div class="form-group col-12">
+                <label for="code">Languages</label>
+                <ng-multiselect-dropdown
+                  class="form-control"
+                  [data]="languages"
+                  [(ngModel)]="selectedItems"
+                  formControlName="languages"
+                  [settings]="dropdownSettings"
+                >
+                </ng-multiselect-dropdown>
+                <div *ngIf="user" [style.visibility]="isUserSubmitted ||
+                  (userForm.get('languages').invalid && userForm.get('languages').touched) ||
+                  userForm.get('languages').dirty ? 'visible' : 'hidden'" class="error-message">
+                    <small *ngIf="userForm.get('languages').errors?.required" class="help-block text-danger">
+                      Please select your languages
+                    </small>
+                </div>
+              </div>
+            </div>
+            <div class="row px-5">
+              <div class="form-group col-12">
+                <label for="code">Self introduction</label>
+                <textarea class="form-control" rows="6" name="self_introduction" formControlName="self_introduction"></textarea>
+                <div [style.visibility]="isUserSubmitted ||
+                  (userForm.get('self_introduction').invalid && userForm.get('self_introduction').touched) ||
+                  userForm.get('self_introduction').dirty ? 'visible' : 'hidden'" class="error-message">
+                    <small *ngIf="userForm.get('self_introduction').errors?.required" class="help-block text-danger">
+                      Please enter the self introduction
+                    </small>
+                </div>
+              </div>
+            </div>
+            <div class="row px-5">
+              <div class="form-group col-12" style="height: fit-content;">
+                <label for="code">Introduction video</label>
+                <video poster="" width="100%" height="100%" controls [src]="url" *ngIf="url">
+                </video>
+                <video poster="" width="100%" height="100%" controls *ngIf="!url && user.introduction_video">
+									<source src="{{user.introduction_video}}" type="video/mp4">
+										Your browser does not support the video tag.
+                </video>
+                <div [style.visibility]="isUserSubmitted ? 'visible' : 'hidden'" class="error-message">
+                    <small *ngIf="!introductionVideoToUpload && !user.introduction_video" class="help-block text-danger">
+                      Please upload introduction video
+                    </small>
+                </div>
+                <input type="file" id="introduction-video-input" style="display: none;" (change)="showIntroductionVideo($event.target.files)" accept=".mp4,.webm,.ogg">
+                <button type="button" class="btn btn-outline-primary p-2 mt-3" onclick="document.getElementById('introduction-video-input').click();">
+                  Upload video
+                </button>
+              </div>
+            </div>
+            <div class="row p-5">
+              <div class="col-12 text-center">
+                <button type="submit" class="btn btn-primary py-3 px-10">
+                  Send request
+                </button>
+              </div>
+            </div>
+          </form>
+          <br />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+</div>
+
+<!-- <div bsModal #modalConfirmRemoveTour="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+  <div style="max-width: 500px !important;" class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="mx-4 mt-5 mb-4 text-center">
+        <span class="modal-title">Are you sure you want to delete this coupon?</span>
+        <div class="pt-4 d-flex justify-content-center">
+          <button type="button" class="width-btn btn mr-2  btn-pill btn-danger" (click)="deleteCoupon()">
+            {{'COMMON.BUTTON.BTN_DELETE' | translate}}
+          </button>
+          <button type="button" class="width-btn btn  btn-pill btn-light" (click)="modalConfirmRemoveTour.hide()">
+            {{'COMMON.BUTTON.BTN_CANCEL' | translate}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<app-dialog></app-dialog>
+<ngx-spinner [fullScreen]="true" type="ball-clip-rotate-multiple" size="medium" bdColor="rgba(51,51,51,0.5)"></ngx-spinner>

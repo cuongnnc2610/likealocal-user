@@ -17,7 +17,10 @@ export class User {
   city_id: number;
   phone_number: string;
   is_verified: boolean;
+  request_status: number;
   createdAt: string;
+  rating: number;
+  number_of_reviews: number;
   level: Level = new Level();
   city: City = new City();
   usersLanguages: UsersLanguage[] = [];

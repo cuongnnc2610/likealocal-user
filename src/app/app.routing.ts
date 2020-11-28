@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 // Import Containers
-import { DefaultLayoutComponent } from './containers';
+import { DefaultLayoutComponent, MyAccountLayoutComponent } from './containers';
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 import { HomeComponent } from './views/home/home.component';
@@ -117,6 +117,7 @@ export const routes: Routes = [
         // canActivate: [AuthGuard],
         loadChildren: () => import('./views/host-request/index.module').then(m => m.IndexModule)
       },
+      //////////////////////////////////////////
       {
         path: 'tour',
         // canActivate: [AuthGuard],
@@ -156,6 +157,17 @@ export const routes: Routes = [
         path: 'transport',
         // canActivate: [AuthGuard],
         loadChildren: () => import('./views/transport/index.module').then(m => m.IndexModule)
+      },
+    ]
+  },
+  {
+    path: 'my-account',
+    component: MyAccountLayoutComponent,
+    children: [
+      {
+        path: '',
+        // canActivate: [AuthGuard],
+        loadChildren: () => import('./views/my-account/base.module').then(m => m.BaseModule)
       },
     ]
   },

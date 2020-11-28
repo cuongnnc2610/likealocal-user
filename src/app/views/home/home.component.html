@@ -31,7 +31,25 @@
                             </a>
                         </li>
                     </ul>
-                    <div class="position-relative px-3 u-header__login-form dropdown-connector-xl u-header__topbar-divider">
+                    <div *ngIf="currentUser" class="position-relative px-3 u-header__login-form dropdown-connector-xl u-header__topbar-divider">
+                        <a (click)="showAccount()" href="javascript:;" class="d-flex align-items-center text-white" id="nav-bar-account">
+                            <i class="flaticon-user mr-2 ml-1 font-size-18"></i>
+                            <span class="d-inline-block font-size-14 mr-1">{{payload.user_name}}</span>
+                        </a>
+                        <ul [ngClass]="isAccountShown ? 'dropdown-menuz' : 'dropdown-menuz ae-hide'" style="z-index: 99; width: 120px">
+                            <li (click)="navigateToMyAccount()" style="list-style-type:none;" class="mb-1">
+                                <div class="time-option">
+                                    My account
+                                </div>
+                            </li>
+                            <li (click)="logout()" style="list-style-type:none;" class="mb-1">
+                                <div class="time-option">
+                                    Logout
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div *ngIf="!currentUser" class="position-relative px-3 u-header__login-form dropdown-connector-xl u-header__topbar-divider">
                         <a id="signUpDropdownInvoker" (click)="toggleSignUpDropdown()" class="d-flex align-items-center text-white py-3" aria-controls="signUpDropdown" aria-haspopup="true" aria-expanded="true" data-unfold-event="click" data-unfold-target="#signUpDropdown" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="true" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
                             <i class="flaticon-user mr-2 ml-1 font-size-18"></i>
                             <span class="d-inline-block font-size-14 mr-1">Sign in or Register</span>

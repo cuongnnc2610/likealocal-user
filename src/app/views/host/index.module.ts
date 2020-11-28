@@ -10,9 +10,17 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+// import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatNativeDateModule } from '@angular/material/core';
+import { DatePipe } from '@angular/common';
+
 
 @NgModule({
   declarations: [ IndexComponent ],
+  bootstrap: [IndexComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -20,6 +28,11 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     CKEditorModule,
     DialogModule,
     NgxSpinnerModule,
+    NgbPaginationModule,
+    MatDatepickerModule,
+    // MatFormFieldModule,
+    MatInputModule,
+    MatNativeDateModule,
     ModalModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
@@ -28,7 +41,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
         deps: [HttpClient]
       }
     }),
-  ]
+  ],
+  providers: [ DatePipe ],
 })
 export class IndexModule { }
 

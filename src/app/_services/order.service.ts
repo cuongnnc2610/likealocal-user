@@ -60,6 +60,15 @@ export class OrderService {
       }));
   }
 
+  getMyOrders(numberPage: number, orderType) {
+    return this.http.get<any>(`${environment.apiUrl}/orders?page=${numberPage}`
+    + `&limit=${10}`
+    + `&order_type=${orderType}`)
+      .pipe(map((result: any) => {
+        return result;
+      }));
+  }
+
   getOrder(order_id: any) {
     return this.http.get<any>(`${environment.apiUrl}/orders/${order_id}`, {
     })

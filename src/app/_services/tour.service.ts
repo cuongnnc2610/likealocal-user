@@ -48,4 +48,11 @@ export class TourService {
       }));
   }
 
+  getToursOfHost(hostId: number, limit: number = 100, orderType: number) {
+    return this.http.get<any>(`${environment.apiUrl}/tours?page=${1}&limit=${limit}&host_id=${hostId}&order_type=${orderType}`)
+      .pipe(map((result: any) => {
+        return result;
+      }));
+  }
+
 }

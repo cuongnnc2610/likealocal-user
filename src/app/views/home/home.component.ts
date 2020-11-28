@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
-import { CategoryService, TourService, MasterDataService } from '../../_services';
+import { CategoryService, TourService, MasterDataService, AuthenticationService } from '../../_services';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { DialogComponent } from '../../components';
-import { Tour, Category } from '../../_models';
+import { Tour, Category, User } from '../../_models';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tour',
@@ -18,17 +19,27 @@ export class HomeComponent implements OnInit {
 
   Math = Math;
   Number = Number;
+  public currentUser: User;
 
   constructor(
+    private AuthenticationService: AuthenticationService,
     private CategoryService: CategoryService,
     private MasterDataService: MasterDataService,
     private TourService: TourService,
     public translate: TranslateService,
-    private spinner: NgxSpinnerService
-  ) {}
+    private spinner: NgxSpinnerService,
+    private router: Router,
+  ) {
+    // this.AuthenticationService.currentUser.subscribe(x => this.currentUser = x);
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  }
 
+  payload: any;
   ngOnInit(): void {
     this.spinner.show();
+    if (this.currentUser) {
+      this.payload = JSON.parse(atob(this.currentUser.token.split('.')[1])).payload;
+    }
     this.getCategories();
     this.getCountriesWithTheMostTours();
   }
@@ -113,6 +124,37 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  isAccountShown: boolean = false;
+  showAccount() {
+    this.isAccountShown = !this.isAccountShown;
+  }
+
+  loginEmail: string;
+  loginPassword: string;
+  loginError: boolean = false;
+  login() {
+    this.AuthenticationService.login(this.loginEmail, this.loginPassword).subscribe(
+      (result) => {
+        console.log(result);
+        if (result.code !== 20001) {
+          this.loginError = true;
+          return;
+        }
+        window.location.reload();
+      },
+      (error) => {
+        console.log(error, 'error');
+        // this.spinner.hide();
+        // this.dialog.show(error, 'error');
+      }
+    );
+  }
+
+  logout() {
+    this.AuthenticationService.logout();
+    window.location.reload();
+  }
+
   toggleSignUpDropdown() {
     const divSignUpDropdown = document.getElementById('signUpDropdown');
     if (divSignUpDropdown.classList.contains('u-unfold--css-animation') && divSignUpDropdown.classList.contains('slideInUp')) {
@@ -152,5 +194,9 @@ export class HomeComponent implements OnInit {
     signup.style.display = 'none';
     login.style.display = 'none';
     forgotPassword.style.display = 'block';
+  }
+
+  navigateToMyAccount() {
+    this.router.navigate(['/my-account']);
   }
 }

@@ -1,7 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {navItems} from '../../_nav';
 import {Router} from '@angular/router';
-import {AuthenticationService, MasterDataService} from '../../_services';
+import {AuthenticationService, MasterDataService, UserService} from '../../_services';
 import {User} from '../../_models/user';
 import {MultiLanguageService} from '../../_services/multi-language.service';
 import { data } from 'jquery';
@@ -9,11 +9,11 @@ import { data } from 'jquery';
 // import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
-  selector: 'app-default-layout',
-  templateUrl: './default-layout.component.html',
-  styleUrls: ['./default-layout.component.css']
+  selector: 'app-my-account-layout',
+  templateUrl: './my-account-layout.component.html',
+  styleUrls: ['./my-account-layout.component.css']
 })
-export class DefaultLayoutComponent {
+export class MyAccountLayoutComponent {
   // @ViewChild(DialogComponent) dialog: DialogComponent;
   
   public sidebarMinimized = false;
@@ -24,11 +24,12 @@ export class DefaultLayoutComponent {
     private router: Router,
     private AuthenticationService: AuthenticationService,
     public MasterDataService: MasterDataService,
+    public UserService: UserService,
     public multiLanguageService: MultiLanguageService,
-    // private spinner: NgxSpinnerService
   ) {
     // this.AuthenticationService.currentUser.subscribe(x => this.currentUser = x);
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    console.log();
   }
 
   payload: any;
@@ -36,7 +37,22 @@ export class DefaultLayoutComponent {
     if (this.currentUser) {
       this.payload = JSON.parse(atob(this.currentUser.token.split('.')[1])).payload;
     }
+    this.user = JSON.parse(localStorage.getItem('userInfo'));
+    this.getProfile();
     this.getLanguages();
+  }
+
+  user: User = new User();
+  getProfile(){
+    this.UserService.getProfile()
+    .subscribe(
+      (result) => {
+        this.user = result.data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   isAccountShown: boolean = false;

@@ -338,7 +338,7 @@
                                         </span>
                                     </div>
                                     <span class="ml-1 text-secondary font-size-14">
-                                        (About local&nbsp;<span class="font-weight-bold text-primary">{{review.order.toursHost.host.user_name}}</span>)
+                                        (About local&nbsp;<a [routerLink]="['/host', review.order.toursHost.host.user_id]" class="font-weight-bold text-primary">{{review.order.toursHost.host.user_name}}</a>)
                                     </span>
                                 </div>
                                 <div class="font-weight-normal font-size-14 text-gray-9 mb-2">{{review.createdAt | date: 'medium'}}</div>

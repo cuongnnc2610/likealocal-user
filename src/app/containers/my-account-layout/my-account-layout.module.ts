@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { DefaultLayoutComponent } from './default-layout.component';
+import { MyAccountLayoutComponent } from './my-account-layout.component';
 import { DialogModule, FooterModule } from '../../components';
 import { NgxSpinnerModule } from 'ngx-spinner';
 @NgModule({
   declarations: [
-    DefaultLayoutComponent
+    MyAccountLayoutComponent
   ],
   imports: [
     CommonModule,
@@ -15,6 +15,6 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     DialogModule,
     NgxSpinnerModule,
   ],
-  exports: [DefaultLayoutComponent]
+  exports: [MyAccountLayoutComponent]
 })
-export class DefaultLayoutModule { }
+export class MyAccountLayoutModule { }
