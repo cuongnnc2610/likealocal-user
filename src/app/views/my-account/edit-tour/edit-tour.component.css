@@ -1,0 +1,137 @@
+.required-text {
+font-weight: 700;
+color: #f86c6b;
+font-size: 12px;
+margin-left: 23px;
+margin-top: 5px;
+min-height: 18px;
+}
+
+.asterisk {
+color: #f86c6b;
+}
+
+.modal-title{
+font-size: 1.2rem;
+text-align: center;
+}
+
+.error-message {
+    height: 20px;
+}
+
+.word-break {
+border: none;
+background: none;
+resize: none;
+/* white-space: pre-line; */
+overflow: auto;
+max-height: 20px;
+min-height: auto;
+word-break: break-all;
+width: 100%;
+}
+
+.fa {
+cursor: pointer;
+}
+
+.included-benefit, .not-included-benefit {
+list-style: none;
+}
+
+.included-benefit li:before {
+content: "\f00c";
+font-family: FontAwesome;
+display: inline-block;
+margin-left: -1.3em;
+width: 1.3em;
+}
+
+.not-included-benefit li:before {
+content: "\f00d";
+font-family: FontAwesome;
+display: inline-block;
+margin-left: -1.3em;
+width: 1.3em;
+}
+
+.avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 100%;
+    overflow: hidden;
+    opacity: 1;
+    transition: .5s ease;
+    backface-visibility: hidden;
+}
+
+.middle-trash {
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.avatar-container {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+    border-radius: 100%;
+}
+
+.avatar-container:hover .avatar {
+    opacity: 0.1;
+}
+
+.avatar-container:hover .middle-trash {
+    opacity: 1;
+}
+
+.image-button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(100% - 10px);
+    height: 100%;
+    color: #FFF;
+    /* display: none; */
+    /* background-color: rgba(0, 0, 0, .6); */
+    border-radius: 5px;
+    margin: 0 5px;
+}
+
+.tour-image {
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.image-pending {
+    position: absolute;
+    top: 0;
+    /* left: 0; */
+    width: calc(100% - 30px);
+    height: 100%;
+    color: #FFF;
+    display: block;
+    background-color: rgba(0, 0, 0, .6);
+    border-radius: 5px;
+    /* margin: 0 5px; */
+}
+  
+.image-rejected {
+    position: absolute;
+    top: 0;
+    /* left: 0; */
+    width: calc(100% - 30px);
+    height: 100%;
+    color: #FFF;
+    display: block;
+    background-color: rgba(241, 100, 100, 0.6);
+    border-radius: 5px;
+    /* margin: 0 5px; */
+}

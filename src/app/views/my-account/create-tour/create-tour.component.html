@@ -1,0 +1,320 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <!-- <div class="row px-5">
+              <div *ngIf="user.request_status === 2" class="col-12 alert alert-warning">
+                Your latest edit request is being reviewed
+              </div>
+              <div *ngIf="user.request_status === 1" class="col-12 alert alert-danger">
+                Your latest edit request has been declined
+              </div>
+          </div> -->
+          <div class="row px-5 mb-5">
+            <div class="col-12"><b style="font-size: 20px">Create tour</b></div>
+          </div>
+          <form [formGroup]="tourForm" (ngSubmit)="createTour()">
+            <div class="row px-5">
+              <div class="col-12">
+                <div class="form-group">
+                  <div class="">
+                    <img [src]="coverImage || 'https://via.placeholder.com/728x300.png?text=Cover+Image'" width="100%" height="300px" style="object-fit: cover;">
+                  </div>
+                  <div class="form-group">
+                    <input type="file" id="file" style="display: none;" (change)="previewCoverImage($event.target.files)" accept=".png,.jpg,.jpeg">
+                    <button type="button" class="btn btn-outline-primary p-2 mt-3" onclick="document.getElementById('file').click();">
+                      Choose file
+                    </button>
+                    <div [style.visibility]="isTourSubmitted ? 'visible' : 'hidden'" class="error-message">
+                      <small *ngIf="!coverImage || !coverImageLink" class="help-block text-danger">
+                        Please upload cover image
+                      </small>
+                    </div>
+                  </div>
+                </div> 
+              </div>
+            </div>
+            <div class="row px-5">
+              <div class="col-xl-12">
+                <div class="form-group">
+                  <label for="code">Name <span class="asterisk">*</span></label>
+                  <input class="form-control" id="name" type="text" name="name" formControlName="name"/>
+                  <div [style.visibility]="isTourSubmitted ||
+                  (tourForm.get('name').invalid && tourForm.get('name').touched) ||
+                  tourForm.get('name').dirty ? 'visible' : 'hidden'" class="error-message">
+                    <small *ngIf="tourForm.get('name').errors?.required" class="help-block text-danger">
+                      Please enter the name
+                    </small>
+                    <small *ngIf="tourForm.get('name').errors?.maxlength" class="help-block text-danger">
+                      The username cannot be more than 255 characters
+                    </small>
+                  </div>
+                </div> 
+                <div class="row">
+                  <div class="form-group col-6">
+                    <label for="code">Country <span class="asterisk">*</span></label>
+                    <select class="form-control" name="country_id" formControlName="country_id" (change)="spinner.show(); getCities();">
+                      <option *ngFor="let country of countries" [value]="country.country_id">{{country.name}}</option>
+                    </select>
+                    <div [style.visibility]="isTourSubmitted ||
+                    (tourForm.get('country_id').invalid && tourForm.get('country_id').touched) ||
+                    tourForm.get('country_id').dirty ? 'visible' : 'hidden'" class="error-message">
+                      <small *ngIf="tourForm.get('country_id').errors?.required" class="help-block text-danger">
+                        Please select the country
+                      </small>
+                    </div>
+                  </div>
+                  <div class="form-group col-6">
+                    <label for="code">City <span class="asterisk">*</span></label>
+                    <select class="form-control" name="city_id" formControlName="city_id">
+                      <option *ngFor="let city of cities" [value]="city.city_id">{{city.name}}</option>
+                    </select>
+                    <div [style.visibility]="isTourSubmitted ||
+                    (tourForm.get('city_id').invalid && tourForm.get('city_id').touched) ||
+                    tourForm.get('city_id').dirty ? 'visible' : 'hidden'" class="error-message">
+                      <small *ngIf="tourForm.get('city_id').errors?.required" class="help-block text-danger">
+                        Please select the city
+                      </small>
+                    </div>
+                  </div>
+                  <div class="form-group col-6">
+                    <label for="code">Category <span class="asterisk">*</span></label>
+                    <select class="form-control" name="category_id" formControlName="category_id">
+                      <option *ngFor="let category of categories" [value]="category.category_id">{{category.name}}</option>
+                    </select>
+                    <div [style.visibility]="isTourSubmitted ||
+                    (tourForm.get('category_id').invalid && tourForm.get('category_id').touched) ||
+                    tourForm.get('category_id').dirty ? 'visible' : 'hidden'" class="error-message">
+                      <small *ngIf="tourForm.get('category_id').errors?.required" class="help-block text-danger">
+                        Please select the category
+                      </small>
+                    </div>
+                  </div>
+                  <div class="form-group col-6">
+                    <label for="code">Transport <span class="asterisk">*</span></label>
+                    <select class="form-control" name="transport_id" formControlName="transport_id">
+                      <option *ngFor="let transport of transports" [value]="transport.transport_id">{{transport.name}}</option>
+                    </select>
+                    <div [style.visibility]="isTourSubmitted ||
+                    (tourForm.get('transport_id').invalid && tourForm.get('transport_id').touched) ||
+                    tourForm.get('transport_id').dirty ? 'visible' : 'hidden'" class="error-message">
+                      <small *ngIf="tourForm.get('transport_id').errors?.required" class="help-block text-danger">
+                        Please select the transport
+                      </small>
+                    </div>
+                  </div>
+                  <div class="form-group col-3">
+                    <label for="street">Max people <span class="asterisk">*</span></label>
+                    <input type="number" class="form-control" min="1" max="100" step="1" value="1"
+                      onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                      oninput="this.value > 100 ? this.value = 100 : this.value = this.value"
+                      onDrag="return false" onDrop="return false" onPaste="return false" formControlName="max_people" />
+                    <div [style.visibility]="isTourSubmitted ||
+                    (tourForm.get('max_people').invalid && tourForm.get('max_people').dirty) ||
+                    tourForm.get('max_people').touched ? 'visible' : 'hidden'" class="error-message">
+                      <small *ngIf="tourForm.get('max_people').errors?.required" class="help-block text-danger">
+                        Please enter the max people
+                      </small>
+                    </div>
+                  </div>
+                  <div class="form-group col-3">
+                    <label for="street">Duration (hour) <span class="asterisk">*</span></label>
+                    <input type="number" class="form-control" min="1" max="100" step="0.5" value="1"
+                      
+                      oninput="this.value > 100 ? this.value = 100 : this.value = this.value"
+                      onDrag="return false" onDrop="return false" onPaste="return false" formControlName="duration" />
+                    <div [style.visibility]="isTourSubmitted ||
+                    (tourForm.get('duration').invalid && tourForm.get('duration').dirty) ||
+                    tourForm.get('duration').touched ? 'visible' : 'hidden'" class="error-message">
+                      <small *ngIf="tourForm.get('duration').errors?.required" class="help-block text-danger">
+                        Please enter the duration
+                      </small>
+                    </div>
+                  </div>
+                  <div class="form-group col-3">
+                    <label for="street">List price ($) <span class="asterisk">*</span></label>
+                    <input type="number" class="form-control" min="1" max="100" step="1" value="1"
+                      oninput="this.value > 999 ? this.value = 999 : this.value = this.value"
+                      onDrag="return false" onDrop="return false" onPaste="return false" formControlName="list_price" />
+                    <div [style.visibility]="isTourSubmitted ||
+                    (tourForm.get('list_price').invalid && tourForm.get('list_price').dirty) ||
+                    tourForm.get('list_price').touched ? 'visible' : 'hidden'" class="error-message">
+                      <small *ngIf="tourForm.get('list_price').errors?.required" class="help-block text-danger">
+                        Please enter the list price
+                      </small>
+                    </div>
+                  </div>
+                  <div class="form-group col-3">
+                    <label for="street">Sale price ($) <span class="asterisk">*</span></label>
+                    <input type="number" class="form-control" min="1" max="100" step="1" value="1"
+                      oninput="this.value > 999 ? this.value = 999 : this.value = this.value"
+                      onDrag="return false" onDrop="return false" onPaste="return false" formControlName="sale_price" />
+                    <div [style.visibility]="isTourSubmitted ||
+                    (tourForm.get('sale_price').invalid && tourForm.get('sale_price').dirty) ||
+                    tourForm.get('sale_price').touched ? 'visible' : 'hidden'" class="error-message">
+                      <small *ngIf="tourForm.get('sale_price').errors?.required" class="help-block text-danger">
+                        Please enter the sale price
+                      </small>
+                      <small *ngIf="this.tourForm.get('list_price').value < this.tourForm.get('sale_price').value" class="help-block text-danger">
+                        Sale price can not greater than list price
+                      </small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row px-5">
+              <div class="form-group col-12">
+                <label for="code">Included benefits</label>
+                <ng-multiselect-dropdown
+                  class="form-control"
+                  [data]="benefits"
+                  [(ngModel)]="includedBenefits"
+                  formControlName="included_benefits"
+                  [settings]="dropdownSettings"
+                >
+                </ng-multiselect-dropdown>
+                <div *ngIf="user" [style.visibility]="isTourSubmitted ||
+                  (tourForm.get('included_benefits').invalid && tourForm.get('included_benefits').touched) ||
+                  tourForm.get('included_benefits').dirty ? 'visible' : 'hidden'" class="error-message">
+                    <small *ngIf="isTourSubmitted && tourForm.get('included_benefits').errors?.required" class="help-block text-danger">
+                      Please select included benefits
+                    </small>
+                </div>
+              </div>
+              <div class="form-group col-12">
+                <label for="code">Excluded benefits</label>
+                <ng-multiselect-dropdown
+                  class="form-control"
+                  [data]="benefits"
+                  [(ngModel)]="excludedBenefits"
+                  formControlName="excluded_benefits"
+                  [settings]="dropdownSettings"
+                >
+                </ng-multiselect-dropdown>
+                <div *ngIf="user" [style.visibility]="isTourSubmitted ||
+                  (tourForm.get('excluded_benefits').invalid && tourForm.get('excluded_benefits').touched) ||
+                  tourForm.get('excluded_benefits').dirty ? 'visible' : 'hidden'" class="error-message">
+                    <small *ngIf="isTourSubmitted && tourForm.get('excluded_benefits').errors?.required" class="help-block text-danger">
+                      Please select excluded benefits
+                    </small>
+                </div>
+              </div>
+            </div>
+            <div class="row px-5">
+              <div class="form-group col-12">
+                <label for="code">Description</label>
+                <textarea class="form-control" rows="6" name="description" formControlName="description"></textarea>
+                <div [style.visibility]="isTourSubmitted ||
+                  (tourForm.get('description').invalid && tourForm.get('description').touched) ||
+                  tourForm.get('description').dirty ? 'visible' : 'hidden'" class="error-message">
+                    <small *ngIf="tourForm.get('description').errors?.required" class="help-block text-danger">
+                      Please enter the description
+                    </small>
+                </div>
+              </div>
+            </div>
+            <div class="row px-5">
+              <div class="form-group col-12">
+                <label for="code">Meeting address <span class="asterisk">*</span></label>
+                <input class="form-control" id="meeting_address" type="text" name="meeting_address" formControlName="meeting_address"/>
+                <div [style.visibility]="isTourSubmitted ||
+                (tourForm.get('meeting_address').invalid && tourForm.get('meeting_address').touched) ||
+                tourForm.get('meeting_address').dirty ? 'visible' : 'hidden'" class="error-message">
+                  <small *ngIf="tourForm.get('meeting_address').errors?.required" class="help-block text-danger">
+                    Please enter the meeting address
+                  </small>
+                  <small *ngIf="tourForm.get('meeting_address').errors?.maxlength" class="help-block text-danger">
+                    The meeting address cannot be more than 255 characters
+                  </small>
+                </div>
+              </div> 
+            </div>
+            <div class="row px-5">
+              <div class="form-group col-12">
+                <label for="code">Itinerary <span class="asterisk">*</span></label>
+                <div *ngFor="let toursPlace of toursPlaces" class="row mt-2">
+                  <div class="col-11">
+                    <div class="row">
+                      <label class="col-3">Place name</label>
+                      <input class="form-control col-9" type="text" [(ngModel)]="toursPlace.place_name" [ngModelOptions]="{standalone: true}"/>
+                    </div>
+                    <div [style.visibility]="isTourSubmitted ? 'visible' : 'hidden'" class="row error-message">
+                      <div class="col-3"></div>
+                      <small *ngIf="!toursPlace.place_name" class="col-9 p-0 help-block text-danger">
+                        Please enter the place name
+                      </small>
+                    </div>
+                    <div class="row">
+                      <label class="col-3">Description</label>
+                      <textarea class="form-control col-9 mt-2" type="text" rows="3" [(ngModel)]="toursPlace.description" [ngModelOptions]="{standalone: true}"></textarea>
+                    </div>
+                    <div [style.visibility]="isTourSubmitted ? 'visible' : 'hidden'" class="row error-message">
+                      <div class="col-3"></div>
+                      <small *ngIf="!toursPlace.description" class="col-9 p-0 help-block text-danger">
+                        Please enter the description
+                      </small>
+                    </div>
+                  </div>
+                  <div class="col-1 text-right">
+                    <i class="far fa-times-circle" style="color:brown" (click)="removePlace(toursPlace)"></i>
+                  </div>
+                </div>
+                
+                <div class="row mt-2">
+                  <div class="form-group col-12">
+                    <button type="button" class="btn btn-pill btn-success px-4 py-1" (click)="addPlace()">+</button>
+                  </div>
+                </div>
+              </div> 
+            </div>
+            <div class="row px-5">
+              <div class="form-group col-12">
+                <label for="code">Images <span class="asterisk">*</span></label>
+                <div class="row">
+                  <div *ngFor="let toursImage of toursImages" class="col-12 col-md-4 col-xl-3 tour-image-container mt-2" (click)="modalImage.show(); getImage(toursImage.path);">
+                    <img src="{{toursImage.path}}" height="130px" width="100%" class="tour-image">
+                    <div class="image-button text-right">
+                      <button class="btn-danger" style="border-radius: 5px; margin: 0; border: none;" (click)="removeImage(toursImage); $event.stopPropagation()"><i class="fa fa-minus-circle"></i></button>
+                    </div>
+                  </div>
+                  <div *ngIf="isUploadingImage" class="col-12 col-md-4 col-xl-3 tour-image-container mt-2">
+                    <img src="https://media0.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" height="130px" width="100%" class="tour-image" >
+                  </div>
+                  <input type="file" id="tours-images" style="display: none;" (change)="uploadTourImage($event.target.files)" accept=".png,.jpg,.jpeg" multiple>
+                  <div class="col-12 col-md-4 col-xl-3 tour-image-container mt-2" onclick="document.getElementById('tours-images').click();">
+                    <div class="tour-image text-center" style="width: 100%; height: 130px; border: 1px dashed #888; background: #EEE; line-height: 130px;">
+                      <b>+</b>
+                    </div>
+                  </div>
+                </div>
+              </div> 
+            </div>
+            <div class="row p-5">
+              <div class="col-12 text-center">
+                <button type="submit" class="btn btn-primary py-3 px-10">
+                  Submit
+                </button>
+              </div>
+            </div>
+          </form>
+          <br />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+</div>
+
+<div bsModal #modalImage="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" style="background: none; border: none">
+      <img src="{{imagePath}}" width="100%">
+    </div>
+  </div>
+</div>
+<app-dialog></app-dialog>
+<ngx-spinner [fullScreen]="true" type="ball-clip-rotate-multiple" size="medium" bdColor="rgba(51,51,51,0.5)"></ngx-spinner>

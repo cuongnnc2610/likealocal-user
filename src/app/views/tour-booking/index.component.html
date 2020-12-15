@@ -35,11 +35,9 @@
                                 <!-- Input -->
                                 <div class="col-sm-12 mb-4">
                                     <div class="js-form-message">
-                                        <label class="form-label">
-                                            Full Name
-                                        </label>
+                                        <label class="form-label">Full Name <span class="asterisk">*</span></label>
 
-                                        <input [(ngModel)] = "order.fullname" type="text" class="form-control" name="firstName" placeholder="John Henry" aria-label="John Henry" required
+                                        <input [(ngModel)] = "order.fullname" type="text" class="form-control" name="firstName" required
                                         data-msg="Please enter your first name."
                                         data-error-class="u-has-error"
                                         data-success-class="u-has-success">
@@ -50,11 +48,9 @@
                                 <!-- Input -->
                                 <div class="col-sm-6 mb-4">
                                     <div class="js-form-message">
-                                        <label class="form-label">
-                                            Email
-                                        </label>
+                                        <label class="form-label">Email <span class="asterisk">*</span></label>
 
-                                        <input [(ngModel)] = "order.email" type="email" class="form-control" name="email" placeholder="johnhenry@gmail.com" aria-label="johnhenry@gmail.com" required
+                                        <input [(ngModel)] = "order.email" type="email" class="form-control" name="email" required
                                         data-msg="Please enter a valid email address."
                                         data-error-class="u-has-error"
                                         data-success-class="u-has-success">
@@ -66,10 +62,10 @@
                                 <div class="col-sm-6 mb-4">
                                     <div class="js-form-message">
                                         <label class="form-label">
-                                            Phone
+                                            Phone <span class="asterisk">*</span>
                                         </label>
 
-                                        <input [(ngModel)] = "order.phone_number" type="text" class="form-control" name="phone" placeholder="+84999999999" aria-label="+84999999999" required
+                                        <input [(ngModel)] = "order.phone_number" type="text" class="form-control" name="phone" required
                                         data-msg="Please enter a valid phone number."
                                         data-error-class="u-has-error"
                                         data-success-class="u-has-success">
@@ -85,7 +81,7 @@
                                 <div class="col-sm-12">
                                     <div class="js-form-message">
                                         <label class="form-label">
-                                            Language
+                                            Language <span class="asterisk">*</span>
                                         </label>
                                         <div class="dropdown-wrapper mb-4 form-control" style="padding: 0">
                                             <div class="ae-dropdown dropdown " (click)="showAllLanguages();">
@@ -116,7 +112,7 @@
                                         </label>
 
                                         <div class="input-group">
-                                            <textarea [(ngModel)] = "order.note" class="form-control" rows="4" name="text" placeholder="" aria-label="" required
+                                            <textarea [(ngModel)] = "order.note" class="form-control" rows="4" name="text" placeholder="" aria-label=""
                                             data-msg="Please enter a reason."
                                             data-error-class="u-has-error"
                                             data-success-class="u-has-success"></textarea>
@@ -135,7 +131,7 @@
                         <!-- End Contacts Form -->
                     </div>
                 </div>
-                <div class="mb-5 shadow-soft bg-white rounded-sm">
+                <!-- <div class="mb-5 shadow-soft bg-white rounded-sm">
                     <div class="py-3 px-4 px-xl-12 border-bottom">
                         <ul class="list-group flex-nowrap overflow-auto overflow-md-visble list-group-horizontal list-group-borderless flex-center-between pt-1">
                             <li class="list-group-item text-center flex-shrink-0 flex-xl-shrink-1">
@@ -162,7 +158,6 @@
                         <h5 id="scroll-description" class="font-size-21 font-weight-bold text-dark mb-4">
                             Your Card Information
                         </h5>
-                        <!-- Nav Classic -->
                         <ul class="nav nav-classic nav-choose border-0 nav-justified border mx-n3" role="tablist">
                             <li class="nav-item mx-3 mb-4 mb-md-0">
                                 <a class="rounded py-5 border-width-2 border nav-link font-weight-medium active" id="pills-one-example2-tab" data-toggle="pill" href="#pills-one-example2" role="tab" aria-controls="pills-one-example2" aria-selected="true">
@@ -187,15 +182,11 @@
                                 </a>
                             </li>
                         </ul>
-                        <!-- End Nav Classic -->
 
-                        <!-- Tab Content -->
                         <div class="tab-content">
                             <div class="tab-pane fade pt-8 show active" id="pills-one-example2" role="tabpanel" aria-labelledby="pills-one-example2-tab">
-                                <!-- Payment Form -->
                                 <form class="js-validate">
                                     <div class="row">
-                                        <!-- Input -->
                                         <div class="col-sm-6 mb-4">
                                             <div class="js-form-message">
                                                 <label class="form-label">
@@ -208,9 +199,6 @@
                                                 data-success-class="u-has-success">
                                             </div>
                                         </div>
-                                        <!-- End Input -->
-
-                                        <!-- Input -->
                                         <div class="col-sm-6 mb-4">
                                             <div class="js-form-message">
                                                 <label class="form-label">
@@ -223,11 +211,9 @@
                                                 data-success-class="u-has-success">
                                             </div>
                                         </div>
-                                        <!-- End Input -->
 
                                         <div class="w-100"></div>
 
-                                        <!-- Input -->
                                         <div class="col-sm-6 mb-4">
                                             <div class="row">
                                                 <div class="col-sm-6 mb-4 mb-md-0">
@@ -256,9 +242,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- End Input -->
 
-                                        <!-- Input -->
                                         <div class="col-sm-6 mb-4">
                                             <div class="js-form-message">
                                                 <label class="form-label">
@@ -271,12 +255,10 @@
                                                 data-success-class="u-has-success">
                                             </div>
                                         </div>
-                                        <!-- End Input -->
 
                                         <div class="w-100"></div>
 
                                         <div class="col">
-                                            <!-- Checkbox -->
                                             <div class="js-form-message mb-5">
                                                 <div class="custom-control custom-checkbox d-flex align-items-center text-muted">
                                                     <input type="checkbox" class="custom-control-input" id="termsCheckbox" name="termsCheckbox" required
@@ -291,19 +273,15 @@
                                                     </label>
                                                 </div>
                                             </div>
-                                            <!-- End Checkbox -->
                                             <button type="submit" class="btn btn-primary w-100 rounded-sm transition-3d-hover font-size-16 font-weight-bold py-3">CONFIRM BOOKING</button>
                                         </div>
                                     </div>
                                 </form>
-                                <!-- End Payment Form -->
                             </div>
 
                             <div class="tab-pane fade pt-8" id="pills-two-example2" role="tabpanel" aria-labelledby="pills-two-example2-tab">
                                 <form class="js-validate">
-                                    <!-- Login -->
                                     <div id="login" data-target-group="idForm">
-                                        <!-- Form Group -->
                                         <div class="form-group">
                                             <div class="js-form-message js-focus-state">
                                                 <label class="sr-only" for="signinEmail">Email</label>
@@ -320,9 +298,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- End Form Group -->
-
-                                        <!-- Form Group -->
                                         <div class="form-group mb-4">
                                             <div class="js-form-message js-focus-state">
                                                 <label class="sr-only" for="signinPassword">Password</label>
@@ -339,7 +314,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- End Form Group -->
 
                                         <div class="mb-2">
                                             <button type="submit" class="btn btn-block btn-primary transition-3d-hover">Login</button>
@@ -348,9 +322,8 @@
                                 </form>
                             </div>
                         </div>
-                        <!-- End Tab Content -->
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="col-lg-4 col-xl-3">
                 <div class="shadow-soft bg-white rounded-sm">

@@ -1,0 +1,244 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <h3 class="font-size-21 font-weight-bold col-12 mb-3 mb-md-4 pb-1">{{tours.length}} tours</h3>
+            <div *ngFor="let tour of tours" class="col-md-12 col-xl-6 mb-3 mb-md-4 pb-1">
+                <div class="card mb-1 transition-3d-hover shadow-hover-2 tab-card h-100 position-relative">
+                    <div class="position-relative mb-2">
+                        <a [routerLink]="['/tour-detail', tour.tour_id]" class="d-block gradient-overlay-half-bg-gradient-v5">
+                            <img class="min-height-230 bg-img-hero card-img-top" src="{{tour.cover_image}}" alt="img">
+                        </a>
+                        <div class="position-absolute top-0 right-0 pt-3 pr-3" style="z-index: 99">
+                          <button 
+                            type="button"
+                            class="btn btn-sm btn-icon btn-white text-black rounded-circle"
+                            (click)="getToursHost(tour); modalConfirmRemoveToursHost.show();">
+                            <span class="flaticon-close font-size-14 m-0"></span>
+                          </button>
+                        </div>
+                        <div class="position-absolute bottom-0 left-0 right-0">
+                            <div class="px-3 pb-2">
+                                <h2 class="h5 text-white mb-0 font-weight-bold">
+                                    <small class="mr-2">Price</small>
+                                    {{tour.sale_price}}$
+                                    <del *ngIf="tour.sale_price !== tour.list_price" class="font-size-14 font-weight-normal">{{tour.list_price}}$</del>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body px-4 py-2 position-relative">
+                        <a [routerLink]="['/tour-detail', tour.tour_id]" class="d-block">
+                            <div class="mb-1 d-flex align-items-center font-size-14 text-gray-1">
+                                <i class="icon flaticon-pin-1 mr-2 font-size-15"></i> {{tour.city.name}}, {{tour.city.country.name}}
+                            </div>
+                        </a>
+                        <a [routerLink]="['/tour-detail', tour.tour_id]" class="card-title font-size-17 font-weight-bold mb-0 text-dark">{{tour.name}}</a>
+                        <div class="my-1 d-flex align-items-center font-size-14 text-gray-1">
+                            <i class="icon flaticon-invoice mr-2 font-size-14"></i>
+                              {{tour.number_of_completed_orders_of_tours_host}} completed orders
+                        </div>
+                        <!-- <div class="my-1 text-right position-absolute" style="bottom: 12px; right: 24px"> -->
+                        <div class="my-1 text-right" style="z-index: 99999">
+                          <button type="button" class="btn btn-pill btn-outline-primary py-1" (click)="getToursHost(tour); modalEditSchedule.show();">
+                            <i class="icon flaticon-calendar mr-2 font-size-14"></i>Schedule
+                          </button>
+                        </div> 
+                    </div>
+                    <div *ngIf="tour.status === 2 && !tour.is_shown" class="tour-hidden d-flex align-items-center justify-content-center">
+                      <button class="btn btn-pill btn-warning text-white py-1">Hidden</button>
+                    </div>
+                    <div *ngIf="tour.status === 0" class="tour-pending d-flex align-items-center justify-content-center">
+                      <button class="btn btn-pill btn-secondary text-white py-1">Unpublished</button>
+                    </div>
+                    <div *ngIf="tour.status === 1" class="tour-rejected d-flex align-items-center justify-content-center">
+                      <button class="btn btn-pill btn-danger text-white py-1">Rejected</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+          <!-- <div *ngIf="tours.length" class="col-12">
+            <ngb-pagination [collectionSize]="total" [(page)]="page" [rotate]="true" [pageSize]="pageSize"
+              [maxSize]="5" (pageChange)="currentPage(page)">
+              <ng-template ngbPaginationPrevious>Previous</ng-template>
+              <ng-template ngbPaginationNext>Next</ng-template>
+              <ng-template ngbPaginationEllipsis>...</ng-template>
+            </ngb-pagination>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #modalConfirmRemoveToursHost="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+  <div style="max-width: 500px !important;" class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="mx-4 mt-5 mb-4 text-center">
+        <span class="modal-title">Are you sure you delete this tour?<br>You will no longer be entitled to conduct this tour?</span>
+        <div class="pt-4 d-flex justify-content-center">
+          <button type="button" class="width-btn btn mr-2  btn-pill btn-danger" (click)="deleteToursHost()">
+            {{'COMMON.BUTTON.BTN_DELETE' | translate}}
+          </button>
+          <button type="button" class="width-btn btn  btn-pill btn-light" (click)="modalConfirmRemoveToursHost.hide()">
+            {{'COMMON.BUTTON.BTN_CANCEL' | translate}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #modalEditSchedule="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" data-backdrop="static" data-keyboard="false" [config]="{ignoreBackdropClick: true, keyboard: false}">
+<!-- <div bsModal #modalEditSchedule="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true"> -->
+  <div style="max-width: 1200px !important;" class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="mx-4 mt-5 mb-4">
+        <div class="col-12">
+          <div class="row mb-5">
+            <h3 class="col-12">Edit schedule</h3>
+          </div>
+          <div class="row">
+            <div *ngIf="toursHost" class="col-7">
+              <div class="row">
+                <div class="form-group col-12">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="isEveryweek" [(ngModel)]="isEveryweek">
+                    <label class="custom-control-label" for="isEveryweek">Everyweek days</label>
+                  </div>
+                </div>
+                <!-- <label class="col-12">
+                  <input type="checkbox" class="custom-control-input" id="isEveryweek" [(ngModel)]="isEveryweek">
+                  Everyweek days
+                </label> -->
+              </div>
+              <ng-container *ngIf="everyweekRecurringDays">
+                <div *ngFor="let day of everyweekRecurringDays" class="row">
+                  <label class="col-1 d-flex align-items-center pr-0">Day</label>
+                  <div class="form-group col-3 d-flex align-items-center" style="border: 2px solid #ebf0f7;border-radius: 0.3125rem;">
+                    <div class="dropdown-wrapper">
+                      <div class="ae-dropdown dropdown" (click)="showAllWeekDays(day);">
+                          <div class="ae-select">
+                              <span class="ae-select-content" id="selecting-weekday-{{day.weekday}}">
+                                  <!-- Choose a day -->
+                                  {{nameOfWeekdays[day.weekday]}}
+                              </span>
+                              <i class="material-icons down-icon">keyboard_arrow_down</i>
+                          </div>
+                          <ul class="dropdown-menuz ae-hide" id="dropdown-weekday-{{day.weekday}}">
+                              <li *ngFor="let weekday of weekdays" (click)="selectWeekday($event, day, weekday)" id="{{'weekday' + weekday}}" style="list-style-type:none;" class="mb-1">
+                                  <div class="time-option">
+                                      {{weekday.name}}
+                                  </div>
+                              </li>
+                          </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <label class="col-1 d-flex align-items-center pr-0">Time</label>
+                  <div class="form-group col-6 pr-0">
+                    <ng-multiselect-dropdown
+                      class="form-control"
+                      [data]="times"
+                      [(ngModel)]="day.time"
+                      [settings]="timesOfWeekdaySettings"
+                    >
+                    </ng-multiselect-dropdown>
+                  </div>
+                  <div class="form-group col-1 pl-0 text-right">
+                    <i class="far fa-times-circle" style="color:brown" (click)="removeWeekday(day)"></i>
+                  </div>
+                </div>
+              </ng-container>
+              
+              <div *ngIf="everyweekRecurringDays && everyweekRecurringDays.length < 7" class="row">
+                <div class="form-group col-12">
+                  <button type="button" class="btn btn-pill btn-success px-4 py-1" (click)="addWeekday()">+</button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-12">
+                  <div class="custom-control custom-checkbox my-3">
+                    <input type="checkbox" class="custom-control-input" id="isEveryday" [(ngModel)]="isEveryday">
+                    <label class="custom-control-label" for="isEveryday">Everyday hours</label>
+                  </div>
+                  <!-- <label for="code">
+                    <input type="checkbox" class="custom-control-input" id="isEveryday" [(ngModel)]="isEveryday">
+                    Everyday times
+                  </label> -->
+                  <ng-multiselect-dropdown
+                    class="form-control"
+                    [data]="times"
+                    [(ngModel)]="selectedTimes"
+                    [settings]="everydayTimesSettings"
+                  >
+                  </ng-multiselect-dropdown>
+                </div>
+              </div>
+              <div class="row">
+                <label class="col-12">Included days</label>
+              </div>
+              <div *ngFor="let day of includedDatetimes" class="row">
+                <label class="col-1 d-flex align-items-center pr-0">Date</label>
+                <div class="form-group col-3">
+                  <ng-multiselect-dropdown
+                    class="form-control"
+                    [data]="weekdays"
+                    [(ngModel)]="day.date"
+                    [settings]="weekdaySettings"
+                  >
+                  </ng-multiselect-dropdown>
+                </div>
+                <label class="col-1 d-flex align-items-center pr-0">Time</label>
+                <div class="form-group col-6 pr-0">
+                  <ng-multiselect-dropdown
+                    class="form-control"
+                    [data]="times"
+                    [(ngModel)]="day.time"
+                    [settings]="timesOfWeekdaySettings"
+                  >
+                  </ng-multiselect-dropdown>
+                </div>
+                <div class="form-group col-1 pl-0 text-right">
+                  <i class="far fa-times-circle" style="color:brown" (click)="removeIncludedDate(day)"></i>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-12">
+                  <button type="button" class="btn btn-pill btn-success px-4 py-1" (click)="addIncludedDate()">+</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-5">
+              <div class="form-group col-12 has-error">
+                <label class="d-block text-gray-1 font-weight-normal mb-2 text-left">Calendar</label>
+                <div class="mb-4">
+                  <mat-calendar #calendar *ngIf="isCalendarReLoaded && toursHost" [dateClass]="dateClass" [selected]="selectedDate" [startAt]="selectedMonth" (selectedChange)="onDateSelected($event)"></mat-calendar>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-4 d-flex justify-content-center">
+          <button type="button" class="btn mr-2 btn-pill btn-primary py-2" (click)="updateToursSchedule()">
+            Update
+          </button>
+          <button type="button" class="btn mr-2 btn-pill btn-warning py-2" (click)="reloadCalendar(); waitToReloadCalendar();">
+            Preview
+          </button>
+          <button type="button" class="btn btn-pill btn-light py-2" (click)="modalEditSchedule.hide(); isCalendarReLoaded = false;">
+            {{'COMMON.BUTTON.BTN_CANCEL'|  translate}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-dialog></app-dialog>
+<ngx-spinner [fullScreen]="true" type="ball-clip-rotate-multiple" size="medium" bdColor="rgba(51,51,51,0.5)"></ngx-spinner>

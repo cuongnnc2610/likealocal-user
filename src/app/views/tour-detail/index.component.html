@@ -5,38 +5,22 @@
             <div class="position-relative">
                 <div class="position-absolute right-0 mt-md-n11 mt-n9">
                     <div class="flex-horizontal-center">
-                        <!-- Video -->
-                        <a class="js-fancybox btn btn-white transition-3d-hover py-2 px-md-5 px-3 shadow-6 mr-1" href="javascript:;"
-                            data-src="//www.youtube.com/watch?v=Vfk5VuUpJ-o"
-                            data-speed="700">
-                            <i class="flaticon-movie mr-md-2 font-size-18 text-primary"></i><span class="d-none d-md-inline">Video</span>
+                        <a *ngIf="currentUser.level_id === 3 && tour.host_id !== currentUser.user_id" class="btn btn-white transition-3d-hover py-2 px-md-5 px-3 shadow-6 mr-1 d-flex align-items-center">
+                            <ng-container *ngIf="!isRequestedToHost">
+                                <i  class="flaticon-tickets mr-md-2 font-size-18 text-primary"></i>
+                                <span class="ml-1 d-none d-md-inline text-primary" (click)="requestGuideTour()" style="font-size: 16px; cursor: pointer;">Request to host</span>
+                            </ng-container>
+                            <ng-container *ngIf="isRequestedToHost && !isAgreed">
+                                <i class="fas fa-info-circle mr-md-2 font-size-18 text-primary"></i>
+                                <span class="d-none d-md-inline" style="font-size: 16px; color: #3B444F">Your request is being review</span>
+                                <span class="ml-2 text-primary" style="cursor: pointer;" (click)="requestGuideTour()">Cancel</span>
+                            </ng-container>
+                            <ng-container *ngIf="isRequestedToHost && isAgreed">
+                                <i class="flaticon-tick mr-md-2 font-size-18 text-primary"></i>
+                                <span class="d-none d-md-inline" style="font-size: 16px; color: #3B444F">You are allowed to guide this tour</span>
+                                <span class="ml-2 text-danger" style="cursor: pointer;" (click)="requestGuideTour()">Leave</span>
+                            </ng-container>                           
                         </a>
-                        <!-- End Video -->
-
-                        <a class="js-fancybox btn btn-white transition-3d-hover ml-2 py-2 px-md-5 px-3 shadow-6" href="javascript:;"
-                            data-src="../../assets/img/960x490/img7.jpg"
-                            data-fancybox="fancyboxGallery6"
-                            data-caption="MyTravel in frames - image #01"
-                            data-speed="700">
-                            <i class="flaticon-gallery mr-md-2 font-size-18 text-primary"></i><span class="d-none d-md-inline">Gallery</span>
-                        </a>
-
-                        <img class="js-fancybox d-none" alt="Image Description"
-                        data-fancybox="fancyboxGallery6"
-                        data-src="../../assets/img/960x490/img6.jpg"
-                        data-caption="MyTravel in frames - image #02"
-                        data-speed="700">
-                        <img class="js-fancybox d-none" alt="Image Description"
-                        data-caption="MyTravel in frames - image #03"
-                        data-src="../../assets/img/960x490/img8.jpg"
-                        data-fancybox="fancyboxGallery6"
-                        data-speed="700">
-                        <img class="js-fancybox d-none" alt="Image Description"
-                        data-fancybox="fancyboxGallery6"
-                        data-src="../../assets/img/960x490/img9.jpg"
-                        data-caption="MyTravel in frames - image #04"
-                        data-speed="700">
-
                     </div>
                 </div>
             </div>
@@ -494,37 +478,30 @@
                         </div>
                     </div>
                     <div class="border border-color-7 rounded p-4 mb-5">
-                        <h6 class="font-size-17 font-weight-bold text-gray-3 mx-1 mb-3 pb-1">Why Book With Us?</h6>
+                        <h6 class="font-size-17 font-weight-bold text-gray-3 mx-1 mb-3 pb-1">Cancellation</h6>
                         <div class="d-flex align-items-center mb-3">
                             <i class="flaticon-star font-size-25 text-primary mr-3 pr-1"></i>
                             <h6 class="mb-0 font-size-14 text-gray-1">
-                                <a href="#">No-hassle best price guarantee</a>
+                                <a href="#">Receive a full refund for cancellations done 7 days before the experience date</a>
                             </h6>
                         </div>
                         <div class="d-flex align-items-center mb-3">
                             <i class="flaticon-support font-size-25 text-primary mr-3 pr-1"></i>
                             <h6 class="mb-0 font-size-14 text-gray-1">
-                                <a href="#">Customer care available 24/7</a>
-                            </h6>
-                        </div>
-                        <div class="d-flex align-items-center mb-3">
-                            <i class="flaticon-favorites-button font-size-25 text-primary mr-3 pr-1"></i>
-                            <h6 class="mb-0 font-size-14 text-gray-1">
-                                <a href="#">Hand-picked Tours &amp; Activities</a>
+                                <a href="#">No refunds within 7 days of the experience date</a>
                             </h6>
                         </div>
                         <div class="d-flex align-items-center mb-0">
-                            <i class="flaticon-airplane font-size-25 text-primary mr-3 pr-1"></i>
+                            <i class="flaticon-favorites-button font-size-25 text-primary mr-3 pr-1"></i>
                             <h6 class="mb-0 font-size-14 text-gray-1">
-                                <a href="#">Free Travel Insureance</a>
+                                <a href="#">All bookings made less than 7 days from the experience date are non-refundable</a>
                             </h6>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Product Cards carousel -->
-        <div class="product-card-carousel-block product-card-carousel-v5">
+        <!-- <div class="product-card-carousel-block product-card-carousel-v5">
             <div class="space-1">
                 <div class="w-md-80 w-lg-50 text-center mx-md-auto mt-3">
                     <h2 class="section-title text-black font-size-30 font-weight-bold mb-0">You might also like...</h2>
@@ -831,8 +808,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- End Product Cards carousel -->
+        </div> -->
     </div>
     
     <div bsModal #modalImage="bs-modal" class="modal fade" tabindex="-1" role="dialog"

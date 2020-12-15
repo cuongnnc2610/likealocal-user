@@ -38,7 +38,6 @@ export class BecomeLocalExpertComponent implements OnInit {
     this.languages = JSON.parse(localStorage.getItem('languages'));
   }
 
-  languageList = [];
   selectedItems = [];
   dropdownSettings = {};
 

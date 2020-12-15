@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {TourService, ToursReviewService, ToursScheduleService} from '../../_services';
+import {TourService, ToursReviewService, ToursScheduleService, ToursHostService} from '../../_services';
 import {DialogComponent} from '../../components';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {ModalDirective} from 'ngx-bootstrap/modal';
@@ -40,6 +40,7 @@ export class IndexComponent implements OnInit {
     public TourService: TourService,
     public ToursReviewService: ToursReviewService,
     public ToursScheduleService: ToursScheduleService,
+    public ToursHostService: ToursHostService,
     private spinner: NgxSpinnerService,
     public translate: TranslateService,
     private route: ActivatedRoute,
@@ -49,13 +50,19 @@ export class IndexComponent implements OnInit {
   ) {}
   
 
+  currentUser: any;
   ngOnInit(): void {
-    console.log(this.tour);
     this.spinner.show();
     this.route.params.subscribe(params => {
       this.tourId = Number.parseInt(params['id']);
       this.getTour();
     });
+    this.currentUser = JSON.parse(localStorage.getItem('userInfo'));
+
+    if (this.currentUser.level_id === 3) {
+      this.checkIfHostRequestedToHost();
+    }
+    
   }
 
   //TRANSLATE
@@ -77,6 +84,7 @@ export class IndexComponent implements OnInit {
         console.log(result);
         if (result.code === 20001) {
           this.tour = result.data;
+          this.tour.toursHosts = this.tour.toursHosts.filter(toursHost => toursHost.is_agreed === true);
           this.tour.toursHosts.forEach(toursHost => {
             toursHost.host.languages = toursHost.host.usersLanguages.map(userLanguage => userLanguage.language.name).sort().join(', ');
           });
@@ -103,7 +111,7 @@ export class IndexComponent implements OnInit {
 
   toursReviews: ToursReview[] = [];
   getToursReviews(numberPage: number = 1) {
-    this.ToursReviewService.getToursReviews(numberPage, this.tourId, 1).subscribe(
+    this.ToursReviewService.getToursReviews(numberPage, this.tourId, 2).subscribe(
       (result) => {
         this.spinner.hide();
         console.log(result);
@@ -132,11 +140,13 @@ export class IndexComponent implements OnInit {
     if (this.rating === 0 || this.content === undefined || this.content === "") {
       return;
     }
-    console.log(this.content);
+    this.spinner.show();
     this.ToursReviewService.createToursReview(this.tour.tour_id, this.rating, this.content).subscribe(
       (result) => {
         console.log(result);
+        this.spinner.hide();
         if (result.code === 20001) {
+          this.dialog.show('Your review has been submitted', 'success');
           this.getToursReviews();
         } else {
           this.dialog.show(result.message, 'error');
@@ -330,6 +340,48 @@ export class IndexComponent implements OnInit {
       time: this.selectedDate + ' ' + this.selectedTime,
       number_of_people: this.numberOfPeople,
     }});
+  }
+
+  isRequestedToHost: boolean = false;
+  isAgreed: boolean;
+  checkIfHostRequestedToHost() {    
+    this.ToursHostService.getAllToursHostsByHost().subscribe(
+      (result) => {
+        console.log(result);
+        this.spinner.hide();
+        this.isRequestedToHost = result.data.findIndex(tour => tour.tour_id === this.tourId) !== -1;
+        this.isAgreed = result.data.find(tour => tour.tour_id === this.tourId)?.is_agreed;
+      },
+      (error) => {
+        this.spinner.hide();
+        this.dialog.show(error, 'error');
+      }
+    );
+  }
+
+  requestGuideTour() {
+    this.spinner.show();
+    this.ToursHostService.requestGuideTour(this.tourId).subscribe(
+      (result) => {
+        console.log(result);
+        this.spinner.hide();
+        if (result.code === 20001) {
+          if (!this.isRequestedToHost) {
+            this.dialog.show('Your request has been submitted', 'success');
+          } else {
+            this.dialog.show('You are no longer allowed to guide this tour', 'success');
+          }
+          this.isRequestedToHost = !this.isRequestedToHost;
+          this.isAgreed = this.isRequestedToHost ? false : null;
+        } else {
+          this.dialog.show(result.message, 'error');
+        }    
+      },
+      (error) => {
+        this.spinner.hide();
+        this.dialog.show(error, 'error');
+      }
+    );
   }
 
 }

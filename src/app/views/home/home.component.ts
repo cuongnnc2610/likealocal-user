@@ -6,7 +6,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { DialogComponent } from '../../components';
-import { Tour, Category, User } from '../../_models';
+import { Tour, Category, User, Country } from '../../_models';
 import { Router } from '@angular/router';
 
 @Component({
@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit {
   Math = Math;
   Number = Number;
   public currentUser: User;
+  countries: Country[] = [];
 
   constructor(
     private AuthenticationService: AuthenticationService,
@@ -32,6 +33,7 @@ export class HomeComponent implements OnInit {
   ) {
     // this.AuthenticationService.currentUser.subscribe(x => this.currentUser = x);
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    this.countries = JSON.parse(localStorage.getItem('countries'));
   }
 
   payload: any;

@@ -104,6 +104,11 @@ export class IndexComponent implements OnInit {
   order: Order = new Order();
   createOrder() {
     console.log(this.order);
+    if (!this.order.fullname || !this.order.email || !this.order.phone_number || !this.order.language_id) {
+      this.dialog.show('Please fill all required fields', 'error');
+      return;
+    }
+    this.spinner.show();
     this.OrderService.createOrder(this.order).subscribe(
       (result) => {
         console.log(result);

@@ -28,6 +28,11 @@
                             </li>
 
                             <li class="d-flex justify-content-between py-2">
+                                <span class="font-weight-medium">Price</span>
+                                <span class="text-secondary text-right">{{(order.price - order.discount * order.price / 100).toFixed(2)}}$</span>
+                            </li>
+
+                            <li class="d-flex justify-content-between py-2">
                                 <span class="font-weight-medium">Full name</span>
                                 <span class="text-secondary text-right">{{order.fullname}}</span>
                             </li>
@@ -77,14 +82,13 @@
 
                             <li class="d-flex justify-content-between py-2">
                                 <span class="font-weight-medium">Duration</span>
-                                <span class="text-secondary text-right">{{tour.duration}}</span>
+                                <span class="text-secondary text-right">{{tour.duration}} hours</span>
                             </li>
 
                             <li class="d-flex justify-content-between py-2">
                                 <span class="font-weight-medium">Number of people</span>
                                 <span class="text-secondary text-right">{{order.number_of_people}}</span>
                             </li>
-
                         </ul>
                         <!-- End Fact List -->
                     </div>
@@ -116,20 +120,9 @@
                             Payment
                         </h5>
                         <p class="">
-                            Praesent dolor lectus, rutrum sit amet risus vitae, imperdiet cursus neque. Nulla tempor nec lorem eu suscipit. Donec dignissim lectus a nunc molestie consectetur. Nulla eu urna in nisi adipiscing placerat. Nam vel scelerisque magna. Donec justo urna,  posuere ut dictum quis.
+                            You do not need to pay until the host confirmed this order. But you can pay in advance if you want.
                         </p>
-
-                        <a href="#" class="text-underline text-primary">Payment is made by Credit Card Via Paypal.</a>
-                    </div>
-                    <div class="pt-4 pb-5 px-5">
-                        <h5 id="scroll-description" class="font-size-21 font-weight-bold text-dark mb-3">
-                            View Booking Details
-                        </h5>
-                        <p class="">
-                            Praesent dolor lectus, rutrum sit amet risus vitae, imperdiet cursus neque. Nulla tempor nec lorem eu suscipit. Donec dignissim lectus a nunc molestie consectetur. Nulla eu urna in nisi adipiscing placerat. Nam vel scelerisque magna. Donec justo urna,  posuere ut dictum quis.
-                        </p>
-
-                        <a href="#" class="text-underline text-primary">https://www.mytravel.com/booking-details/?=f4acb19f-9542-4a5c-b8ee</a>
+                        <div #paypal></div>
                     </div>
                 </div>
             </div>

@@ -111,4 +111,13 @@ export class UserService {
         return result;
       }));
   }
+
+  uploadIntroductionVideo(fileToUpload: any) {
+    const formData: FormData = new FormData();
+    formData.append('file', fileToUpload, fileToUpload.name);
+    return this.http.post<any>(`${environment.apiUrl}/accounts/introduction-video`, formData)
+      .pipe(map((result: any) => {
+        return result;
+      }));
+  }
 }

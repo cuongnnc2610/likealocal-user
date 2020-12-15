@@ -93,12 +93,12 @@ export class ProfileComponent implements OnInit {
       return;
     }
     this.spinner.show();
-    this.UserService.updateHostProfile(this.userForm.controls)
+    this.UserService.updateProfile(this.userForm.controls)
     .subscribe(
       (result) => {
         this.spinner.hide();
         if (result.code === 20001) {
-          this.dialog.show("Your request has been updated", "success");
+          this.dialog.show("Your profile has been updated", "success");
         } else {
           this.dialog.show(result.message, 'error');
         }
@@ -200,9 +200,23 @@ export class ProfileComponent implements OnInit {
       });
   }
 
+  uploadIntroductionVideo(files: FileList) {
+    this.introductionVideoToUpload = files.item(0);
+    this.spinner.show();
+    // this.user.avatar = 'https://media0.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif';
+    this.UserService.uploadIntroductionVideo(this.introductionVideoToUpload).subscribe(
+      (result) => {
+        this.spinner.hide();
+        this.dialog.show("Your introduction video has been uploaded", "success");
+      },
+      (error) => {
+        console.log(error);
+      });
+  }
+
   url;
   showIntroductionVideo(files: FileList) {
-    this.introductionVideoToUpload =  files.item(0);
+    this.introductionVideoToUpload = files.item(0);
     var reader = new FileReader();
     reader.readAsDataURL(this.introductionVideoToUpload);
     reader.onload = (event) => {
@@ -256,7 +270,6 @@ export class ProfileComponent implements OnInit {
       Validators.pattern("[a-zA-Z0-9 ]*"),
     ]),
     phone_number: new FormControl("", [
-      Validators.required,
       Validators.maxLength(11),
       Validators.pattern("[0-9]*"),
     ]),

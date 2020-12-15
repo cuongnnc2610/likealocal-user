@@ -48,8 +48,76 @@ export class TourService {
       }));
   }
 
+  createTour(tourForm: any, coverImageLink: string, toursBenefits: any, toursPlaces: any, toursImages: any) {
+    return this.http.post<any>(`${environment.apiUrl}/tours`, {
+      name: tourForm.name.value,
+      description: tourForm.description.value,
+      city_id: tourForm.city_id.value,
+      list_price: tourForm.list_price.value,
+      sale_price: tourForm.sale_price.value,
+      max_people: tourForm.max_people.value,
+      duration: tourForm.duration.value,
+      meeting_address: tourForm.meeting_address.value,
+      category_id: Number(tourForm.category_id.value),
+      transport_id: Number(tourForm.transport_id.value),
+      cover_image: coverImageLink,
+      tours_benefits: toursBenefits,
+      tours_places: toursPlaces,
+      tours_images: toursImages,
+    })
+      .pipe(map((result: any) => {
+        return result;
+      }));
+  }
+
+  updateTour(tourId: number, tourForm: any, coverImage: string, toursBenefits: any, toursPlaces: any) {
+    return this.http.put<any>(`${environment.apiUrl}/tours/${tourId}`, {
+      name: tourForm.name.value,
+      description: tourForm.description.value,
+      city_id: Number(tourForm.city_id.value),
+      list_price: tourForm.list_price.value,
+      sale_price: tourForm.sale_price.value,
+      max_people: tourForm.max_people.value,
+      duration: tourForm.duration.value,
+      meeting_address: tourForm.meeting_address.value,
+      category_id: Number(tourForm.category_id.value),
+      transport_id: Number(tourForm.transport_id.value),
+      cover_image: coverImage,
+      tours_benefits: toursBenefits,
+      tours_places: toursPlaces,
+    })
+      .pipe(map((result: any) => {
+        return result;
+      }));
+  }
+
+  uploadImage(fileToUpload: any) {
+    const formData: FormData = new FormData();
+    formData.append('file', fileToUpload, fileToUpload.name);
+    return this.http.post<any>(`${environment.apiUrl}/tours/images`, formData)
+      .pipe(map((result: any) => {
+        return result;
+      }));
+  }
+
   getToursOfHost(hostId: number, limit: number = 100, orderType: number) {
     return this.http.get<any>(`${environment.apiUrl}/tours?page=${1}&limit=${limit}&host_id=${hostId}&order_type=${orderType}`)
+      .pipe(map((result: any) => {
+        return result;
+      }));
+  }
+
+  deleteTour(tour) {
+    return this.http.delete<any>(`${environment.apiUrl}/tours/${tour.tour_id}`, {
+    })
+      .pipe(map((result: any) => {
+        return result;
+      }));
+  }
+
+  showOrHideTour(tour: any) {
+    return this.http.put<any>(`${environment.apiUrl}/tours/show/${tour.tour_id}`, {
+    })
       .pipe(map((result: any) => {
         return result;
       }));

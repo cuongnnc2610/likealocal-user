@@ -57,9 +57,11 @@
                     </div>
                     <div class="row p-2 bg-light border-top">
                       <div class="col-12 text-right">
-                        <button *ngIf="!order.is_cancelled && !order.is_paid_to_system" type="submit" class="btn btn-primary p-2">
+                        <button *ngIf="!order.is_cancelled && !order.is_paid_to_system" type="submit" class="btn btn-primary p-2" (click)="getOrder(order); modalPayment.show(); createPayment(order)">
                           Pay
                         </button>
+                        <!-- <ngx-paypal [config]="payPalConfig"></ngx-paypal> -->
+                        <!-- <div id="paypal"></div> -->
                         <button type="submit" class="btn btn-outline-primary border-width-2 p-2" (click)="modalEditOrder.show(); getOrder(order);">
                           View Detail
                         </button>
@@ -213,7 +215,8 @@
                 </div>
                 <div class="col-6 text-right">
                   <span *ngIf="!order.is_paid_to_system" class="badge badge-secondary">Unpaid</span>
-                  <span *ngIf="order.is_paid_to_system" class="badge badge-primary">Paid</span>
+                  <span *ngIf="order.is_paid_to_system && !order.is_refunded" class="badge badge-primary">Paid</span>
+                  <span *ngIf="order.is_paid_to_system && order.is_refunded" class="badge badge-danger">Refunded</span>
                   <span class="ml-2"><b>{{(order.price - order.price * order.discount / 100).toFixed(2)}}$</b></span>
                 </div>
               </div>
@@ -226,7 +229,37 @@
             </div>
           </div>
           <div class="pt-4 d-flex justify-content-center">
-            <button *ngIf="!order.is_paid_to_host && !order.is_cancelled && order.status !== 2" type="submit" class="btn mr-2 p-2 btn-danger" (click)="cancelOrder();">
+            <button *ngIf="!order.is_paid_to_host && !order.is_cancelled && order.status !== 2" type="submit" class="btn btn-pill py-2 mr-2 btn-danger" (click)="cancelOrder();">
+              Cancel this order
+            </button>
+            <button type="submit" class="btn btn-pill py-2 btn-secondary" (click)="modalEditOrder.hide();">
+              Back
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div bsModal #modalPayment="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div style="max-width: 700px !important;" class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form>
+        <div class="mx-4 mt-5 mb-4">
+          <div class="row">
+            <div class="col-12 text-left">
+              <h3 style="margin: -25px 0 20px 0px;">Payment</h3>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div #paypal></div>
+            </div>
+          </div>
+          <div class="pt-4 d-flex justify-content-center">
+            <button type="submit" class="btn mr-2 p-2 btn-secondary" (click)="modalPayment.hide();">
               Cancel
             </button>
           </div>
@@ -235,5 +268,6 @@
     </div>
   </div>
 </div>
+
 <app-dialog></app-dialog>
 <ngx-spinner [fullScreen]="true" type="ball-clip-rotate-multiple" size="medium" bdColor="rgba(51,51,51,0.5)"></ngx-spinner>

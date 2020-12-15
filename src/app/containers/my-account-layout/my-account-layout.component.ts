@@ -1,7 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {navItems} from '../../_nav';
 import {Router} from '@angular/router';
-import {AuthenticationService, MasterDataService, UserService} from '../../_services';
+import {AuthenticationService, MasterDataService, UserService, CategoryService, TransportService, BenefitService} from '../../_services';
 import {User} from '../../_models/user';
 import {MultiLanguageService} from '../../_services/multi-language.service';
 import { data } from 'jquery';
@@ -25,6 +25,9 @@ export class MyAccountLayoutComponent {
     private AuthenticationService: AuthenticationService,
     public MasterDataService: MasterDataService,
     public UserService: UserService,
+    public CategoryService: CategoryService,
+    public TransportService: TransportService,
+    public BenefitService: BenefitService,
     public multiLanguageService: MultiLanguageService,
   ) {
     // this.AuthenticationService.currentUser.subscribe(x => this.currentUser = x);
@@ -40,6 +43,9 @@ export class MyAccountLayoutComponent {
     this.user = JSON.parse(localStorage.getItem('userInfo'));
     this.getProfile();
     this.getLanguages();
+    this.getCategories();
+    this.getTransports();
+    this.getBenefits();
   }
 
   user: User = new User();
@@ -143,6 +149,39 @@ export class MyAccountLayoutComponent {
     this.MasterDataService.getLanguages().subscribe(
       (result) => {
         localStorage.setItem('languages', JSON.stringify(result.data.languages));
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  getCategories() {
+    this.CategoryService.getCategories(null, 1).subscribe(
+      (result) => {
+        localStorage.setItem('categories', JSON.stringify(result.data.categories));
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  getTransports() {
+    this.TransportService.getTransports(null, 1).subscribe(
+      (result) => {
+        localStorage.setItem('transports', JSON.stringify(result.data.transports));
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  getBenefits() {
+    this.BenefitService.getBenefits(null, 1).subscribe(
+      (result) => {
+        localStorage.setItem('benefits', JSON.stringify(result.data.benefits.map(({toursBenefits, ...benefit}) => benefit)));
       },
       (error) => {
         console.log(error);

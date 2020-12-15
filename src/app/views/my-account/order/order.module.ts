@@ -12,6 +12,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import {NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
 import { DialogModule } from '../../../components';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgxPayPalModule } from 'ngx-paypal';
+
 
 @NgModule({
   declarations: [
@@ -33,6 +35,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     ReactiveFormsModule,
     DialogModule,
     NgxSpinnerModule,
+    NgxPayPalModule
   ]
 })
 export class CardsModule { }

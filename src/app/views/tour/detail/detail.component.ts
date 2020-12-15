@@ -115,15 +115,15 @@ export class DetailComponent implements OnInit  {
   }
 
   updateStatusOfToursImage(toursImage, status) {
-    this.ToursImageService.updateStatusOfToursImage(toursImage, status).subscribe(
-      (result) => {
-        console.log(result);
-        // this.getAllToursImages();
-      },
-      (error) => {
-        this.spinner.hide();
-        this.dialog.show(error, 'error');
-      }
-    );
+    // this.ToursImageService.updateStatusOfToursImage(toursImage, status).subscribe(
+    //   (result) => {
+    //     console.log(result);
+    //     // this.getAllToursImages();
+    //   },
+    //   (error) => {
+    //     this.spinner.hide();
+    //     this.dialog.show(error, 'error');
+    //   }
+    // );
   }
 }

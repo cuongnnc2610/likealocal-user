@@ -306,14 +306,12 @@
                 <!-- End Responsive Toggle Button -->
 
                 <!-- Navigation -->
-                <div id="navBar" class="navbar-collapse u-header__navbar-collapse collapse order-2 order-xl-0 pt-4 p-xl-0 position-relative">
+                <!-- <div id="navBar" class="navbar-collapse u-header__navbar-collapse collapse order-2 order-xl-0 pt-4 p-xl-0 position-relative mx-n3 mx-xl-0">
                     <ul class="navbar-nav u-header__navbar-nav">
-                        <!-- Home -->
                         <li class="nav-item hs-has-sub-menu u-header__nav-item" data-event="hover" data-animation-in="slideInUp" data-animation-out="fadeOut">
                             <a id="homeMenu" class="nav-link u-header__nav-link u-header__nav-link-toggle u-header__nav-link-border" href="javascript:;" aria-haspopup="true" aria-expanded="false" aria-labelledby="homeSubMenu">Home</a>
-                            <!-- Home Submenu -->
                             <ul id="homeSubMenu" class="hs-sub-menu u-header__sub-menu u-header__sub-menu-rounded u-header__sub-menu-bordered hs-sub-menu-right u-header__sub-menu--spacer" aria-labelledby="homeMenu" style="min-width: 230px;">
-                                <li class="active"><a class="nav-link u-header__sub-menu-nav-link" href="../home/index.html">Home v1 All Services</a></li>
+                                <li class="active"><a class="nav-link u-header__sub-menu-nav-link" [routerLink]="['/home']">Home v1 All Services</a></li>
                                 <li><a class="nav-link u-header__sub-menu-nav-link" href="../home/home-v2.html">Home v2 All Services</a></li>
                                 <li><a class="nav-link u-header__sub-menu-nav-link" href="../home/home-v3.html">Home v3 All Services</a></li>
                                 <li><a class="nav-link u-header__sub-menu-nav-link" href="../home/home-v4.html">Home v4 Hotel</a></li>
@@ -324,16 +322,10 @@
                                 <li><a class="nav-link u-header__sub-menu-nav-link" href="../home/home-v9.html">Home v9 Yacht</a></li>
                                 <li><a class="nav-link u-header__sub-menu-nav-link" href="../home/home-v10.html">Home v10 Flights</a></li>
                             </ul>
-                            <!-- End Home Submenu -->
                         </li>
-                        <!-- End Home -->
-
-                        <!-- Tour -->
                         <li class="nav-item hs-has-mega-menu u-header__nav-item" data-event="hover" data-animation-in="slideInUp" data-animation-out="fadeOut" data-max-width="722px" data-position="right">
                             <a id="tourMegaMenu" class="nav-link u-header__nav-link u-header__nav-link-toggle" href="javascript:;" aria-haspopup="true" aria-expanded="false">Tour</a>
-
-                            <!-- Tour - Mega Menu -->
-                            <div class="hs-mega-menu u-header__sub-menu u-header__sub-menu-rounded u-header__mega-menu-position-right-fix-10" aria-labelledby="tourMegaMenu">
+                            <div class="hs-mega-menu u-header__sub-menu u-header__sub-menu-rounded" aria-labelledby="tourMegaMenu">
                                 <div class="row">
                                     <div class="col-12 col-xl-3dot64">
                                         <span class="u-header__sub-menu-title">List Style</span>
@@ -354,7 +346,6 @@
                                         </ul>
                                     </div>
                                     <div class="col-12 col-xl">
-                                        <!-- Banner Image -->
                                         <div class="u-header__banner u-header__banner-no-overlay rounded-xs" style="background-image: url(../../assets/img/240x243/img1.jpg);">
                                             <div class="u-header__banner-content u-header__banner-content-not-centered">
                                                 <span class="u-header__banner-title">Special Offers</span>
@@ -362,18 +353,13 @@
                                                 <a class="btn btn-white text-blue btn-sm rounded-xs transition-3d-hover" href="#">See Deals</a>
                                             </div>
                                         </div>
-                                        <!-- End Banner Image -->
                                     </div>
                                 </div>
                             </div>
-                          <!-- End Tour - Mega Menu -->
                         </li>
-                        <!-- End Tour -->
 
-                        <!-- Pages -->
                         <li class="nav-item hs-has-mega-menu u-header__nav-item" data-event="hover" data-animation-in="slideInUp" data-animation-out="fadeOut" data-max-width="722px" data-position="right">
                             <a id="pagesMegaMenu" class="nav-link u-header__nav-link u-header__nav-link-toggle" href="javascript:;" aria-haspopup="true" aria-expanded="false">Pages</a>
-                            <!-- Pages - Mega Menu -->
                             <div class="hs-mega-menu u-header__sub-menu u-header__sub-menu-rounded" aria-labelledby="pagesMegaMenu">
                                 <div class="row">
                                     <div class="col-12 col-xl-4">
@@ -394,24 +380,18 @@
                                         </ul>
                                     </div>
                                     <div class="col-12 col-xl-4">
-                                        <a href="../../documentation/index.html" class="btn btn-soft-primary mb-3 w-100"><span class="fas fa-laptop-code mr-2"></span>Documentation</a>
-                                        <a href="../../starter/index.html" class="btn btn-soft-secondary w-100"><span class="fas fa-th mr-2"></span>Starter</a>
+                                        <a href="../../documentation/index.html" class="btn btn-soft-primary mb-3 mb-md-0 mb-xl-3 min-width-xl-100 btn-wide ml-4 ml-xl-0"><span class="fas fa-laptop-code mr-2"></span>Documentation</a>
+                                        <a href="../../starter/index.html" class="btn btn-soft-secondary min-width-xl-100 btn-wide ml-4 ml-xl-0"><span class="fas fa-th mr-2"></span>Starter</a>
                                     </div>
                                 </div>
                             </div>
-                            <!-- End Pages - Mega Menu -->
                         </li>
-                        <!-- End Pages -->
-                        
                     </ul>
-                </div>
-                <!-- End Navigation -->
+                </div> -->
 
-                <!-- Button -->
-                <div class="pl-4 ml-1 u-header__last-item-btn u-header__last-item-btn-xl">
-                    <a class="btn btn-wide rounded-xs btn-primary transition-3d-hover" href="../others/become-expert.html">Become Local Expert</a>
-                </div>
-                <!-- End Button -->
+                <!-- <div class="pl-4 ml-1 u-header__last-item-btn u-header__last-item-btn-xl">
+                    <a class="btn btn-wide rounded-xs btn-white transition-3d-hover" href="../others/become-expert.html">Become Local Expert</a>
+                </div> -->
             </nav>
             <!-- End Nav -->
         </div>

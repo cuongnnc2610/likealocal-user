@@ -10,26 +10,25 @@ export class ToursImageService {
 
   constructor(private http: HttpClient) { }
 
-  getAllToursImages(tour_id) {
-    return this.http.get<any>(`${environment.apiUrl}/tours-images?tour_id=${tour_id}`)
+  getAllToursImages(tourId) {
+    return this.http.get<any>(`${environment.apiUrl}/tours-images?tour_id=${tourId}`)
       .pipe(map((result: any) => {
         return result;
       }));
   }
 
-  updateStatusOfToursImage(toursImage: any, status: number) {
-    return this.http.put<any>(`${environment.apiUrl}/tours-images/status/${toursImage.tours_image_id}`, {
-      status: status,
-    })
+  createToursImage(tourId: any, fileToUpload: any) {
+    const formData: FormData = new FormData();
+    formData.append('tour_id', tourId);
+    formData.append('file', fileToUpload, fileToUpload.name);
+    return this.http.post<any>(`${environment.apiUrl}/tours-images`, formData)
       .pipe(map((result: any) => {
         return result;
       }));
   }
 
-  updateStatusOfAllToursImage(tour_id: number, status: number) {
-    return this.http.put<any>(`${environment.apiUrl}/tours-images/all-status`, {
-      tour_id: tour_id,
-      status: status,
+  deleteToursImage(toursImage: any) {
+    return this.http.delete<any>(`${environment.apiUrl}/tours-images/${toursImage.tours_image_id}`, {
     })
       .pipe(map((result: any) => {
         return result;

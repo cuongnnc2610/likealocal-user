@@ -1,0 +1,651 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="mb-3">
+            <div class="card text-white bg-success">
+              <div class="card-body row">
+                <div class="card-body pb-0 col-6">
+                  <div class="text-value font-weight-bold" style="font-size: 30px;">{{currentUser.balance}}$</div>
+                  <div>Balance</div>
+                </div>
+                <div class="card-body pb-0 col-6 text-right">
+                  <button class="btn btn-warning py-2" (click)="modalWithdraw.show()">Withdraw</button>
+                </div>
+              </div>
+              <div class="chart-wrapper mt-3 mx-3" style="height:70px;">
+                <canvas baseChart class="chart"
+                [datasets]="lineChart2Data"
+                [labels]="lineChart2Labels"
+                [options]="lineChart2Options"
+                [colors]="lineChart2Colours"
+                [legend]="lineChart2Legend"
+                [chartType]="lineChart2Type"></canvas>
+              </div>
+            </div>
+          </div>
+          <form [formGroup]="searchInputForm" (ngSubmit)="spinner.show(); getTransactions()">
+            <div class="row">
+              <div class="form-group col-xl-6 col-md-6 col-sm-12">
+                <label for="order_id">Order ID</label>
+                <input class="form-control" id="order_id" type="text" name="order_id" formControlName="order_id" (keyup.enter)="spinner.show(); getTransactions();"/>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12" style="display: none;">
+                <label for="user_email">User email</label>
+                <input class="form-control" id="user_email" type="text" name="user_email" formControlName="user_email" (keyup.enter)="spinner.show(); getTransactions();"/>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12" style="display: none;">
+                <label for="host_email">Host email</label>
+                <input class="form-control" id="host_email" type="text" name="host_email" formControlName="host_email" (keyup.enter)="spinner.show(); getTransactions();"/>
+              </div>
+              <!-- <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="created_at">Date</label>
+                <div class="input-group">
+                  <input placeholder="dd/mm/yyyy" #datepickerYMD="bsDatepicker" bsDatepicker autocomplete="off"
+                         [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" formControlName="created_at"
+                         class="form-control ngx-daterangepicker-action"
+                         (ngModelChange)="spinner.show(); getOrders();"/>
+                  <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                  </div>
+                </div>
+              </div> -->
+              <div class="form-group col-xl-6 col-md-6 col-sm-12">
+                <label for="transaction_type_id">Transaction type</label>
+                <select class="form-control" name="transaction_type_id" formControlName="transaction_type_id" (change)="spinner.show(); getTransactions();">
+                  <option *ngFor="let transactionTypeSearchOption of transactionTypeSearchOptions" [value]="transactionTypeSearchOption.value">{{transactionTypeSearchOption.name}}</option>
+                </select>
+              </div>
+            </div>
+          </form>
+          <br />
+          <div class="table-responsive">
+            <table class="table table-hover table-striped">
+              <thead>
+                <tr>
+                  <th style="width: 50px; min-width: 50px;">No</th>
+                  <th style="width: 100px; min-width: 100px;">Amount</th>
+                  <!-- <th style="width: 120px; min-width: 120px;">Transaction number</th> -->
+                  <th style="width: 120px; min-width: 120px;">Status</th>
+                  <th style="width: 100px; min-width: 100px;">Date<i class="fa fa-sort ml-2" (click)="changeOrderType(7)"></i></th>
+                  <th style="width: 120px; min-width: 120px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let transaction of transactions; let i = index">
+                  <td style="width: 50px; min-width: 50px;">{{ from + i }}</td>
+                  <!-- <td *ngIf="transaction.transaction_type_id === 1" style="width: 100px; min-width: 100px;" class="text-success">
+                    <b>+ {{ transaction.amount }}$</b>
+                  </td> -->
+                  <td *ngIf="transaction.transaction_type_id === 3 || transaction.transaction_type_id === 4" style="width: 100px; min-width: 100px;" class="text-success">
+                    <b>+ {{ transaction.amount }}$</b>
+                  </td>
+                  <td *ngIf="transaction.transaction_type_id === 2 || transaction.transaction_type_id === 5" style="width: 100px; min-width: 100px;" class="text-danger">
+                    <b>- {{ transaction.amount }}$</b>
+                  </td>
+                  <!-- <td style="width: 120px; min-width: 120px;">{{ transaction.transaction_number }}</td> -->
+                  <td style="width: 120px; min-width: 120px;">
+                    <span *ngIf="transaction.status === 0" class="badge badge-secondary">Pending</span>
+                    <span *ngIf="transaction.status === 1" class="badge badge-success">Succeed</span>
+                    <span *ngIf="transaction.status === 2" class="badge badge-danger">Failed</span>
+                    <span *ngIf="transaction.status === 3" class="badge badge-warning">Unclaimed</span>
+                  </td>
+                  <td style="width: 100px; min-width: 100px;">{{ transaction.createdAt | date:'dd/MM/yyyy' }}</td>
+                  <td style="width: 120px; min-width: 120px;">
+                    <button *ngIf="transaction.transaction_type_id === 1" type="button" class="btn btn-sm btn-circle btn-info" data-toggle="modal"
+                      (click)="modalDetailTransactionType1.show(); getTransaction(transaction);">
+                      <i class="fa fa-info text-white"></i>
+                    </button>
+                    <button *ngIf="transaction.transaction_type_id === 2" type="button" class="btn btn-sm btn-circle btn-info" data-toggle="modal"
+                      (click)="modalDetailTransactionType2.show(); getTransaction(transaction);">
+                      <i class="fa fa-info text-white"></i>
+                    </button>
+                    <button *ngIf="transaction.transaction_type_id === 3 || transaction.transaction_type_id === 4" type="button" class="btn btn-sm btn-circle btn-info" data-toggle="modal"
+                      (click)="modalDetailTransactionType34.show(); getTransaction(transaction);">
+                      <i class="fa fa-info text-white"></i>
+                    </button>
+                    <button *ngIf="transaction.transaction_type_id === 5" type="button" class="btn btn-sm btn-circle btn-info" data-toggle="modal"
+                      (click)="modalDetailTransactionType5.show(); getTransaction(transaction);">
+                      <i class="fa fa-info text-white"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr *ngIf="!transactions?.length" class="text-center">
+                  <td colspan="10">{{'COMMON.TABLE.NO_DATA' | translate}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div *ngIf="transactions.length">
+              <ngb-pagination [collectionSize]="total" [(page)]="page" [rotate]="true" [pageSize]="pageSize"
+                [maxSize]="5" (pageChange)="currentPage(page)">
+                <ng-template ngbPaginationPrevious>{{'COMMON.BUTTON.BTN_PRE' | translate}}</ng-template>
+                <ng-template ngbPaginationNext>{{'COMMON.BUTTON.BTN_NEXT' | translate}}</ng-template>
+                <ng-template ngbPaginationEllipsis>...</ng-template>
+              </ngb-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  
+</div>
+
+<!-- <div bsModal #modalDetailTransactionType1="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div style="max-width: 1095px !important;" class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form>
+        <div class="mx-4 mt-5 mb-4">
+          <div class="row">
+            <div class="col-6 text-left">
+              <h3 style="margin: -25px 0 20px 0px;">Transaction</h3>
+            </div>
+            <div class="col-6 text-right">
+              <p class="text-secondary" style="margin: -19px 0 20px 0px; "><b>{{ transaction.createdAt | date:'dd/MM/yyyy HH:mm:ss' }}</b></p>
+            </div>
+          </div>
+          <div class="row">
+            <div *ngIf="transaction.order" class="col-6">
+              <div class="row">
+                <div class="col-12">
+                  <p><b>Order Information</b></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <i class="fa fa-shopping-cart mr-2"></i><span>Order ID: {{transaction.order_id}}</span>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-12">
+                  <i class="fa fa-map-signs mr-2"></i><span>Tour: {{transaction.order.toursHost.tour.name}}</span>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-12">
+                  <i class="fa fa-rocket mr-2"></i><span>Status: </span>
+                  <span *ngIf="transaction.order.is_cancelled" class="badge badge-danger">Cancelled</span>
+                  <span *ngIf="transaction.order.is_paid_to_host" class="badge badge-success">Completed</span>
+                  <ng-container *ngIf="!transaction.order.is_cancelled && !transaction.order.is_paid_to_host">
+                    <span *ngIf="transaction.order.status === 0" class="badge badge-secondary">Unconfirmed</span>
+                    <span *ngIf="transaction.order.status === 1" class="badge badge-warning">Confirmed</span>
+                    <span *ngIf="transaction.order.status === 2" class="badge badge-primary">Finished</span>
+                  </ng-container>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div *ngIf="transaction.order.user" class="user-card">
+                  <div class="avatar-container">
+                    <img src="{{transaction.order.user.avatar}}" class="avatar">
+                  </div>
+                  <div class="ml-2">
+                    <p style="margin-bottom: 0px;"><b>{{transaction.order.user.user_name}}</b></p>
+                    <p style="margin-top: 5px; margin-bottom: 0px;">{{transaction.order.user.email}}</p>
+                  </div>
+                </div>
+                <div *ngIf="!transaction.order.user" class="user-card" style="justify-content: center;">
+                  <div>
+                    <p style="margin-bottom: 0px;"><b>Unregistered users</b></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="row">
+                <div class="col-12">
+                  <p><b>Payment Information</b></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6 text-left">
+                  <p>Transferred amount:</p>
+                </div>
+                <div class="col-6 text-right">
+                  <p>{{transaction.amount}}$</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-6 text-left">
+                  <p>Transaction fee:</p>
+                </div>
+                <div class="col-6 text-right">
+                  <span>{{transaction.transaction_fee}}$</span>                  
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-6 text-left">
+                  <p><b>Actual received amount:</b></p>
+                </div>
+                <div class="col-6 text-right">
+                  <span class="ml-2 text-success"><b>{{(transaction.amount - transaction.transaction_fee).toFixed(2)}}$</b></span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6 text-left">
+                  <p>Transaction number:</p>
+                </div>
+                <div class="col-6 text-right">
+                  <span class="ml-2">{{transaction.transaction_number}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="pt-4 d-flex justify-content-center">
+            <button type="button" class="btn btn-pill btn-light" (click)="modalDetailTransactionType1.hide()">
+              {{'COMMON.BUTTON.BTN_CANCEL'|  translate}}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div> -->
+
+<!-- <div bsModal #modalDetailTransactionType2="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div style="max-width: 1095px !important;" class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form>
+        <div class="mx-4 mt-5 mb-4">
+          <div class="row">
+            <div class="col-6 text-left">
+              <h3 style="margin: -25px 0 20px 0px;">Transaction</h3>
+            </div>
+            <div class="col-6 text-right">
+              <p class="text-secondary" style="margin: -19px 0 20px 0px; "><b>{{ transaction.createdAt | date:'dd/MM/yyyy HH:mm:ss' }}</b></p>
+            </div>
+          </div>
+          <div class="row">
+            <div *ngIf="transaction.order" class="col-6">
+              <div class="row">
+                <div class="col-12">
+                  <p><b>Order Information</b></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <i class="fa fa-shopping-cart mr-2"></i><span>Order ID: {{transaction.order_id}}</span>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-12">
+                  <i class="fa fa-map-signs mr-2"></i><span>Tour: {{transaction.order.toursHost.tour.name}}</span>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-12">
+                  <i class="fa fa-rocket mr-2"></i><span>Status: </span>
+                  <span *ngIf="transaction.order.is_cancelled" class="badge badge-danger">Cancelled</span>
+                  <span *ngIf="transaction.order.is_paid_to_host" class="badge badge-success">Completed</span>
+                  <ng-container *ngIf="!transaction.order.is_cancelled && !transaction.order.is_paid_to_host">
+                    <span *ngIf="transaction.order.status === 0" class="badge badge-secondary">Unconfirmed</span>
+                    <span *ngIf="transaction.order.status === 1" class="badge badge-warning">Confirmed</span>
+                    <span *ngIf="transaction.order.status === 2" class="badge badge-primary">Finished</span>
+                  </ng-container>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div *ngIf="transaction.order.user" class="user-card">
+                  <div class="avatar-container">
+                    <img src="{{transaction.order.user.avatar}}" class="avatar">
+                  </div>
+                  <div class="ml-2">
+                    <p style="margin-bottom: 0px;"><b>{{transaction.order.user.user_name}}</b></p>
+                    <p style="margin-top: 5px; margin-bottom: 0px;">{{transaction.order.user.email}}</p>
+                  </div>
+                </div>
+                <div *ngIf="!transaction.order.user" class="user-card" style="justify-content: center;">
+                  <div>
+                    <p style="margin-bottom: 0px;"><b>Unregistered users</b></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="row">
+                <div class="col-12">
+                  <p><b>Payment Information</b></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6 text-left">
+                  <p>Refund amount:</p>
+                </div>
+                <div class="col-6 text-right">
+                  <p>{{transaction.amount}}$</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-6 text-left">
+                  <p>Transaction fee:</p>
+                </div>
+                <div class="col-6 text-right">
+                  <span>{{transaction.transaction_fee}}$</span>                  
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-6 text-left">
+                  <p><b>Actual sent amount:</b></p>
+                </div>
+                <div class="col-6 text-right">
+                  <span class="ml-2 text-danger"><b>{{(transaction.amount - transaction.transaction_fee).toFixed(2)}}$</b></span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6 text-left">
+                  <p>Transaction number:</p>
+                </div>
+                <div class="col-6 text-right">
+                  <span class="ml-2">{{transaction.transaction_number}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="pt-4 d-flex justify-content-center">
+            <button type="button" class="btn btn-pill btn-light" (click)="modalDetailTransactionType2.hide()">
+              {{'COMMON.BUTTON.BTN_CANCEL'|  translate}}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div> -->
+
+
+<div bsModal #modalDetailTransactionType34="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div style="max-width: 1095px !important;" class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form>
+        <div class="mx-4 mt-5 mb-4">
+          <div class="row">
+            <div class="col-6 text-left">
+              <h3 class="col-12 mb-3">Transaction</h3>
+            </div>
+            <div class="col-6 text-right">
+              <p class="text-secondary" style="margin: -19px 0 20px 0px; "><b>{{ transaction.createdAt | date:'dd/MM/yyyy HH:mm:ss' }}</b></p>
+            </div>
+          </div>
+          <div *ngIf="transaction.order" class="row">
+            <div class="col-6">
+              <div class="row">
+                <div class="col-12">
+                  <p><b>Order Information</b></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <i class="fa fa-shopping-cart mr-2"></i>
+                  <span>Order ID: {{transaction.order_id}}</span>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-12">
+                  <i class="fa fa-map-signs mr-2"></i>
+                  <span>Tour:
+                    <a [routerLink]="['/tour-detail', transaction.order.toursHost.tour.tour_id]" href="">{{transaction.order.toursHost.tour.name}}</a>
+                  </span>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-12">
+                  <i class="fa fa-rocket mr-2"></i><span>Status: </span>
+                  <span *ngIf="transaction.order.is_cancelled" class="badge badge-danger">Cancelled</span>
+                  <span *ngIf="transaction.order.is_paid_to_host" class="badge badge-success">Completed</span>
+                  <ng-container *ngIf="!transaction.order.is_cancelled && !transaction.order.is_paid_to_host">
+                    <span *ngIf="transaction.order.status === 0" class="badge badge-secondary">Unconfirmed</span>
+                    <span *ngIf="transaction.order.status === 1" class="badge badge-warning">Confirmed</span>
+                    <span *ngIf="transaction.order.status === 2" class="badge badge-primary">Finished</span>
+                  </ng-container>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div *ngIf="transaction.host" class="host-card">
+                  <div class="avatar-container">
+                    <img src="{{transaction.host.avatar}}" class="avatar">
+                  </div>
+                  <div class="ml-2">
+                    <p style="margin-bottom: 0px; color: white"><b>{{transaction.host.user_name}}</b></p>
+                    <p style="margin-top: 5px; margin-bottom: 0px; color: white">{{transaction.host.email}}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div *ngIf="transaction.order.user" class="user-card">
+                  <div class="avatar-container">
+                    <img src="{{transaction.order.user.avatar}}" class="avatar">
+                  </div>
+                  <div class="ml-2">
+                    <p style="margin-bottom: 0px; color: white"><b>{{transaction.order.user.user_name}}</b></p>
+                    <p style="margin-top: 5px; margin-bottom: 0px; color: white">{{transaction.order.user.email}}</p>
+                  </div>
+                </div>
+                <div *ngIf="!transaction.order.user" class="user-card" style="justify-content: center;">
+                  <div>
+                    <p style="margin-bottom: 0px; color: white"><b>Unregistered users</b></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="row">
+                <div class="col-12">
+                  <p><b>Payment Information</b></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6 text-left">
+                  <p>Tour price:</p>
+                </div>
+                <div class="col-6 text-right">
+                  <p>{{transaction.order.price}}$</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-6 text-left">
+                  <p>Discount:</p>
+                </div>
+                <div class="col-6 text-right">
+                  <p>- {{discount}}$</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-6 text-left">
+                  <p>Like A Local's commission:</p>
+                </div>
+                <div class="col-6 text-right">
+                  <p>- {{systemCommission}}$</p>
+                </div>
+              </div>
+              <hr>
+              <div *ngIf="transaction.order.toursHost.tour.host_id !== currentUser.user_id" class="row">
+                <div class="col-6 text-left">
+                  <p>Tour Owner's commission:</p>
+                </div>
+                <div class="col-6 text-right">
+                  <p>- {{tourOwnerCommission}}$</p>
+                </div>
+              </div>
+              <hr *ngIf="transaction.order.toursHost.tour.host_id !== currentUser.user_id">
+              <div *ngIf="transaction.transaction_type_id === 4" class="row">
+                <div class="col-6 text-left">
+                  <p>Host's received amount:</p>
+                </div>
+                <div class="col-6 text-right">
+                  <p>- {{hostReceivedAmount}}$</p>
+                </div>
+              </div>
+              <hr *ngIf="transaction.transaction_type_id === 4">
+              <div class="row">
+                <div class="col-6 text-left">
+                  <p><b>Actual received amount:</b></p>
+                </div>
+                <div class="col-6 text-right">
+                  <span class="ml-2 text-success"><b>{{transaction.amount}}$</b></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="pt-4 d-flex justify-content-center">
+            <button type="button" class="btn btn-pill btn-light" (click)="modalDetailTransactionType34.hide()">
+              {{'COMMON.BUTTON.BTN_CANCEL'|  translate}}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div bsModal #modalDetailTransactionType5="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div style="max-width: 595px !important;" class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form>
+        <div class="mx-4 mt-5 mb-4">
+          <div class="row">
+            <div class="col-6 text-left">
+              <h3 class="col-12 mb-3">Transaction</h3>
+            </div>
+            <div class="col-6 text-right">
+              <p class="text-secondary" style="margin: -19px 0 20px 0px; "><b>{{ transaction.createdAt | date:'dd/MM/yyyy HH:mm:ss' }}</b></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="row mt-3">
+                <div class="col-5 text-left">
+                  <p>Receiver:</p>
+                </div>
+                <div class="col-7 text-right">
+                  <p>{{transaction.receiver}}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-5 text-left">
+                  <p>Transaction number:</p>
+                </div>
+                <div class="col-7 text-right">
+                  <p>{{transaction.transaction_number}}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row mt-3">
+                <div class="col-5 text-left">
+                  <p>Withdraw amount:</p>
+                </div>
+                <div class="col-7 text-right">
+                  <p class="text-danger font-weight-bold">{{transaction.amount}}$</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-5 text-left">
+                  <p>Status:</p>
+                </div>
+                <div class="col-7 text-right">
+                  <span *ngIf="transaction.status === 0" class="badge badge-secondary">Pending</span>
+                  <span *ngIf="transaction.status === 1" class="badge badge-success">Succeed</span>
+                  <span *ngIf="transaction.status === 2" class="badge badge-danger">Failed</span>
+                  <span *ngIf="transaction.status === 3" class="badge badge-warning">Unclaimed</span>
+                </div>
+              </div>
+              <!-- <div class="row">
+                <div class="col-6 text-left">
+                  <p>Transaction fee:</p>
+                </div>
+                <div class="col-6 text-right">
+                  <p>{{transaction.transaction_fee}}$</p>                  
+                </div>
+              </div>
+              <hr> -->
+              <!-- <div class="row">
+                <div class="col-6 text-left">
+                  <p><b>Actual sent amount:</b></p>
+                </div>
+                <div class="col-6 text-right">
+                  <span class="ml-2 text-danger"><b>{{transaction.amount}}$</b></span>
+                </div>
+              </div> -->
+            </div>
+          </div>
+          <div class="pt-4 d-flex justify-content-center">
+            <button type="button" class="btn btn-pill btn-light" (click)="modalDetailTransactionType5.hide()">
+              {{'COMMON.BUTTON.BTN_CANCEL'|  translate}}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div bsModal #modalWithdraw="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div style="max-width: 800px !important;" class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form [formGroup]="withdrawForm" (ngSubmit)="requestWithdraw()">
+        <div class="mx-4 mt-5 mb-4">
+          <div class="col-12">
+            <div class="row">
+              <h3 class="col-12 mb-3">Withdraw</h3>
+              <div class="form-group col-12 has-error">
+                <label for="street">Email <span class="asterisk">*</span></label>
+                <input type="text" class="form-control" formControlName="email"
+                  onkeypress="return event.charCode != 32">
+                <div [style.visibility]="isWithdrawSubmitted ||
+                (withdrawForm.get('email').invalid && withdrawForm.get('email').touched) ||
+                withdrawForm.get('email').dirty ? 'visible' : 'hidden'" class="error-message">
+                  <small *ngIf="withdrawForm.get('email').errors?.required" class="help-block text-danger">
+                    Please enter the email
+                  </small>
+                  <small *ngIf="withdrawForm.get('email').errors?.email" class="help-block text-danger">
+                    Invalid email
+                  </small>
+                </div>
+              </div>
+              <div class="form-group col-12 has-error">
+                <label for="street">Amount <span class="asterisk">*</span></label>
+                <input type="number" class="form-control" formControlName="amount_value"
+                  onkeypress="return event.charCode != 32">
+                <div [style.visibility]="isWithdrawSubmitted ||
+                (withdrawForm.get('amount_value').invalid && withdrawForm.get('amount_value').touched) ||
+                withdrawForm.get('amount_value').dirty ? 'visible' : 'hidden'" class="error-message">
+                  <small *ngIf="withdrawForm.get('amount_value').errors?.required" class="help-block text-danger">
+                    Please enter the amount
+                  </small>
+                  <small *ngIf="withdrawForm.get('amount_value').errors?.min" class="help-block text-danger">
+                    Min: 1$
+                  </small>
+                  <small *ngIf="withdrawForm.get('amount_value').value > currentUser.balance" class="help-block text-danger">
+                    Max: {{currentUser.balance}}$
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-4 d-flex justify-content-center">
+            <button type="submit" class="btn mr-2 btn-pill btn-primary">
+              Withdraw
+            </button>
+            <button type="button" class="btn btn-pill btn-light" (click)="modalWithdraw.hide(); clearWithdrawForm();">
+              {{'COMMON.BUTTON.BTN_CANCEL'|  translate}}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<app-dialog></app-dialog>
+<ngx-spinner [fullScreen]="true" type="ball-clip-rotate-multiple" size="medium"></ngx-spinner>

@@ -1,5 +1,5 @@
 export class DayTime {
-    weekday: number;
+    weekday: any;
     time: string[];
 }
   

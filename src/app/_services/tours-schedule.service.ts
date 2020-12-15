@@ -25,14 +25,14 @@ export class ToursScheduleService {
       }));
   }
 
-  updateToursSchedule(toursHostId: number) {
+  updateToursSchedule(toursHostId: number, includedDatetimes, excludedDatetimes, everyweekRecurringDays, everydayRecurringHours: string[], recurringUnit: string, isRecurring: boolean) {
     return this.http.put<any>(`${environment.apiUrl}/tours-schedules/${toursHostId}`, {
-      // included_datetimes: ,
-      // excluded_datetimes: ,
-      // everyweek_recurring_days: ,
-      // everyday_recurring_hours: ,
-      // recurring_unit: ,
-      // is_recurring: ,
+      included_datetimes: includedDatetimes,
+      excluded_datetimes: excludedDatetimes,
+      everyweek_recurring_days: everyweekRecurringDays,
+      everyday_recurring_hours: everydayRecurringHours,
+      recurring_unit: recurringUnit,
+      is_recurring: isRecurring,
     })
       .pipe(map((result: any) => {
         return result;

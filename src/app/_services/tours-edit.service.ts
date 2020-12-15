@@ -10,6 +10,13 @@ export class ToursEditService {
 
   constructor(private http: HttpClient) { }
 
+  getLatestToursEditOfTour(tourId: any) {
+    return this.http.get<any>(`${environment.apiUrl}/tours-edits/tour?tour_id=${tourId}`)
+      .pipe(map((result: any) => {
+        return result;
+      }));
+  }
+
   getToursEdits(numberPage, searchInputForm, orderType) {
     return this.http.get<any>(`${environment.apiUrl}/tours-edits?page=${numberPage}&limit=${10}&country_id=${searchInputForm.country_id.value}&city_id=${searchInputForm.city_id.value}&category_id=${searchInputForm.category_id.value}&transport_id=${searchInputForm.transport_id.value}&host_name=${searchInputForm.host_name.value}&name=${searchInputForm.name.value}&status=${searchInputForm.status.value}&order_type=${orderType}`)
       .pipe(map((result: any) => {

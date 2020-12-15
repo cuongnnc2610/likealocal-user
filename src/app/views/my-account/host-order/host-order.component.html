@@ -1,0 +1,319 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <form [formGroup]="searchInputForm" (ngSubmit)="spinner.show(); getHostOrders()">
+            <div class="row">
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="order_id">Order ID</label>
+                <input class="form-control" id="order_id" type="text" name="order_id" formControlName="order_id" (keyup.enter)="spinner.show(); getHostOrders();"/>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="user_name">User name</label>
+                <input class="form-control" id="user_name" type="text" name="user_name" formControlName="user_name" (keyup.enter)="spinner.show(); getHostOrders();"/>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="email">Email</label>
+                <input class="form-control" id="email" type="text" name="email" formControlName="email" (keyup.enter)="spinner.show(); getHostOrders();"/>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="phone_number">Phone number</label>
+                <input class="form-control" id="phone_number" type="text" name="phone_number" formControlName="phone_number" (keyup.enter)="spinner.show(); getHostOrders();"/>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="fullname">Full name</label>
+                <input class="form-control" id="fullname" type="text" name="fullname" formControlName="fullname" (keyup.enter)="spinner.show(); getHostOrders();"/>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="date_time">Departure time</label>
+                <div class="input-group">
+                  <input placeholder="dd/mm/yyyy" #datepickerYMD="bsDatepicker" bsDatepicker autocomplete="off"
+                         [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" formControlName="date_time"
+                         class="form-control ngx-daterangepicker-action"
+                         (ngModelChange)="spinner.show(); getHostOrders();"/>
+                  <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="created_at">Date</label>
+                <div class="input-group">
+                  <input placeholder="dd/mm/yyyy" #datepickerYMD="bsDatepicker" bsDatepicker autocomplete="off"
+                         [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" formControlName="created_at"
+                         class="form-control ngx-daterangepicker-action"
+                         (ngModelChange)="spinner.show(); getHostOrders();"/>
+                  <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="status">Status</label>
+                <select class="form-control" name="status" formControlName="status" (change)="spinner.show(); getHostOrders();">
+                  <option *ngFor="let statusSearchOption of statusSearchOptions" [value]="statusSearchOption.value">{{statusSearchOption.name}}</option>
+                </select>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="is_cancelled">Cancel Status</label>
+                <select class="form-control" name="is_cancelled" formControlName="is_cancelled" (change)="spinner.show(); getHostOrders();">
+                  <option *ngFor="let isCancelSearchOption of isCancelSearchOptions" [value]="isCancelSearchOption.value">{{isCancelSearchOption.name}}</option>
+                </select>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="is_paid_to_system">Paid To System Status</label>
+                <select class="form-control" name="is_paid_to_system" formControlName="is_paid_to_system" (change)="spinner.show(); getHostOrders();">
+                  <option *ngFor="let isPaidToSystemSearchOption of isPaidToSystemSearchOptions" [value]="isPaidToSystemSearchOption.value">{{isPaidToSystemSearchOption.name}}</option>
+                </select>
+              </div>
+              <div class="form-group col-xl-3 col-md-6 col-sm-12">
+                <label for="host_of_order">Host Of Order</label>
+                <select class="form-control" name="host_of_order" formControlName="host_of_order" (change)="spinner.show(); getHostOrders();">
+                  <option *ngFor="let hostOfOrderSearchOption of hostOfOrderSearchOptions" [value]="hostOfOrderSearchOption.value">{{hostOfOrderSearchOption.name}}</option>
+                </select>
+              </div>
+            </div>
+          </form>
+          <br>
+          <ul class="d-block list-unstyled products-group prodcut-list-view">
+            <li *ngFor="let order of orders" class="card mb-5 overflow-hidden">
+                <div class="product-item__outer w-100">
+                    <div class="row p-2">
+                        <div class="col-md-5 col-xl-4">
+                            <img src="{{order.toursHost.tour.cover_image}}" style="width: 100%;">
+                        </div>
+                        <div class="col-md-7 col-xl-5">
+                            <div class="w-100 position-relative m-4 m-md-0">
+                                <a href="../tour/tour-single-v1.html">
+                                    <span class="font-weight-bold font-size-17 text-dark d-flex mb-1">{{order.toursHost.tour.name}}</span>
+                                </a>
+                                <div class="card-body p-0">
+                                    <a class="d-block mb-1">
+                                        <div class="d-flex flex-wrap flex-xl-nowrap align-items-center font-size-14 text-gray-1">
+                                            <i class="icon flaticon-placeholder mr-2 font-size-20"></i>{{order.toursHost.tour.city.name}}, {{order.toursHost.tour.city.country.name}}
+                                        </div>
+                                    </a>
+                                    <a class="d-block mb-1">
+                                      <div class="d-flex flex-wrap flex-xl-nowrap align-items-center font-size-14 text-gray-1">
+                                          <i class="icon flaticon-clock-circular-outline mr-2 font-size-20"></i>{{order.date_time | date:'dd/MM/yyyy HH:mm':'UTC'}}
+                                      </div>
+                                  </a>
+                                </div>
+                                <!-- <span _ngcontent-ufd-c2="" class="badge badge-secondary ng-star-inserted">Unconfirmed</span>
+                                <span _ngcontent-ufd-c2="" class="badge badge-secondary ng-star-inserted">Unpaid</span> -->
+                                <span *ngIf="order.is_cancelled" class="badge badge-danger">Cancelled</span>
+                                <span *ngIf="order.is_paid_to_host" class="badge badge-success">Completed</span>
+                                <ng-container *ngIf="!order.is_cancelled && !order.is_paid_to_host">
+                                  <span *ngIf="order.status === 0" class="badge badge-secondary">Unconfirmed</span>
+                                  <span *ngIf="order.status === 1" class="badge badge-warning">Confirmed</span>
+                                  <span *ngIf="order.status === 2" class="badge badge-primary">Finished</span>
+                                  <span *ngIf="!order.is_paid_to_system" class="badge badge-secondary">Unpaid</span>
+                                  <span *ngIf="order.is_paid_to_system" class="badge badge-primary">Paid</span>
+                                </ng-container>
+                            </div>
+                        </div>
+                        <div class="col col-xl-3 align-self-center py-4 py-xl-0 border-top border-xl-top-0">
+                            <div class="border-xl-left border-color-7">
+                                <div class="ml-md-4 ml-xl-0">
+                                    <div class="text-center text-md-left text-xl-center d-flex flex-column mb-2 pb-1 ml-md-3 ml-xl-0">
+                                      <div class="mb-0">
+                                        <span class="">{{order.createdAt | date:'dd/MM/yyyy'}}</span>
+                                    </div>
+                                        <div class="mb-0">
+                                            <span class="font-weight-bold font-size-22">{{(order.price - order.price * order.discount / 100).toFixed(2)}}$</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div [ngClass]="order.toursHost.host.user_id === currentUser.user_id ? 'row p-2 bg-primary border-top' : 'row p-2 bg-light border-top'">
+                      <div class="col-12 text-right">
+                        <button type="submit" [ngClass]="order.toursHost.host.user_id === currentUser.user_id ? 'btn btn-outline-light border-width-2 p-2' : 'btn btn-outline-primary border-width-2 p-2'" (click)="modalEditOrder.show(); getOrder(order);">
+                          View Detail
+                        </button>
+                      </div>
+                  </div>
+                </div>
+            </li>
+          </ul>
+          <div *ngIf="orders.length" class="col-12">
+            <ngb-pagination [collectionSize]="total" [(page)]="page" [rotate]="true" [pageSize]="pageSize"
+              [maxSize]="5" (pageChange)="currentPage(page)">
+              <ng-template ngbPaginationPrevious>Previous</ng-template>
+              <ng-template ngbPaginationNext>Next</ng-template>
+              <ng-template ngbPaginationEllipsis>...</ng-template>
+            </ngb-pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #modalEditOrder="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div style="max-width: 1095px !important;" class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form>
+        <div class="mx-4 mt-5 mb-4">
+          <div class="row">
+            <div class="col-6 text-left">
+              <h3 style="margin: -25px 0 20px 0px;">Order</h3>
+            </div>
+            <div class="col-6 text-right">
+              <p class="text-secondary" style="margin: -19px 0 20px 0px; "><b>{{ order.createdAt | date:'dd/MM/yyyy HH:mm:ss' }}</b></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="row">
+                <div class="col-12">
+                  <p><b>Tour Information</b></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6 text-center" style="padding-right: 0px;">
+                  <div class="cover-image-container">
+                    <img src="{{order.toursHost.tour.cover_image}}" class="cover-image">
+                  </div>
+                </div>
+                <div class="col-6" style="padding-left: 10px; color: #444">
+                  <p style="margin-bottom: 0.5rem;"><b>{{order.toursHost.tour.name}}</b></p>
+                  <p style="margin-bottom: 0.5rem;"><i class="fa fa-map-marker mr-2"></i>{{order.toursHost.tour.city.name + ', ' + order.toursHost.tour.city.country.name}}</p>
+                  <span *ngIf="order.status === 0" class="badge badge-secondary">Unconfirmed</span>
+                  <span *ngIf="order.status === 1" class="badge badge-warning">Confirmed</span>
+                  <span *ngIf="order.status === 2" class="badge badge-success">Finished</span>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-12">
+                  <i class="fa fa-clock-o mr-2"></i><span>Departure time: {{order.date_time | date:'dd/MM/yyyy HH:mm':'UTC'}}</span>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-12">
+                  <i class="fa fa-hourglass-half mr-2"></i><span>{{order.toursHost.tour.duration}} hours</span>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-12">
+                  <i class="fa fa-users mr-2"></i><span>Number of people: {{order.number_of_people}}</span>
+                </div>
+              </div>              
+              <div class="row mt-3">
+                <div class="host-card">
+                  <div class="avatar-container">
+                    <img src="{{order.toursHost.host.avatar}}" class="avatar">
+                  </div>
+                  <div class="ml-2">
+                    <p style="margin-bottom: 0px; color: white;"><b>{{order.toursHost.host.user_name}}</b></p>
+                    <p style="margin-top: 5px; margin-bottom: 0px; color: white;">{{order.toursHost.host.email}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="row">
+                <div class="col-12">
+                  <p><b>Customer Information</b></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-4 text-left">
+                  <p>Full name:</p>
+                </div>
+                <div class="col-8 text-right">
+                  <p>{{order.fullname}}</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-4 text-left">
+                  <p>Email:</p>
+                </div>
+                <div class="col-8 text-right">
+                  <p>{{order.email}}</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-4 text-left">
+                  <p>Phone number:</p>
+                </div>
+                <div class="col-8 text-right">
+                  <p>{{order.phone_number}}</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <p><b>Payment Information</b></p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6 text-left">
+                  <p>{{order.toursHost.tour.name}}</p>
+                </div>
+                <div class="col-6 text-right">
+                  <p>{{(order.price + 0).toFixed(2)}}$</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-6 text-left">
+                  <p>Subtotal:</p>
+                </div>
+                <div class="col-6 text-right">
+                  <p>{{(order.price + 0).toFixed(2)}}$</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-6 text-left">
+                  <p>Discount:</p>
+                </div>
+                <div class="col-6 text-right">
+                  <p *ngIf="order.discount !== 0" style="display: inline-block;">({{order.coupon.code}}) </p>
+                  <p style="display: inline-block;">{{(order.price * order.discount / 100).toFixed(2)}}$</p>                  
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-6 text-left">
+                  <p><b>Total:</b></p>
+                </div>
+                <div class="col-6 text-right">
+                  <span *ngIf="!order.is_paid_to_system" class="badge badge-secondary">Unpaid</span>
+                  <span *ngIf="order.is_paid_to_system" class="badge badge-primary">Paid</span>
+                  <span class="ml-2"><b>{{(order.price - order.price * order.discount / 100).toFixed(2)}}$</b></span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 text-center">
+                  <img *ngIf="order.is_paid_to_host" class="order-status" src="https://likealocal-stagingbucket.s3-ap-southeast-1.amazonaws.com/stock/depositphotos_73928819-stock-illustration-completed-tick-stamp.jpg">
+                  <img *ngIf="order.is_cancelled" class="order-status" src="https://likealocal-stagingbucket.s3-ap-southeast-1.amazonaws.com/stock/depositphotos_54694353-stock-illustration-cancelled-vector-stamp.jpg">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="pt-4 d-flex justify-content-center">
+            <button *ngIf="!order.is_paid_to_host && !order.is_cancelled && order.status !== 2 && order.toursHost.host.user_id === currentUser.user_id" type="submit" class="btn btn-pill py-2 mr-2 btn-danger" (click)="cancelOrder();">
+              Cancel this order
+            </button>
+            <button *ngIf="order.status === 0 && !order.is_cancelled && order.toursHost.host.user_id === currentUser.user_id" type="submit" class="btn btn-pill py-2 mr-2 btn-success" (click)="confirmOrder();">
+              Confirm
+            </button>
+            <button *ngIf="order.status === 1 && !order.is_cancelled && order.is_paid_to_system && order.toursHost.host.user_id === currentUser.user_id" type="submit" [ngClass]="isTimeForFinished ? 'btn btn-pill py-2 mr-2 btn-success' : 'btn btn-pill py-2 mr-2 btn-light'" (click)="finishOrder();" [disabled]="!isTimeForFinished">
+              Finish
+            </button>
+            <button type="submit" class="btn btn-pill py-2 btn-secondary" (click)="modalEditOrder.hide();">
+              Back
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<app-dialog></app-dialog>
+<ngx-spinner [fullScreen]="true" type="ball-clip-rotate-multiple" size="medium" bdColor="rgba(51,51,51,0.5)"></ngx-spinner>

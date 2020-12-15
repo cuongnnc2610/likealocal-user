@@ -11,7 +11,7 @@ export class BenefitService {
   constructor(private http: HttpClient) { }
 
   getBenefits(searchInputForm: any, orderType: any) {
-    return this.http.get<any>(`${environment.apiUrl}/benefits?name=${searchInputForm.name.value}&order_type=${orderType}`)
+    return this.http.get<any>(`${environment.apiUrl}/benefits?name=${searchInputForm ? searchInputForm.name.value: ''}&order_type=${orderType}`)
       .pipe(map((result: any) => {
         return result;
       }));
